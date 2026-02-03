@@ -257,6 +257,7 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
       } : undefined}
       onDragEnd={isDraggable ? onDragEnd : undefined}
       onClick={() => setExpanded(!expanded)}
+    >
       {/* Drag Handle & Stage Badge */}
       <div className="project-top-row">
         <div className="project-top-left">

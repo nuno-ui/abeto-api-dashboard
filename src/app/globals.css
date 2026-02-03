@@ -681,6 +681,10 @@ a {
   align-items: center;
 }
 
+.project-priority {
+  font-size: 0.7rem;
+}
+
 .project-category {
   font-size: 0.7rem;
   padding: 0.15rem 0.5rem;
@@ -703,7 +707,44 @@ a {
   font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.5;
+  margin-bottom: 0.5rem;
+}
+
+/* Ops Process & LOA */
+.project-ops-process {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.ops-label {
+  color: var(--text-secondary);
+}
+
+.project-loa {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
   margin-bottom: 0.75rem;
+}
+
+.loa-current {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: var(--accent-red-bg);
+  color: var(--accent-red);
+}
+
+.loa-arrow {
+  color: var(--text-muted);
+}
+
+.loa-potential {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
 }
 
 .project-resources {
@@ -762,6 +803,21 @@ a {
   position: absolute;
   left: 0;
   color: var(--accent-green);
+}
+
+/* Missing Data Section */
+.project-section.missing-data h4 {
+  color: var(--accent-orange);
+}
+
+.project-section.missing-data li::before {
+  content: '⚠';
+  color: var(--accent-orange);
+  font-size: 0.7rem;
+}
+
+.project-section.missing-data li {
+  color: var(--accent-orange);
 }
 
 .prereq-list,

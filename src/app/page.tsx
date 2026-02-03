@@ -209,22 +209,33 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
     Hard: 'var(--accent-orange)',
   }[project.difficulty];
 
-  const categoryIcon = {
-    Analytics: '📊',
-    Automation: '⚙️',
-    Integration: '🔗',
-    Reporting: '📄',
+  const priorityColor = {
+    Critical: 'var(--accent-red)',
+    High: 'var(--accent-orange)',
+    Medium: 'var(--accent-yellow)',
+    Low: 'var(--text-muted)',
+  }[project.priority];
+
+  const categoryIcon: Record<string, string> = {
+    'Hand-Off': '🤝',
+    'Qualification': '✅',
+    'Lead Acquisition': '📥',
+    'Partner Management': '🤝',
     'AI/ML': '🤖',
-    Operations: '🛠️',
-  }[project.category];
+    'SDR Portal': '💬',
+    'Installers Portal': '🏗️',
+  };
 
   return (
     <div className="project-card" onClick={() => setExpanded(!expanded)}>
       <div className="project-header">
-        <div className="project-category-icon">{categoryIcon}</div>
+        <div className="project-category-icon">{categoryIcon[project.category] || '📋'}</div>
         <div className="project-info">
           <h3 className="project-title">{project.title}</h3>
           <div className="project-meta">
+            <span className="project-priority" style={{ color: priorityColor, fontWeight: 600 }}>
+              {project.priority}
+            </span>
             <span className="project-category">{project.category}</span>
             <span className="project-difficulty" style={{ color: difficultyColor }}>
               {project.difficulty}
@@ -236,6 +247,18 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
       </div>
 
       <p className="project-description">{project.description}</p>
+
+      {/* Ops Process Link */}
+      <div className="project-ops-process">
+        <span className="ops-label">Ops Process:</span> {project.opsProcess}
+      </div>
+
+      {/* Automation Level */}
+      <div className="project-loa">
+        <span className="loa-current">{project.currentLOA}</span>
+        <span className="loa-arrow">→</span>
+        <span className="loa-potential">{project.potentialLOA}</span>
+      </div>
 
       <div className="project-resources">
         {project.resourcesUsed.map((resource) => (
@@ -253,6 +276,18 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
               ))}
             </ul>
           </div>
+
+          {/* Missing API Data - Critical for implementation */}
+          {project.missingApiData && project.missingApiData.length > 0 && (
+            <div className="project-section missing-data">
+              <h4>⚠️ Missing API Data Required</h4>
+              <ul>
+                {project.missingApiData.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className="project-section">
             <h4>Prerequisites</h4>

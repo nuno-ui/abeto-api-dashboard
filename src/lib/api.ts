@@ -983,7 +983,7 @@ export async function fetchDashboardData(): Promise<DashboardData> {
 }
 
 // =============================================================================
-// Project Proposals Generator
+// Project Proposals Generator - Based on Abeto Operational Processes
 // =============================================================================
 
 export interface ProjectProposal {
@@ -996,241 +996,619 @@ export interface ProjectProposal {
   benefits: string[];
   prerequisites: string[];
   apiEndpoints: string[];
-  category: 'Analytics' | 'Automation' | 'Integration' | 'Reporting' | 'AI/ML' | 'Operations';
+  category: 'Hand-Off' | 'Qualification' | 'Lead Acquisition' | 'Partner Management' | 'AI/ML' | 'SDR Portal' | 'Installers Portal';
+  opsProcess: string; // Links to the operational process this supports
+  currentLOA: string; // Current Level of Automation
+  potentialLOA: string; // Potential Level of Automation
+  missingApiData: string[]; // What data/endpoints are missing to build this
+  priority: 'Critical' | 'High' | 'Medium' | 'Low';
 }
 
 export function generateProjectProposals(data: DashboardData): ProjectProposal[] {
   const proposals: ProjectProposal[] = [];
-  const resources = data.resources;
 
-  const dealsResource = resources.find(r => r.name === 'Deals');
-  const callsResource = resources.find(r => r.name === 'Calls');
-  const opportunitiesResource = resources.find(r => r.name === 'Opportunities');
-  const regionsResource = resources.find(r => r.name === 'Regions');
-  const installersResource = resources.find(r => r.name === 'Installers');
-  const qualificationsResource = resources.find(r => r.name === 'Qualifications');
-  const templatesResource = resources.find(r => r.name === 'Templates');
-  const lostReasonsResource = resources.find(r => r.name === 'Lost Reasons');
+  // =============================================================================
+  // HAND-OFF PHASE PROJECTS
+  // =============================================================================
 
-  // Always suggest these core projects
   proposals.push({
-    id: 'sales-dashboard',
-    title: 'Real-Time Sales Pipeline Dashboard',
-    description: 'Build an interactive dashboard showing deal flow through stages, conversion rates, and revenue forecasts. Visualize the entire sales funnel with drill-down capabilities.',
-    difficulty: 'Medium',
-    estimatedHours: '20-30 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Qualifications'],
-    benefits: [
-      'Real-time visibility into sales performance',
-      'Identify bottlenecks in the pipeline',
-      'Track team performance metrics',
-      'Forecast revenue based on pipeline data',
-    ],
-    prerequisites: ['React/Next.js knowledge', 'Chart library (Recharts, Chart.js)'],
-    apiEndpoints: ['/internal/deals', '/internal/deals/stats', '/internal/opportunities/stats'],
-    category: 'Analytics',
-  });
-
-  // Project based on Calls data
-  if (callsResource && callsResource.status !== 'error') {
-    proposals.push({
-      id: 'call-analytics',
-      title: 'Call Center Analytics & Performance Tracker',
-      description: 'Analyze call patterns, answer rates, and agent performance. Track call outcomes and identify best times to reach customers.',
-      difficulty: 'Medium',
-      estimatedHours: '15-25 hours',
-      resourcesUsed: ['Calls', 'Deals'],
-      benefits: [
-        'Optimize call scheduling for higher answer rates',
-        'Track agent performance metrics',
-        'Identify peak calling hours',
-        'Reduce call backlog with data-driven insights',
-      ],
-      prerequisites: ['Data visualization experience', 'Basic statistics knowledge'],
-      apiEndpoints: ['/internal/calls', '/internal/calls/stats'],
-      category: 'Analytics',
-    });
-  }
-
-  // Project based on Regions + Installers
-  if (regionsResource && installersResource) {
-    proposals.push({
-      id: 'geo-coverage-map',
-      title: 'Interactive Geographic Coverage Map',
-      description: 'Build a map-based visualization showing installer coverage across Spain by postal code regions. Identify underserved areas and optimize installer assignments.',
-      difficulty: 'Medium',
-      estimatedHours: '25-35 hours',
-      resourcesUsed: ['Regions', 'Installers', 'Deals'],
-      benefits: [
-        'Visualize market coverage at a glance',
-        'Identify expansion opportunities',
-        'Optimize lead routing by geography',
-        'Balance installer workloads by region',
-      ],
-      prerequisites: ['Mapbox or Google Maps API', 'GeoJSON knowledge'],
-      apiEndpoints: ['/internal/regions', '/internal/installers', '/internal/regions/{id}/quotas'],
-      category: 'Analytics',
-    });
-  }
-
-  // Project based on Templates
-  if (templatesResource && templatesResource.status !== 'error') {
-    proposals.push({
-      id: 'whatsapp-campaign-manager',
-      title: 'WhatsApp Campaign Manager',
-      description: 'Create a tool to manage and preview WhatsApp templates, schedule campaigns, and track message delivery. Test template variables before sending.',
-      difficulty: 'Medium',
-      estimatedHours: '20-30 hours',
-      resourcesUsed: ['Templates', 'Deals'],
-      benefits: [
-        'Preview templates with real data before sending',
-        'Manage template approval workflow',
-        'Track campaign performance',
-        'A/B test different message variants',
-      ],
-      prerequisites: ['WhatsApp Business API familiarity', 'React forms experience'],
-      apiEndpoints: ['/internal/templates', '/internal/templates/{id}/variables', '/internal/templates/{id}/buttons'],
-      category: 'Operations',
-    });
-  }
-
-  // AI/ML Projects
-  if (dealsResource && qualificationsResource) {
-    proposals.push({
-      id: 'lead-scoring-ml',
-      title: 'AI-Powered Lead Scoring System',
-      description: 'Use machine learning to predict which leads are most likely to convert based on historical deal data, qualification answers, and engagement patterns.',
-      difficulty: 'Hard',
-      estimatedHours: '40-60 hours',
-      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Opportunities'],
-      benefits: [
-        'Prioritize high-value leads automatically',
-        'Improve sales team efficiency',
-        'Predict conversion probability',
-        'Identify key conversion factors',
-      ],
-      prerequisites: ['Python/ML experience', 'scikit-learn or TensorFlow', 'Data preprocessing skills'],
-      apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/opportunities'],
-      category: 'AI/ML',
-    });
-  }
-
-  // Lost Reasons Analysis
-  if (lostReasonsResource && dealsResource) {
-    proposals.push({
-      id: 'churn-analysis',
-      title: 'Lost Deal Analysis & Prevention Tool',
-      description: 'Analyze patterns in lost deals to identify common reasons and early warning signs. Build alerts to flag at-risk deals before they\'re lost.',
-      difficulty: 'Medium',
-      estimatedHours: '20-30 hours',
-      resourcesUsed: ['Lost Reasons', 'Deals', 'Calls', 'Qualifications'],
-      benefits: [
-        'Understand why deals are lost',
-        'Identify patterns by region/installer/source',
-        'Create early warning alerts',
-        'Improve sales process based on insights',
-      ],
-      prerequisites: ['Data analysis skills', 'Alerting system knowledge'],
-      apiEndpoints: ['/internal/lost-reasons', '/internal/deals', '/internal/deals/{id}/stage-changes'],
-      category: 'Analytics',
-    });
-  }
-
-  // Automation Projects
-  proposals.push({
-    id: 'automated-follow-up',
-    title: 'Intelligent Follow-Up Automation',
-    description: 'Build an automation system that schedules follow-up calls and WhatsApp messages based on deal stage, last contact, and customer preferences.',
+    id: 'dynamic-allocation-engine',
+    title: 'Dynamic Installer Allocation Engine',
+    description: 'AI-powered real-time lead-to-installer matching system. Scores installers based on region, capacity, historical conversion, SLA compliance, and customer preferences. Replaces manual Google Sheets allocation with automated decisions.',
     difficulty: 'Hard',
-    estimatedHours: '35-50 hours',
-    resourcesUsed: ['Deals', 'Calls', 'Templates', 'Qualifications'],
+    estimatedHours: '50-70 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Regions', 'Installers'],
     benefits: [
-      'Never miss a follow-up opportunity',
-      'Personalize outreach based on customer data',
-      'Reduce manual scheduling work',
-      'Improve response rates with optimal timing',
+      'Instant lead assignment (vs. manual decision time)',
+      'Optimized distribution based on conversion data',
+      'Automatic quota balancing across installers',
+      'Deviation alerts when targets drift >15%',
     ],
-    prerequisites: ['Cron jobs/scheduling', 'State machine design', 'API integration experience'],
-    apiEndpoints: ['/internal/deals', '/internal/calls', '/internal/templates', '/internal/deals/{id}/messages'],
-    category: 'Automation',
+    prerequisites: ['Scoring algorithm design', 'Real-time event processing', 'Admin config panel'],
+    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/regions', '/internal/installers', '/internal/regions/{id}/quotas'],
+    category: 'Hand-Off',
+    opsProcess: 'Assignation per installer',
+    currentLOA: 'Manual (Google Sheets)',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Installer capacity/availability endpoint',
+      'Monthly weight targets per region/installer',
+      'Real-time deviation calculations',
+      'Installer performance scores (conversion rate, speed-to-contact)',
+    ],
+    priority: 'Critical',
   });
 
-  // Reporting Project
   proposals.push({
-    id: 'executive-reports',
-    title: 'Automated Executive Reports Generator',
-    description: 'Generate weekly/monthly PDF reports with key metrics, trends, and insights. Auto-send to stakeholders with customizable sections.',
+    id: 'ai-qualification-notes',
+    title: 'AI Qualification Notes Generator',
+    description: 'Consolidate SDR comments, call transcripts, and qualification data into structured, standardized notes for installers. Include deal temperature, preferred contact times, and key customer motivations.',
+    difficulty: 'Medium',
+    estimatedHours: '30-40 hours',
+    resourcesUsed: ['Deals', 'Qualifications', 'Calls'],
+    benefits: [
+      'Consistent note quality across all SDRs',
+      'Faster installer onboarding per lead',
+      'Reduced "temperature was off" feedback',
+      'Structured data for ML training',
+    ],
+    prerequisites: ['LLM integration (GPT-4)', 'Prompt engineering', 'Zoho field mapping'],
+    apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls'],
+    category: 'Hand-Off',
+    opsProcess: 'AI Qualification Notes',
+    currentLOA: 'Semi-Automated',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Call transcripts endpoint',
+      'SDR comments field',
+      'Deal temperature field',
+      'Customer preferred channel/time preferences',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'handoff-whatsapp-automation',
+    title: 'Post-Handoff WhatsApp Automation',
+    description: 'Automatically send WhatsApp messages to customers after installer assignment with: installer name, expected call time, and contact number. Include 24h follow-up nudge if no contact made.',
+    difficulty: 'Easy',
+    estimatedHours: '15-20 hours',
+    resourcesUsed: ['Deals', 'Templates', 'Opportunities', 'Installers'],
+    benefits: [
+      'Customer knows who will call and when',
+      'Reduced missed calls from unknown numbers',
+      'Automatic follow-up reduces drop-off',
+      'Better customer experience post-qualification',
+    ],
+    prerequisites: ['WhatsApp Business API (Woztell)', 'Template approval'],
+    apiEndpoints: ['/internal/deals', '/internal/templates', '/internal/opportunities', '/internal/deals/{id}/messages'],
+    category: 'Hand-Off',
+    opsProcess: 'Call transfer and scheduling',
+    currentLOA: 'Not Implemented',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Installer contact details (rep name, phone)',
+      'Customer preferred time slot field',
+      'Message send status tracking',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'installer-feedback-dashboard',
+    title: 'Installer Feedback Collection Dashboard',
+    description: 'Track installer feedback per lead: temperature accuracy, missing details, lead viability. Use to refine AI prompts, coach SDRs, and improve qualification structure.',
     difficulty: 'Medium',
     estimatedHours: '25-35 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Regions', 'Installers'],
+    resourcesUsed: ['Opportunities', 'Installers', 'Lost Reasons', 'Deals'],
     benefits: [
-      'Save hours of manual report creation',
-      'Consistent, professional reporting',
-      'Historical trend analysis',
-      'Customizable metrics per stakeholder',
+      'Systematic feedback collection',
+      'Identify qualification gaps by pattern',
+      'Coach SDRs with real examples',
+      'Continuous prompt improvement',
     ],
-    prerequisites: ['PDF generation (Puppeteer, jsPDF)', 'Email service integration'],
-    apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats', '/internal/calls/stats'],
-    category: 'Reporting',
+    prerequisites: ['Feedback form/API', 'Dashboard with filtering'],
+    apiEndpoints: ['/internal/opportunities', '/internal/installers', '/internal/lost-reasons'],
+    category: 'Hand-Off',
+    opsProcess: 'Installer/Customer Feedback Collection',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Installer feedback endpoint (per opportunity)',
+      'Feedback categories (temperature off, detail missing, etc.)',
+      'Feedback timestamps and installer ID',
+    ],
+    priority: 'Medium',
   });
 
-  // Integration Project
+  // =============================================================================
+  // QUALIFICATION PHASE PROJECTS
+  // =============================================================================
+
   proposals.push({
-    id: 'crm-sync',
-    title: 'Bi-Directional CRM Sync Tool',
-    description: 'Build a synchronization layer to keep Abeto data in sync with external CRMs (HubSpot, Salesforce, Zoho). Handle conflicts and maintain data integrity.',
+    id: 'contact-prioritization-engine',
+    title: 'AI Contact Prioritization System',
+    description: 'SDR Portal feature that ranks contacts by conversion probability, optimal contact time, and channel preference. Shows "next best call" recommendations based on historical patterns.',
     difficulty: 'Hard',
-    estimatedHours: '40-60 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Qualifications', 'Calls'],
+    estimatedHours: '45-60 hours',
+    resourcesUsed: ['Deals', 'Calls', 'Qualifications'],
     benefits: [
-      'Single source of truth across systems',
-      'Eliminate manual data entry',
-      'Real-time sync with external tools',
-      'Audit trail for all changes',
+      'Higher answer rates from optimal timing',
+      'SDRs focus on highest-value contacts',
+      'Reduced time deciding who to call',
+      'Data-driven working hours optimization',
     ],
-    prerequisites: ['CRM API experience', 'Webhook handling', 'Conflict resolution strategies'],
-    apiEndpoints: ['All deal endpoints', 'All opportunity endpoints'],
-    category: 'Integration',
+    prerequisites: ['ML model for contact scoring', 'Real-time queue management', 'SDR Portal integration'],
+    apiEndpoints: ['/internal/deals', '/internal/calls', '/internal/calls/stats', '/internal/qualifications'],
+    category: 'SDR Portal',
+    opsProcess: 'Contact prioritization',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Historical contact attempt times',
+      'Answer rate by time-of-day/day-of-week',
+      'Customer timezone/preferred hours',
+      'SDR availability calendar',
+    ],
+    priority: 'Critical',
   });
 
-  // Installer Portal
-  if (installersResource && opportunitiesResource) {
-    proposals.push({
-      id: 'installer-portal',
-      title: 'Self-Service Installer Portal',
-      description: 'Create a dedicated portal for installers to view their assigned opportunities, update statuses, and communicate with the sales team.',
-      difficulty: 'Hard',
-      estimatedHours: '50-70 hours',
-      resourcesUsed: ['Installers', 'Opportunities', 'Deals', 'Regions'],
-      benefits: [
-        'Reduce back-and-forth communication',
-        'Faster opportunity status updates',
-        'Installer self-service capabilities',
-        'Better installer relationship management',
-      ],
-      prerequisites: ['Authentication system', 'Role-based access control', 'Real-time updates'],
-      apiEndpoints: ['/internal/installers', '/internal/opportunities', '/internal/regions/{id}/quotas'],
-      category: 'Operations',
-    });
-  }
-
-  // Mobile App
   proposals.push({
-    id: 'mobile-sales-app',
-    title: 'Mobile Sales Companion App',
-    description: 'Build a React Native or Flutter app for sales reps to access deals, make calls, and update records on the go. Works offline with sync capabilities.',
+    id: 'recycling-workflow-automation',
+    title: 'Lead Recycling Workflow System',
+    description: 'Automatic flagging and reassignment of recyclable leads based on installer CRM feedback. Track recycling outcomes and optimize re-engagement timing.',
+    difficulty: 'Medium',
+    estimatedHours: '30-40 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Lost Reasons', 'Calls'],
+    benefits: [
+      'Recover lost revenue from recyclable leads',
+      'Automatic re-assignment without manual review',
+      'Track recycling success rates',
+      'Optimize timing for re-engagement',
+    ],
+    prerequisites: ['Installer CRM integrations', 'Recycling rules engine'],
+    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/lost-reasons'],
+    category: 'Qualification',
+    opsProcess: 'Recycling Workflow',
+    currentLOA: 'Semi-Automated',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Recyclable flag on lost reasons',
+      'Recycling attempt count per deal',
+      'Installer CRM webhook events',
+      'Re-engagement cooldown rules',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'answer-rate-monitoring',
+    title: 'SIM/Number Answer Rate Monitor',
+    description: 'Track answer rates and spam flags per phone number. Alert when numbers need rotation. Proactive SIM card management to maintain high contact rates.',
+    difficulty: 'Easy',
+    estimatedHours: '15-25 hours',
+    resourcesUsed: ['Calls', 'Unmatched Calls'],
+    benefits: [
+      'Maintain high answer rates',
+      'Proactive SIM rotation before spam flags',
+      'Identify best-performing numbers',
+      'Reduce wasted call attempts',
+    ],
+    prerequisites: ['Aircall integration', 'Alerting system'],
+    apiEndpoints: ['/internal/calls', '/internal/calls/stats', '/internal/unmatched-calls'],
+    category: 'Qualification',
+    opsProcess: 'Answer Rate Monitoring',
+    currentLOA: 'Manual',
+    potentialLOA: 'Medium Automation',
+    missingApiData: [
+      'Outbound number identifier per call',
+      'Spam flag detection',
+      'Answer rate aggregation by number',
+    ],
+    priority: 'Medium',
+  });
+
+  proposals.push({
+    id: 'whatsapp-conversation-summary',
+    title: 'WhatsApp Conversation AI Summary',
+    description: 'AI-powered summary of WhatsApp conversations to speed up SDR call preparation. Extract key points, customer concerns, and suggested talking points.',
+    difficulty: 'Medium',
+    estimatedHours: '25-35 hours',
+    resourcesUsed: ['Deals', 'Templates'],
+    benefits: [
+      'Faster call prep for SDRs',
+      'No context loss between channels',
+      'Consistent information across team',
+      'Better customer experience (no repetition)',
+    ],
+    prerequisites: ['LLM integration', 'WhatsApp message history access'],
+    apiEndpoints: ['/internal/deals', '/internal/deals/{id}/messages', '/internal/templates'],
+    category: 'SDR Portal',
+    opsProcess: 'Calls & WhatsApp',
+    currentLOA: 'Semi-Automated',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Full WhatsApp conversation history endpoint',
+      'Message timestamps and direction',
+      'Conversation summary field in deals',
+    ],
+    priority: 'Critical',
+  });
+
+  proposals.push({
+    id: 'chatbot-ab-testing',
+    title: 'Chatbot A/B Testing & Analytics Platform',
+    description: 'Track per-template success rates, drop-off points, and escalation triggers. Enable controlled A/B tests on bot flows with automatic winner detection.',
+    difficulty: 'Medium',
+    estimatedHours: '35-45 hours',
+    resourcesUsed: ['Templates', 'Deals'],
+    benefits: [
+      'Data-driven template optimization',
+      'Identify failing flows quickly',
+      'Reduce escalation burden',
+      'Continuous bot improvement',
+    ],
+    prerequisites: ['Botpress/chatbot integration', 'Event tracking system'],
+    apiEndpoints: ['/internal/templates', '/internal/deals'],
+    category: 'Qualification',
+    opsProcess: 'Chatbot Optimization',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Chatbot conversation events endpoint',
+      'Template performance metrics (reply rate, success rate)',
+      'A/B test variant tracking',
+      'Escalation event logging',
+    ],
+    priority: 'Medium',
+  });
+
+  // =============================================================================
+  // LEAD ACQUISITION PHASE PROJECTS
+  // =============================================================================
+
+  proposals.push({
+    id: 'provider-roi-dashboard',
+    title: 'Lead Provider ROI Dashboard',
+    description: 'Real-time view of CPL, qualification rate, and conversion by provider and region. Automatic budget reallocation suggestions based on performance.',
+    difficulty: 'Medium',
+    estimatedHours: '30-40 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Regions'],
+    benefits: [
+      'Optimize budget allocation in real-time',
+      'Identify underperforming providers quickly',
+      'Track CPL trends over time',
+      'Data-driven provider negotiations',
+    ],
+    prerequisites: ['Provider tracking in deals', 'Financial calculations'],
+    apiEndpoints: ['/internal/deals', '/internal/deals/stats', '/internal/opportunities/stats', '/internal/regions'],
+    category: 'Lead Acquisition',
+    opsProcess: 'Budget Allocation Process',
+    currentLOA: 'Manual',
+    potentialLOA: 'Medium Automation',
+    missingApiData: [
+      'Lead provider/source field',
+      'CPL per provider',
+      'Provider agreement terms',
+      'Monthly budget caps per provider',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'lead-validation-automation',
+    title: 'Automated Lead Validation & Quality Control',
+    description: 'Pre-flag invalid leads using AI before SDR contact. Auto-generate weekly validation reports for providers. Track rejection rates by provider/region.',
+    difficulty: 'Medium',
+    estimatedHours: '25-35 hours',
+    resourcesUsed: ['Deals', 'Qualifications'],
+    benefits: [
+      'Reduce SDR time on invalid leads',
+      'Faster provider feedback cycles',
+      'Consistent validation criteria',
+      'Automated rejection documentation',
+    ],
+    prerequisites: ['Validation rules engine', 'Provider reporting templates'],
+    apiEndpoints: ['/internal/deals', '/internal/qualifications'],
+    category: 'Lead Acquisition',
+    opsProcess: 'Validation & Quality Control',
+    currentLOA: 'Semi-Automated',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Validation status field',
+      'Rejection reason categories',
+      'Provider ID on deals',
+      'Validation timestamp',
+    ],
+    priority: 'Medium',
+  });
+
+  proposals.push({
+    id: 'api-self-service-portal',
+    title: 'Provider API Self-Service Portal',
+    description: 'Self-service portal for lead providers to test API payloads, view integration status, and access documentation. Includes real-time webhook monitoring and error logs.',
+    difficulty: 'Hard',
+    estimatedHours: '45-60 hours',
+    resourcesUsed: ['Deals'],
+    benefits: [
+      'Faster provider onboarding',
+      'Reduced support burden',
+      'Self-service troubleshooting',
+      'Better integration quality',
+    ],
+    prerequisites: ['Authentication system', 'Webhook monitoring', 'Documentation generation'],
+    apiEndpoints: ['/internal/deals'],
+    category: 'Lead Acquisition',
+    opsProcess: 'API/CRM Integrations & Onboarding',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Provider authentication tokens',
+      'Webhook delivery logs',
+      'Integration health status per provider',
+      'Error rate tracking',
+    ],
+    priority: 'Medium',
+  });
+
+  // =============================================================================
+  // PARTNER MANAGEMENT PHASE PROJECTS
+  // =============================================================================
+
+  proposals.push({
+    id: 'installer-performance-portal',
+    title: 'Installer Performance Portal',
+    description: 'Self-service dashboard for installers showing: leads received, conversion rates, ROI, SLA compliance, and comparison to targets. Includes score degradation alerts.',
     difficulty: 'Hard',
     estimatedHours: '60-80 hours',
-    resourcesUsed: ['Deals', 'Calls', 'Qualifications', 'Templates'],
+    resourcesUsed: ['Installers', 'Opportunities', 'Deals', 'Regions', 'Lost Reasons'],
     benefits: [
-      'Field sales team productivity',
-      'Real-time deal updates from anywhere',
-      'Click-to-call integration',
-      'Offline capability for poor connectivity',
+      'Transparent performance tracking',
+      'Self-service reduces back-and-forth',
+      'Motivates improvement through visibility',
+      'Fair lead distribution justification',
     ],
-    prerequisites: ['React Native or Flutter', 'Mobile development experience', 'Offline-first architecture'],
-    apiEndpoints: ['All major endpoints'],
-    category: 'Operations',
+    prerequisites: ['Installer authentication', 'Role-based access', 'Real-time calculations'],
+    apiEndpoints: ['/internal/installers', '/internal/opportunities', '/internal/opportunities/stats', '/internal/regions/{id}/quotas', '/internal/lost-reasons'],
+    category: 'Installers Portal',
+    opsProcess: 'Partner ROI Tracking',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Installer login/auth endpoint',
+      'Per-installer conversion metrics',
+      'SLA tracking (time-to-contact, etc.)',
+      'Score calculation formula',
+    ],
+    priority: 'Critical',
+  });
+
+  proposals.push({
+    id: 'installer-sla-monitoring',
+    title: 'Installer SLA & Conversion Monitoring',
+    description: 'Real-time tracking of installer SLA compliance: time-to-contact, follow-up frequency, stage update delays. Auto-alerts for SLA breaches.',
+    difficulty: 'Medium',
+    estimatedHours: '30-40 hours',
+    resourcesUsed: ['Opportunities', 'Installers'],
+    benefits: [
+      'Ensure consistent service levels',
+      'Early warning for underperformers',
+      'Data for partner conversations',
+      'Protect customer experience',
+    ],
+    prerequisites: ['SLA rules configuration', 'Alerting system'],
+    apiEndpoints: ['/internal/opportunities', '/internal/installers'],
+    category: 'Partner Management',
+    opsProcess: 'Conversion & SLA Monitoring',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Opportunity stage timestamps',
+      'First contact timestamp',
+      'SLA thresholds per installer',
+      'Alert configuration endpoint',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'installer-quote-sync',
+    title: 'Installer Quote Sync System',
+    description: 'Collect final offer amounts from installers via webhook, form, or portal. Enables financing integration and accurate ROI tracking.',
+    difficulty: 'Medium',
+    estimatedHours: '25-35 hours',
+    resourcesUsed: ['Opportunities', 'Installers', 'Deals'],
+    benefits: [
+      'Enable financing partnerships',
+      'Accurate revenue tracking',
+      'Price benchmarking across installers',
+      'Better forecasting',
+    ],
+    prerequisites: ['Webhook endpoint for installers', 'Data validation'],
+    apiEndpoints: ['/internal/opportunities', '/internal/installers'],
+    category: 'Installers Portal',
+    opsProcess: 'Financing Partnerships',
+    currentLOA: 'Not Implemented',
+    potentialLOA: 'Medium Automation',
+    missingApiData: [
+      'Offer amount field on opportunities',
+      'Offer timestamp',
+      'Installer webhook POST endpoint',
+      'Pricing baseline data',
+    ],
+    priority: 'Medium',
+  });
+
+  proposals.push({
+    id: 'automated-invoicing',
+    title: 'Automated Provider & Partner Invoicing',
+    description: 'Auto-generate monthly invoices for lead providers (based on validation results) and installers (based on won opportunities). Reconciliation with rejection tracking.',
+    difficulty: 'Medium',
+    estimatedHours: '35-45 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Installers'],
+    benefits: [
+      'Hours saved on manual invoicing',
+      'Fewer billing disputes',
+      'Automatic reconciliation',
+      'Clear audit trail',
+    ],
+    prerequisites: ['Accounting rules engine', 'PDF generation', 'Email integration'],
+    apiEndpoints: ['/internal/deals', '/internal/deals/stats', '/internal/opportunities', '/internal/opportunities/stats'],
+    category: 'Partner Management',
+    opsProcess: 'Invoicing & Reconciliation',
+    currentLOA: 'Manual',
+    potentialLOA: 'Medium Automation',
+    missingApiData: [
+      'Provider pricing/CPL data',
+      'Validation status for invoicing',
+      'Won opportunity revenue',
+      'Invoice line item breakdown',
+    ],
+    priority: 'Low',
+  });
+
+  // =============================================================================
+  // AI/ML PROJECTS
+  // =============================================================================
+
+  proposals.push({
+    id: 'lead-temperature-predictor',
+    title: 'AI Lead Temperature Predictor',
+    description: 'ML model that predicts deal temperature (Hot/Warm/Cold) based on qualification data, engagement patterns, and historical outcomes. Assist SDRs in temperature assignment.',
+    difficulty: 'Hard',
+    estimatedHours: '50-70 hours',
+    resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Opportunities'],
+    benefits: [
+      'Consistent temperature assignment',
+      'Reduce "temperature was off" installer feedback',
+      'Prioritize hot leads automatically',
+      'Train new SDRs faster',
+    ],
+    prerequisites: ['ML pipeline', 'Historical labeled data', 'Model serving infrastructure'],
+    apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls', '/internal/opportunities'],
+    category: 'AI/ML',
+    opsProcess: 'AI Qualification Notes',
+    currentLOA: 'Manual (SDR judgment)',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Historical temperature labels',
+      'Temperature outcome validation (was it accurate?)',
+      'Engagement metrics (messages, calls, response times)',
+    ],
+    priority: 'High',
+  });
+
+  proposals.push({
+    id: 'lost-deal-pattern-analyzer',
+    title: 'Lost Deal Pattern Analyzer & Alert System',
+    description: 'ML-powered analysis of lost deals to identify patterns by region, installer, source, and time. Proactive alerts for at-risk deals based on early warning signals.',
+    difficulty: 'Hard',
+    estimatedHours: '45-60 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Lost Reasons', 'Installers', 'Regions'],
+    benefits: [
+      'Understand systematic loss patterns',
+      'Intervene before deals are lost',
+      'Coach installers on specific issues',
+      'Improve qualification criteria',
+    ],
+    prerequisites: ['Pattern recognition algorithms', 'Alerting infrastructure'],
+    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/lost-reasons', '/internal/deals/{id}/stage-changes'],
+    category: 'AI/ML',
+    opsProcess: 'Partner ROI Tracking',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Deal stage change history with timestamps',
+      'Lost reason linked to specific deal attributes',
+      'Installer-specific loss patterns',
+    ],
+    priority: 'Medium',
+  });
+
+  proposals.push({
+    id: 'optimal-contact-time-model',
+    title: 'Optimal Contact Time Predictor',
+    description: 'ML model that predicts the best time and channel to contact each lead based on historical answer patterns, timezone, and stated preferences.',
+    difficulty: 'Medium',
+    estimatedHours: '35-45 hours',
+    resourcesUsed: ['Deals', 'Calls'],
+    benefits: [
+      'Higher answer rates',
+      'Fewer wasted call attempts',
+      'Better customer experience',
+      'SDR efficiency improvement',
+    ],
+    prerequisites: ['Time-series analysis', 'Customer preference data'],
+    apiEndpoints: ['/internal/deals', '/internal/calls', '/internal/calls/stats'],
+    category: 'AI/ML',
+    opsProcess: 'Contact prioritization',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Call attempt timestamps with outcomes',
+      'Customer stated preferences',
+      'Regional time patterns',
+    ],
+    priority: 'High',
+  });
+
+  // =============================================================================
+  // REPORTING PROJECTS
+  // =============================================================================
+
+  proposals.push({
+    id: 'weekly-performance-digest',
+    title: 'Automated Weekly Performance Digest',
+    description: 'Auto-generated weekly report with: deals by stage, conversion rates, SDR performance, installer metrics, and provider ROI. Sent to stakeholders with key action items.',
+    difficulty: 'Medium',
+    estimatedHours: '25-35 hours',
+    resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Installers', 'Regions'],
+    benefits: [
+      'Consistent weekly visibility',
+      'Hours saved on manual reporting',
+      'Highlight key actions needed',
+      'Historical trend tracking',
+    ],
+    prerequisites: ['Report templating', 'Email/Slack integration', 'PDF generation'],
+    apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats', '/internal/calls/stats'],
+    category: 'Lead Acquisition',
+    opsProcess: 'Performance Reporting',
+    currentLOA: 'Manual',
+    potentialLOA: 'High Automation',
+    missingApiData: [
+      'Week-over-week comparison data',
+      'SDR-level performance breakdown',
+      'Provider-level aggregations',
+    ],
+    priority: 'Medium',
+  });
+
+  proposals.push({
+    id: 'gdpr-compliance-tracker',
+    title: 'GDPR Compliance & Consent Tracker',
+    description: 'Track consent status for every lead, opt-out requests, and data retention compliance. Auto-anonymize expired leads and generate compliance audit reports.',
+    difficulty: 'Medium',
+    estimatedHours: '30-40 hours',
+    resourcesUsed: ['Deals', 'Qualifications'],
+    benefits: [
+      'Legal compliance assurance',
+      'Automated data retention',
+      'Audit-ready reports',
+      'Customer trust protection',
+    ],
+    prerequisites: ['Consent tracking system', 'Data retention rules', 'Anonymization logic'],
+    apiEndpoints: ['/internal/deals', '/internal/qualifications'],
+    category: 'Qualification',
+    opsProcess: 'GDPR & Law Compliance',
+    currentLOA: 'Not Implemented',
+    potentialLOA: 'Medium Automation',
+    missingApiData: [
+      'Consent flag and source per deal',
+      'Consent timestamp',
+      'Opt-out tracking',
+      'Data retention policy configuration',
+    ],
+    priority: 'Medium',
   });
 
   return proposals;

@@ -7,8 +7,10 @@ import type {
   HealthStatus,
   HealthIndicator,
   ProjectProposal,
-  ProjectPillar
+  ProjectPillar,
+  MissingApiResource
 } from '@/lib/api';
+import { getMissingApiResources } from '@/lib/api';
 
 // Local storage key for custom project order
 const CUSTOM_ORDER_KEY = 'abeto-project-custom-order';
@@ -537,7 +539,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'status' | 'projects'>('status');
+  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api'>('status');
+  const missingApiResources = getMissingApiResources();
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [stageFilter, setStageFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
@@ -784,6 +787,12 @@ export default function Dashboard() {
         >
           💡 Project Ideas ({projects.length})
         </button>
+        <button
+          className={`tab ${activeTab === 'missing-api' ? 'active' : ''}`}
+          onClick={() => setActiveTab('missing-api')}
+        >
+          🔧 Missing API ({missingApiResources.length})
+        </button>
       </div>
 
       {activeTab === 'status' && (
@@ -1023,6 +1032,87 @@ export default function Dashboard() {
               </table>
             </div>
           )}
+        </>
+      )}
+
+      {activeTab === 'missing-api' && (
+        <>
+          <div className="projects-intro">
+            <h2>🔧 Missing API Resources</h2>
+            <p className="intro-subtitle">
+              API endpoints that need to be created to enable all projects. Building these unlocks the full potential of the platform.
+            </p>
+
+            {/* Priority Summary */}
+            <div className="api-priority-summary">
+              <div className="api-summary-card critical">
+                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'Critical').length}</span>
+                <span className="api-summary-label">Critical</span>
+              </div>
+              <div className="api-summary-card high">
+                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'High').length}</span>
+                <span className="api-summary-label">High</span>
+              </div>
+              <div className="api-summary-card medium">
+                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'Medium').length}</span>
+                <span className="api-summary-label">Medium</span>
+              </div>
+              <div className="api-summary-card total">
+                <span className="api-summary-count">{missingApiResources.reduce((sum, r) => sum + parseInt(r.estimatedHours.split('-')[0]), 0)}+</span>
+                <span className="api-summary-label">Est. Hours</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Missing API Resources Grid */}
+          <div className="missing-api-grid">
+            {missingApiResources.map((resource) => (
+              <div key={resource.id} className={`missing-api-card priority-${resource.priority.toLowerCase()}`}>
+                <div className="api-card-header">
+                  <span className={`priority-badge priority-${resource.priority.toLowerCase()}`}>
+                    {resource.priority}
+                  </span>
+                  <span className={`category-badge category-${resource.category.toLowerCase().replace(' ', '-')}`}>
+                    {resource.category}
+                  </span>
+                </div>
+
+                <h3 className="api-card-title">{resource.name}</h3>
+                <p className="api-card-description">{resource.description}</p>
+
+                <div className="api-endpoint">
+                  <code>{resource.endpoint}</code>
+                </div>
+
+                <div className="api-card-meta">
+                  <span className="api-difficulty" style={{
+                    color: resource.difficulty === 'Easy' ? 'var(--accent-green)' :
+                           resource.difficulty === 'Medium' ? 'var(--accent-yellow)' : 'var(--accent-orange)'
+                  }}>
+                    {resource.difficulty}
+                  </span>
+                  <span className="api-hours">{resource.estimatedHours} hours</span>
+                </div>
+
+                <div className="api-data-source">
+                  <span className="source-label">Data Source:</span>
+                  <span className="source-value">{resource.dataSource}</span>
+                </div>
+
+                <div className="api-enables">
+                  <span className="enables-label">Enables:</span>
+                  <div className="enables-list">
+                    {resource.enablesProjects.slice(0, 3).map((projectId, idx) => (
+                      <span key={idx} className="enables-tag">{projectId}</span>
+                    ))}
+                    {resource.enablesProjects.length > 3 && (
+                      <span className="enables-more">+{resource.enablesProjects.length - 3} more</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </>
       )}
 

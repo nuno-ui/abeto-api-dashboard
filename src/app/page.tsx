@@ -21,7 +21,7 @@ function formatDate(dateString: string | undefined): string {
       hour: '2-digit',
       minute: '2-digit',
     });
-  } catch {
+  } catch (e) {
     return 'Invalid date';
   }
 }
@@ -344,7 +344,7 @@ export default function Dashboard() {
     ? projects
     : projects.filter(p => p.category === categoryFilter);
 
-  const categories = ['all', ...new Set(projects.map(p => p.category))];
+  const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
 
   return (
     <div className="dashboard">

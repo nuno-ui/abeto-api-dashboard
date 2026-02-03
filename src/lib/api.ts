@@ -986,6 +986,9 @@ export async function fetchDashboardData(): Promise<DashboardData> {
 // Project Proposals Generator - Based on Abeto Operational Processes
 // =============================================================================
 
+export type ProjectStage = 'Deployed' | 'Under Dev' | 'Pilot' | 'Planned' | 'Idea';
+export type ProjectCategory = 'Hand-Off' | 'Qualification' | 'Lead Acquisition' | 'Partner Management' | 'AI/ML' | 'SDR Portal' | 'Installers Portal' | 'Reporting' | 'Platform' | 'Marketing' | 'Partnerships' | 'Admin';
+
 export interface ProjectProposal {
   id: string;
   title: string;
@@ -996,12 +999,280 @@ export interface ProjectProposal {
   benefits: string[];
   prerequisites: string[];
   apiEndpoints: string[];
-  category: 'Hand-Off' | 'Qualification' | 'Lead Acquisition' | 'Partner Management' | 'AI/ML' | 'SDR Portal' | 'Installers Portal';
-  opsProcess: string; // Links to the operational process this supports
-  currentLOA: string; // Current Level of Automation
-  potentialLOA: string; // Potential Level of Automation
-  missingApiData: string[]; // What data/endpoints are missing to build this
+  category: ProjectCategory;
+  opsProcess: string;
+  currentLOA: string;
+  potentialLOA: string;
+  missingApiData: string[];
   priority: 'Critical' | 'High' | 'Medium' | 'Low';
+  // New fields
+  stage: ProjectStage;
+  prototypeUrl?: string;
+  notionUrl?: string;
+  primaryUsers: string[];
+  integrationsNeeded: string[];
+  dataStatus: 'Live' | 'Partial' | 'Static' | 'None';
+  nextMilestone?: string;
+  rank?: number; // For manual ordering
+}
+
+// =============================================================================
+// Existing Products/Prototypes
+// =============================================================================
+
+export function getExistingProducts(): ProjectProposal[] {
+  return [
+    {
+      id: 'sdr-portal',
+      title: 'SDR Portal',
+      description: 'Flagship product managing SDR funnel execution. Lead pipeline view, qualification workflow, and handoff management. Main surface for copiloting and workflow intelligence.',
+      difficulty: 'Hard',
+      estimatedHours: 'Ongoing',
+      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Templates', 'Opportunities'],
+      benefits: [
+        'Live workflow backbone for SDR operations',
+        'Centralized lead management',
+        'Real-time qualification tracking',
+        'Integrated handoff workflow',
+      ],
+      prerequisites: ['CRM integration', 'WhatsApp integration', 'Telephony integration'],
+      apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls', '/internal/templates'],
+      category: 'SDR Portal',
+      opsProcess: 'Calls & WhatsApp + Contact prioritization',
+      currentLOA: 'Semi-Automated',
+      potentialLOA: 'High Automation',
+      missingApiData: [],
+      priority: 'Critical',
+      stage: 'Deployed',
+      prototypeUrl: 'https://notion.so/abeto/SDR-Portal-front-end-feedback-2e1e74322e5180bdbf87d88337be98fd',
+      primaryUsers: ['SDRs', 'Ops'],
+      integrationsNeeded: ['CRM', 'WhatsApp', 'Telephony'],
+      dataStatus: 'Live',
+      nextMilestone: 'Expand Cortex copiloting + connect automation pilots',
+    },
+    {
+      id: 'investor-portal',
+      title: 'Investor Portal',
+      description: 'Centralized board reporting and investor materials portal. Dashboard, reports, documents (data room), and showcase. Improves transparency, investor trust, and IR workflow.',
+      difficulty: 'Medium',
+      estimatedHours: '40-60 hours',
+      resourcesUsed: ['Deals', 'Opportunities'],
+      benefits: [
+        'Centralized investor communications',
+        'Automated report generation',
+        'Professional data room',
+        'Hosts Cortex demo + investor Q&A',
+      ],
+      prerequisites: ['Report templating', 'Document management', 'Access control'],
+      apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats'],
+      category: 'Reporting',
+      opsProcess: 'Performance Reporting',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Financial metrics aggregation', 'Board-level KPIs'],
+      priority: 'Medium',
+      stage: 'Under Dev',
+      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/',
+      primaryUsers: ['Investors', 'Board'],
+      integrationsNeeded: ['Reporting Hub', 'Finance', 'KPI pipelines'],
+      dataStatus: 'Partial',
+      nextMilestone: 'Complete data room + automated reporting',
+    },
+    {
+      id: 'reporting-hub',
+      title: 'Reporting Hub',
+      description: 'Central performance visibility with KPI dashboards and performance benchmarking. Single source of truth supporting Cortex and decision-making.',
+      difficulty: 'Medium',
+      estimatedHours: '50-70 hours',
+      resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Installers', 'Regions'],
+      benefits: [
+        'Single source of truth for KPIs',
+        'Supports Cortex structured insights',
+        'Cross-team visibility',
+        'Performance benchmarking',
+      ],
+      prerequisites: ['Data warehouse design', 'KPI definitions', 'Dashboard framework'],
+      apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats', '/internal/calls/stats'],
+      category: 'Reporting',
+      opsProcess: 'Performance Reporting',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Historical data aggregation', 'Cross-pipeline metrics'],
+      priority: 'High',
+      stage: 'Under Dev',
+      prototypeUrl: 'https://abeto-reporting.vercel.app/',
+      primaryUsers: ['Leadership', 'Ops'],
+      integrationsNeeded: ['CRM', 'Sales', 'Ops', 'Marketing pipelines'],
+      dataStatus: 'Partial',
+      nextMilestone: 'Define KPI set + build v1 dashboard',
+    },
+    {
+      id: 'ai-cortex',
+      title: 'AI Cortex',
+      description: 'Embedded intelligence layer across all tools. Converts ops data into copiloting and automation. Core multi-agent orchestration providing compounding advantage across workflows.',
+      difficulty: 'Hard',
+      estimatedHours: '100+ hours',
+      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Opportunities', 'Installers'],
+      benefits: [
+        'Compounding advantage across workflows',
+        'Multi-agent orchestration',
+        'Copiloting for all teams',
+        'Automated decision support',
+      ],
+      prerequisites: ['Data layer access', 'LLM integration', 'Agent framework'],
+      apiEndpoints: ['All endpoints'],
+      category: 'Platform',
+      opsProcess: 'All processes',
+      currentLOA: 'Not Implemented',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Unified data access layer', 'Real-time event streaming'],
+      priority: 'Critical',
+      stage: 'Pilot',
+      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/cortex-demo/walkthrough',
+      primaryUsers: ['All teams'],
+      integrationsNeeded: ['Data layer', 'All integrations'],
+      dataStatus: 'None',
+      nextMilestone: 'Define MVP + embed into SDR Portal first',
+    },
+    {
+      id: 'funnel-automation-os',
+      title: 'Funnel Automation OS',
+      description: 'Automates WhatsApp and telephony funnel execution. Flow editor, routing rules, and compliance dashboard. Scale lead volume 2-3× without headcount.',
+      difficulty: 'Hard',
+      estimatedHours: '80-100 hours',
+      resourcesUsed: ['Deals', 'Templates', 'Calls'],
+      benefits: [
+        'Scale lead volume 2-3× without headcount',
+        'Automated routing intelligence',
+        'Bot optimization insights',
+        'A/B testing capabilities',
+      ],
+      prerequisites: ['Flow editor', 'Routing engine', 'Compliance rules'],
+      apiEndpoints: ['/internal/deals', '/internal/templates', '/internal/calls'],
+      category: 'SDR Portal',
+      opsProcess: 'Chatbot Optimization + Recycling Workflow',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Flow state tracking', 'Routing rules engine', 'A/B test results'],
+      priority: 'High',
+      stage: 'Pilot',
+      prototypeUrl: 'https://claude.ai/public/artifacts/f4b89609-1d66-4cd5-ac68-178efb49891a',
+      primaryUsers: ['Sales Ops', 'SDR Ops'],
+      integrationsNeeded: ['CRM', 'WhatsApp Business', 'Telephony APIs'],
+      dataStatus: 'Static',
+      nextMilestone: 'Live integrations + execution engine + A/B testing',
+    },
+    {
+      id: 'campaign-os',
+      title: 'Campaign OS',
+      description: 'Runs paid media ops using historic data. Multi-channel dashboard, spend-to-CRM mapping, and VoC insights. Scale paid media without hiring; optimization moat.',
+      difficulty: 'Hard',
+      estimatedHours: '70-90 hours',
+      resourcesUsed: ['Deals', 'Qualifications'],
+      benefits: [
+        'Scale paid media without hiring',
+        'Optimization moat via historic data',
+        'Cortex-driven insights',
+        'Creative angle suggestions',
+      ],
+      prerequisites: ['Ad platform APIs', 'Attribution modeling', 'VoC analysis'],
+      apiEndpoints: ['/internal/deals', '/internal/deals/stats'],
+      category: 'Marketing',
+      opsProcess: 'Paid Media Optimization',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['UTM tracking', 'Ad spend data', 'Attribution paths'],
+      priority: 'Medium',
+      stage: 'Pilot',
+      prototypeUrl: 'https://claude.ai/public/artifacts/f4b89609-1d66-4cd5-ac68-178efb49891a',
+      primaryUsers: ['Marketing', 'Growth'],
+      integrationsNeeded: ['Zoho', 'Meta', 'Google', 'TikTok', 'Transcripts'],
+      dataStatus: 'Static',
+      nextMilestone: 'Live sync + Cortex-driven insights + execution',
+    },
+    {
+      id: 'partner-expansion-tool',
+      title: 'Partner Expansion Tool',
+      description: 'Scales installer partnerships end-to-end. Pipeline CRM, onboarding workflow, and outreach sequences. Removes partner acquisition bottleneck without scaling BDRs.',
+      difficulty: 'Medium',
+      estimatedHours: '50-70 hours',
+      resourcesUsed: ['Installers', 'Regions'],
+      benefits: [
+        'Remove partner acquisition bottleneck',
+        'Automated scoring and personalization',
+        'Workflow automation',
+        'No need to scale BDRs',
+      ],
+      prerequisites: ['Pipeline CRM', 'Email sequences', 'Scoring model'],
+      apiEndpoints: ['/internal/installers', '/internal/regions'],
+      category: 'Partnerships',
+      opsProcess: 'Installer Network Expansion',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Partner pipeline tracking', 'Outreach status', 'Engagement scoring'],
+      priority: 'High',
+      stage: 'Pilot',
+      prototypeUrl: 'https://claude.ai/public/artifacts/8f4cfd99-f0db-4335-9e56-c930dde67988',
+      primaryUsers: ['Partner Ops', 'BizDev'],
+      integrationsNeeded: ['DB', 'Email', 'Airtable', 'Webhooks', 'CRM'],
+      dataStatus: 'Static',
+      nextMilestone: 'Persistence + outreach automation + scoring engine',
+    },
+    {
+      id: 'installer-portal-product',
+      title: 'Installer Portal',
+      description: 'Productivity-first portal for installers. Co-pilot workflows, pipeline view, and performance dashboards. Adoption lever that complements existing installer teams.',
+      difficulty: 'Hard',
+      estimatedHours: '80-100 hours',
+      resourcesUsed: ['Installers', 'Opportunities', 'Deals', 'Regions', 'Lost Reasons'],
+      benefits: [
+        'Installer self-service',
+        'Performance transparency',
+        'Reduced back-and-forth communication',
+        'Copilot for installer execution',
+      ],
+      prerequisites: ['Installer auth', 'Role-based access', 'Performance calculations'],
+      apiEndpoints: ['/internal/installers', '/internal/opportunities', '/internal/regions/{id}/quotas'],
+      category: 'Installers Portal',
+      opsProcess: 'Partner ROI Tracking + Partner Follow-Up',
+      currentLOA: 'Not Implemented',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Installer auth endpoint', 'Per-installer metrics', 'SLA tracking'],
+      priority: 'Critical',
+      stage: 'Planned',
+      primaryUsers: ['Installers', 'Account Managers'],
+      integrationsNeeded: ['Partner CRM', 'Leads', 'Performance data'],
+      dataStatus: 'None',
+      nextMilestone: 'Define MVP (productivity-first) + pilot rollout',
+    },
+    {
+      id: 'admin-accounting-hr',
+      title: 'Admin / Accounting / HR Tools',
+      description: 'Internal tooling for compliance, reporting, and admin workflows. Removes friction and scales operations with improved reliability and control.',
+      difficulty: 'Medium',
+      estimatedHours: '40-60 hours',
+      resourcesUsed: [],
+      benefits: [
+        'Remove operational friction',
+        'Scale operations',
+        'Improve reliability',
+        'Copilot for compliance workflows',
+      ],
+      prerequisites: ['Process mapping', 'Compliance rules', 'Workflow automation'],
+      apiEndpoints: [],
+      category: 'Admin',
+      opsProcess: 'Invoicing & Reconciliation',
+      currentLOA: 'Manual',
+      potentialLOA: 'Medium Automation',
+      missingApiData: ['Accounting integrations', 'HR data access'],
+      priority: 'Low',
+      stage: 'Planned',
+      primaryUsers: ['Ops', 'Admin', 'HR'],
+      integrationsNeeded: ['Accounting', 'Reporting systems'],
+      dataStatus: 'None',
+      nextMilestone: 'Map processes + define top 3 automations',
+    },
+  ];
 }
 
 export function generateProjectProposals(data: DashboardData): ProjectProposal[] {
@@ -1609,7 +1880,29 @@ export function generateProjectProposals(data: DashboardData): ProjectProposal[]
       'Data retention policy configuration',
     ],
     priority: 'Medium',
+    stage: 'Idea',
+    primaryUsers: ['Ops', 'Legal'],
+    integrationsNeeded: ['CRM', 'Data retention system'],
+    dataStatus: 'None',
+    nextMilestone: 'Define retention policy + consent tracking fields',
   });
 
-  return proposals;
+  // Add default fields to all proposals that don't have them
+  const enrichedProposals = proposals.map((p, index) => ({
+    ...p,
+    stage: p.stage || 'Idea' as ProjectStage,
+    primaryUsers: p.primaryUsers || ['Ops'],
+    integrationsNeeded: p.integrationsNeeded || [],
+    dataStatus: p.dataStatus || 'None' as const,
+    nextMilestone: p.nextMilestone || '',
+    rank: index + 100, // Ideas come after existing products
+  }));
+
+  // Merge with existing products (they come first)
+  const existingProducts = getExistingProducts().map((p, index) => ({
+    ...p,
+    rank: index + 1,
+  }));
+
+  return [...existingProducts, ...enrichedProposals];
 }

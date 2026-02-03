@@ -224,10 +224,29 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
     'AI/ML': '🤖',
     'SDR Portal': '💬',
     'Installers Portal': '🏗️',
+    'Reporting': '📊',
+    'Platform': '⚡',
+    'Marketing': '📣',
+    'Partnerships': '🤝',
+    'Admin': '⚙️',
   };
 
+  const stageClass = project.stage?.toLowerCase().replace(' ', '-') || 'idea';
+
   return (
-    <div className="project-card" onClick={() => setExpanded(!expanded)}>
+    <div className={`project-card stage-card-${stageClass}`} onClick={() => setExpanded(!expanded)}>
+      {/* Stage Badge - Top Right */}
+      <div className="project-top-row">
+        <span className={`stage-badge stage-${stageClass}`}>{project.stage}</span>
+        <span className={`data-status-badge data-${project.dataStatus?.toLowerCase()}`}>
+          {project.dataStatus === 'Live' && '🟢'}
+          {project.dataStatus === 'Partial' && '🟡'}
+          {project.dataStatus === 'Static' && '🟠'}
+          {project.dataStatus === 'None' && '⚫'}
+          {project.dataStatus}
+        </span>
+      </div>
+
       <div className="project-header">
         <div className="project-category-icon">{categoryIcon[project.category] || '📋'}</div>
         <div className="project-info">
@@ -248,16 +267,54 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
 
       <p className="project-description">{project.description}</p>
 
-      {/* Ops Process Link */}
-      <div className="project-ops-process">
-        <span className="ops-label">Ops Process:</span> {project.opsProcess}
-      </div>
+      {/* Primary Users */}
+      {project.primaryUsers && project.primaryUsers.length > 0 && (
+        <div className="project-users">
+          <span className="users-label">👥 Users:</span>
+          {project.primaryUsers.map((user, idx) => (
+            <span key={idx} className="user-tag">{user}</span>
+          ))}
+        </div>
+      )}
 
       {/* Automation Level */}
       <div className="project-loa">
         <span className="loa-current">{project.currentLOA}</span>
         <span className="loa-arrow">→</span>
         <span className="loa-potential">{project.potentialLOA}</span>
+      </div>
+
+      {/* Next Milestone */}
+      {project.nextMilestone && (
+        <div className="project-milestone">
+          <span className="milestone-label">🎯 Next:</span> {project.nextMilestone}
+        </div>
+      )}
+
+      {/* Action Buttons */}
+      <div className="project-actions">
+        {project.prototypeUrl && (
+          <a
+            href={project.prototypeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="action-btn demo-btn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            🚀 Demo
+          </a>
+        )}
+        {project.notionUrl && (
+          <a
+            href={project.notionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="action-btn docs-btn"
+            onClick={(e) => e.stopPropagation()}
+          >
+            📄 Docs
+          </a>
+        )}
       </div>
 
       <div className="project-resources">
@@ -268,6 +325,12 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
 
       {expanded && (
         <div className="project-expanded">
+          {/* Ops Process */}
+          <div className="project-section">
+            <h4>Ops Process</h4>
+            <p className="ops-process-text">{project.opsProcess}</p>
+          </div>
+
           <div className="project-section">
             <h4>Benefits</h4>
             <ul>
@@ -276,6 +339,18 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
               ))}
             </ul>
           </div>
+
+          {/* Integrations Needed */}
+          {project.integrationsNeeded && project.integrationsNeeded.length > 0 && (
+            <div className="project-section">
+              <h4>Integrations Needed</h4>
+              <div className="integrations-list">
+                {project.integrationsNeeded.map((integration, idx) => (
+                  <span key={idx} className="integration-tag">{integration}</span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Missing API Data - Critical for implementation */}
           {project.missingApiData && project.missingApiData.length > 0 && (
@@ -320,6 +395,10 @@ export default function Dashboard() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'status' | 'projects'>('status');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [stageFilter, setStageFilter] = useState<string>('all');
+  const [priorityFilter, setPriorityFilter] = useState<string>('all');
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
+  const [sortBy, setSortBy] = useState<'priority' | 'stage' | 'difficulty'>('priority');
 
   const loadData = useCallback(async (showRefreshing = false) => {
     if (showRefreshing) setRefreshing(true);
@@ -379,11 +458,47 @@ export default function Dashboard() {
 
   if (!data) return null;
 
-  const filteredProjects = categoryFilter === 'all'
-    ? projects
-    : projects.filter(p => p.category === categoryFilter);
+  // Filter and sort projects
+  let filteredProjects = projects;
+  if (categoryFilter !== 'all') {
+    filteredProjects = filteredProjects.filter(p => p.category === categoryFilter);
+  }
+  if (stageFilter !== 'all') {
+    filteredProjects = filteredProjects.filter(p => p.stage === stageFilter);
+  }
+  if (priorityFilter !== 'all') {
+    filteredProjects = filteredProjects.filter(p => p.priority === priorityFilter);
+  }
+
+  // Sort projects
+  const priorityOrder = { Critical: 0, High: 1, Medium: 2, Low: 3 };
+  const stageOrder = { Deployed: 0, 'Under Dev': 1, Pilot: 2, Planned: 3, Idea: 4 };
+  const difficultyOrder = { Easy: 0, Medium: 1, Hard: 2 };
+
+  filteredProjects = [...filteredProjects].sort((a, b) => {
+    if (sortBy === 'priority') {
+      return (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99);
+    }
+    if (sortBy === 'stage') {
+      return (stageOrder[a.stage as keyof typeof stageOrder] || 99) - (stageOrder[b.stage as keyof typeof stageOrder] || 99);
+    }
+    if (sortBy === 'difficulty') {
+      return (difficultyOrder[a.difficulty] || 99) - (difficultyOrder[b.difficulty] || 99);
+    }
+    return 0;
+  });
 
   const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
+  const priorities = ['all', 'Critical', 'High', 'Medium', 'Low'];
+
+  // Count projects by stage for summary
+  const stageCounts = {
+    Deployed: projects.filter(p => p.stage === 'Deployed').length,
+    'Under Dev': projects.filter(p => p.stage === 'Under Dev').length,
+    Pilot: projects.filter(p => p.stage === 'Pilot').length,
+    Planned: projects.filter(p => p.stage === 'Planned').length,
+    Idea: projects.filter(p => p.stage === 'Idea').length,
+  };
 
   return (
     <div className="dashboard">
@@ -479,33 +594,120 @@ export default function Dashboard() {
       {activeTab === 'projects' && (
         <>
           <div className="projects-intro">
-            <h2>Project Ideas</h2>
+            <h2>Products & Project Ideas</h2>
             <p>
-              Based on the available API resources, here are project ideas you can build
-              using real-time data from Abeto. Each project includes estimated effort,
-              required skills, and which API endpoints to use.
+              All Abeto products, prototypes, and planned initiatives. Filter by stage, priority, or category.
+              Each item shows development status, required API data, and links to prototypes.
             </p>
           </div>
 
-          {/* Category Filter */}
-          <div className="category-filter">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                className={`category-btn ${categoryFilter === cat ? 'active' : ''}`}
-                onClick={() => setCategoryFilter(cat)}
-              >
-                {cat === 'all' ? 'All Categories' : cat}
-              </button>
-            ))}
+          {/* Stage Summary Pills */}
+          <div className="stage-summary">
+            <div className="stage-pill deployed" onClick={() => setStageFilter(stageFilter === 'Deployed' ? 'all' : 'Deployed')}>
+              <span className="stage-count">{stageCounts.Deployed}</span>
+              <span className="stage-label">Deployed</span>
+            </div>
+            <div className="stage-pill under-dev" onClick={() => setStageFilter(stageFilter === 'Under Dev' ? 'all' : 'Under Dev')}>
+              <span className="stage-count">{stageCounts['Under Dev']}</span>
+              <span className="stage-label">Under Dev</span>
+            </div>
+            <div className="stage-pill pilot" onClick={() => setStageFilter(stageFilter === 'Pilot' ? 'all' : 'Pilot')}>
+              <span className="stage-count">{stageCounts.Pilot}</span>
+              <span className="stage-label">Pilot</span>
+            </div>
+            <div className="stage-pill planned" onClick={() => setStageFilter(stageFilter === 'Planned' ? 'all' : 'Planned')}>
+              <span className="stage-count">{stageCounts.Planned}</span>
+              <span className="stage-label">Planned</span>
+            </div>
+            <div className="stage-pill idea" onClick={() => setStageFilter(stageFilter === 'Idea' ? 'all' : 'Idea')}>
+              <span className="stage-count">{stageCounts.Idea}</span>
+              <span className="stage-label">Ideas</span>
+            </div>
           </div>
 
-          {/* Projects Grid */}
-          <div className="projects-grid">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
+          {/* Filters Row */}
+          <div className="filters-row">
+            <div className="filter-group">
+              <label>Category:</label>
+              <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>{cat === 'all' ? 'All Categories' : cat}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Priority:</label>
+              <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
+                {priorities.map((p) => (
+                  <option key={p} value={p}>{p === 'all' ? 'All Priorities' : p}</option>
+                ))}
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Sort by:</label>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'priority' | 'stage' | 'difficulty')}>
+                <option value="priority">Priority</option>
+                <option value="stage">Stage</option>
+                <option value="difficulty">Difficulty</option>
+              </select>
+            </div>
+            <div className="filter-group view-toggle">
+              <button className={viewMode === 'cards' ? 'active' : ''} onClick={() => setViewMode('cards')}>▦ Cards</button>
+              <button className={viewMode === 'table' ? 'active' : ''} onClick={() => setViewMode('table')}>☰ Table</button>
+            </div>
           </div>
+
+          <div className="projects-count">
+            Showing {filteredProjects.length} of {projects.length} projects
+          </div>
+
+          {/* Projects Grid or Table */}
+          {viewMode === 'cards' ? (
+            <div className="projects-grid">
+              {filteredProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          ) : (
+            <div className="projects-table-wrapper">
+              <table className="projects-table">
+                <thead>
+                  <tr>
+                    <th>Product / Project</th>
+                    <th>Stage</th>
+                    <th>Priority</th>
+                    <th>Category</th>
+                    <th>Difficulty</th>
+                    <th>Data Status</th>
+                    <th>Links</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredProjects.map((project) => (
+                    <tr key={project.id} className={`stage-row-${project.stage?.toLowerCase().replace(' ', '-')}`}>
+                      <td>
+                        <div className="table-project-name">{project.title}</div>
+                        <div className="table-project-desc">{project.description.substring(0, 100)}...</div>
+                      </td>
+                      <td><span className={`stage-badge stage-${project.stage?.toLowerCase().replace(' ', '-')}`}>{project.stage}</span></td>
+                      <td><span className={`priority-badge priority-${project.priority?.toLowerCase()}`}>{project.priority}</span></td>
+                      <td>{project.category}</td>
+                      <td><span className={`difficulty-badge difficulty-${project.difficulty?.toLowerCase()}`}>{project.difficulty}</span></td>
+                      <td><span className={`data-status data-${project.dataStatus?.toLowerCase()}`}>{project.dataStatus}</span></td>
+                      <td>
+                        {project.prototypeUrl && (
+                          <a href={project.prototypeUrl} target="_blank" rel="noopener noreferrer" className="link-btn">Demo</a>
+                        )}
+                        {project.notionUrl && (
+                          <a href={project.notionUrl} target="_blank" rel="noopener noreferrer" className="link-btn">Docs</a>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </>
       )}
 

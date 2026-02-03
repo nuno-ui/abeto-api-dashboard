@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import {
-  fetchDashboardData,
-  generateProjectProposals,
+import type {
   ResourceStatus,
   DashboardData,
   HealthStatus,
@@ -293,9 +291,15 @@ export default function Dashboard() {
     setError(null);
 
     try {
-      const dashboardData = await fetchDashboardData();
-      setData(dashboardData);
-      setProjects(generateProjectProposals(dashboardData));
+      const response = await fetch('/api/dashboard');
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to fetch dashboard data');
+      }
+
+      setData(result.data);
+      setProjects(result.projects);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch data');
     } finally {

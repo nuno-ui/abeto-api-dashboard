@@ -983,117 +983,169 @@ export async function fetchDashboardData(): Promise<DashboardData> {
 }
 
 // =============================================================================
-// Project Proposals Generator - Based on Abeto Operational Processes
+// ABETO PRODUCT & INITIATIVE SYSTEM
+// =============================================================================
+//
+// THE THREE PILLARS OF SCALABLE GROWTH:
+//
+// 🏗️ PILLAR 1: DATA FOUNDATION
+//    Without reliable, real-time data, nothing else works. This is the bedrock.
+//    Tools need data to be useful. Dashboards need data to show insights.
+//    AI needs data to learn. Automation needs data to act.
+//
+// 🚀 PILLAR 2: DATA GENERATION
+//    The goal isn't just to automate - it's to GROW. More leads, more calls,
+//    more qualifications, more sales, more partners. Tools that help generate
+//    new data become exponentially more powerful as they feed themselves.
+//
+// 👥 PILLAR 3: HUMAN EMPOWERMENT
+//    Humans will ALWAYS be essential. New employees, new installers, new
+//    customers - the business grows through people. AI tools empower humans
+//    to do more, not replace them. Every project should clarify how humans
+//    and AI work together.
+//
 // =============================================================================
 
 export type ProjectStage = 'Deployed' | 'Under Dev' | 'Pilot' | 'Planned' | 'Idea';
-export type ProjectCategory = 'Hand-Off' | 'Qualification' | 'Lead Acquisition' | 'Partner Management' | 'AI/ML' | 'SDR Portal' | 'Installers Portal' | 'Reporting' | 'Platform' | 'Marketing' | 'Partnerships' | 'Admin';
+export type ProjectPillar = 'Data Foundation' | 'Data Generation' | 'Human Empowerment';
+export type ProjectCategory = 'Data Layer' | 'Lead Generation' | 'SDR Tools' | 'Partner Growth' | 'Installer Tools' | 'Reporting & Intelligence' | 'Marketing & Campaigns' | 'Operations' | 'Platform Infrastructure';
 
 export interface ProjectProposal {
   id: string;
   title: string;
   description: string;
+
+  // Strategic positioning
+  pillar: ProjectPillar;
+  pillarOrder: number; // 1, 2, or 3 for sorting within pillars
+  whyItMatters: string; // The "so what?" explanation
+
+  // Human role - critical for conveying the message
+  humanRole: {
+    before: string; // What humans do today
+    after: string;  // What humans do after this is deployed
+    whoIsEmpowered: string[]; // Which roles benefit
+    newCapabilities: string[]; // What can they do now that they couldn't before
+  };
+
+  // Technical details
   difficulty: 'Easy' | 'Medium' | 'Hard';
   estimatedHours: string;
   resourcesUsed: string[];
+  apiEndpoints: string[];
+
+  // Dependencies and relationships
+  dependsOn: string[]; // IDs of projects this depends on
+  enables: string[]; // IDs of projects this enables
+  relatedTo: string[]; // IDs of related projects
+
+  // Data requirements - THE MOST IMPORTANT SECTION
+  dataRequirements: {
+    required: string[]; // Data that MUST exist
+    generates: string[]; // New data this project creates
+    improves: string[]; // Existing data this project enriches
+  };
+
+  // Status and planning
+  priority: 'Critical' | 'High' | 'Medium' | 'Low';
+  stage?: ProjectStage;
+  prototypeUrl?: string;
+  notionUrl?: string;
+  primaryUsers?: string[];
+  dataStatus?: 'Live' | 'Partial' | 'Static' | 'None';
+  nextMilestone?: string;
+
+  // Legacy fields for compatibility
   benefits: string[];
   prerequisites: string[];
-  apiEndpoints: string[];
   category: ProjectCategory;
   opsProcess: string;
   currentLOA: string;
   potentialLOA: string;
   missingApiData: string[];
-  priority: 'Critical' | 'High' | 'Medium' | 'Low';
-  // New fields - optional with defaults applied in generateProjectProposals
-  stage?: ProjectStage;
-  prototypeUrl?: string;
-  notionUrl?: string;
-  primaryUsers?: string[];
   integrationsNeeded?: string[];
-  dataStatus?: 'Live' | 'Partial' | 'Static' | 'None';
-  nextMilestone?: string;
-  rank?: number; // For manual ordering
+  rank?: number;
 }
 
 // =============================================================================
-// Existing Products/Prototypes
+// COMPLETE PRODUCT & INITIATIVE CATALOG
+// Organized by the Three Pillars of Scalable Growth
 // =============================================================================
 
 export function getExistingProducts(): ProjectProposal[] {
   return [
+    // =========================================================================
+    // 🏗️ PILLAR 1: DATA FOUNDATION
+    // Without reliable, real-time data, NOTHING ELSE WORKS
+    // =========================================================================
     {
-      id: 'sdr-portal',
-      title: 'SDR Portal',
-      description: 'Flagship product managing SDR funnel execution. Lead pipeline view, qualification workflow, and handoff management. Main surface for copiloting and workflow intelligence.',
+      id: 'unified-data-layer',
+      title: 'Unified Data Layer (API)',
+      description: 'The foundation of everything. Real-time access to all business data through a single, reliable API. Currently serving Deals, Opportunities, Calls, Qualifications, Installers, Regions, Templates, and Lost Reasons. This is the bedrock upon which all other tools are built.',
+      pillar: 'Data Foundation',
+      pillarOrder: 1,
+      whyItMatters: 'Every dashboard, every AI feature, every automation depends on this. If data is unreliable or unavailable, nothing else matters. This API is the single source of truth.',
+      humanRole: {
+        before: 'Data scattered across Zoho, spreadsheets, WhatsApp. Hours spent manually compiling reports.',
+        after: 'Data available instantly via API. Humans focus on decision-making, not data gathering.',
+        whoIsEmpowered: ['All Teams', 'Developers', 'Operations'],
+        newCapabilities: ['Real-time dashboards', 'Automated reporting', 'AI-powered insights', 'Cross-system integrations'],
+      },
       difficulty: 'Hard',
       estimatedHours: 'Ongoing',
-      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Templates', 'Opportunities'],
-      benefits: [
-        'Live workflow backbone for SDR operations',
-        'Centralized lead management',
-        'Real-time qualification tracking',
-        'Integrated handoff workflow',
-      ],
-      prerequisites: ['CRM integration', 'WhatsApp integration', 'Telephony integration'],
-      apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls', '/internal/templates'],
-      category: 'SDR Portal',
-      opsProcess: 'Calls & WhatsApp + Contact prioritization',
-      currentLOA: 'Semi-Automated',
-      potentialLOA: 'High Automation',
-      missingApiData: [],
+      resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Qualifications', 'Installers', 'Regions', 'Templates', 'Lost Reasons'],
+      apiEndpoints: ['All /internal/* endpoints'],
+      dependsOn: [],
+      enables: ['reporting-hub', 'ai-cortex', 'sdr-portal', 'installer-portal-product'],
+      relatedTo: ['data-quality-monitor'],
+      dataRequirements: {
+        required: ['Zoho CRM access', 'WhatsApp webhooks', 'Telephony events'],
+        generates: ['Unified data model', 'Real-time events', 'Historical records'],
+        improves: ['Data consistency', 'Access speed', 'Reliability'],
+      },
+      benefits: ['Single source of truth', 'Real-time data access', 'Foundation for AI/automation', 'Enables all other products'],
+      prerequisites: ['Database infrastructure', 'API framework', 'Authentication system'],
+      category: 'Data Layer',
+      opsProcess: 'All data operations',
+      currentLOA: 'Automated',
+      potentialLOA: 'Fully Automated',
+      missingApiData: ['Call transcripts', 'WhatsApp full history', 'Financial data'],
       priority: 'Critical',
       stage: 'Deployed',
-      prototypeUrl: 'https://notion.so/abeto/SDR-Portal-front-end-feedback-2e1e74322e5180bdbf87d88337be98fd',
-      primaryUsers: ['SDRs', 'Ops'],
-      integrationsNeeded: ['CRM', 'WhatsApp', 'Telephony'],
+      prototypeUrl: 'https://abeto-backend.vercel.app/api/docs',
+      primaryUsers: ['Developers', 'All Products'],
+      integrationsNeeded: ['Zoho', 'Woztell', 'Aircall'],
       dataStatus: 'Live',
-      nextMilestone: 'Expand Cortex copiloting + connect automation pilots',
-    },
-    {
-      id: 'investor-portal',
-      title: 'Investor Portal',
-      description: 'Centralized board reporting and investor materials portal. Dashboard, reports, documents (data room), and showcase. Improves transparency, investor trust, and IR workflow.',
-      difficulty: 'Medium',
-      estimatedHours: '40-60 hours',
-      resourcesUsed: ['Deals', 'Opportunities'],
-      benefits: [
-        'Centralized investor communications',
-        'Automated report generation',
-        'Professional data room',
-        'Hosts Cortex demo + investor Q&A',
-      ],
-      prerequisites: ['Report templating', 'Document management', 'Access control'],
-      apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats'],
-      category: 'Reporting',
-      opsProcess: 'Performance Reporting',
-      currentLOA: 'Manual',
-      potentialLOA: 'High Automation',
-      missingApiData: ['Financial metrics aggregation', 'Board-level KPIs'],
-      priority: 'Medium',
-      stage: 'Under Dev',
-      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/',
-      primaryUsers: ['Investors', 'Board'],
-      integrationsNeeded: ['Reporting Hub', 'Finance', 'KPI pipelines'],
-      dataStatus: 'Partial',
-      nextMilestone: 'Complete data room + automated reporting',
+      nextMilestone: 'Add call transcripts + WhatsApp conversation history',
     },
     {
       id: 'reporting-hub',
       title: 'Reporting Hub',
-      description: 'Central performance visibility with KPI dashboards and performance benchmarking. Single source of truth supporting Cortex and decision-making.',
+      description: 'Central performance visibility. The single source of truth for all KPIs, supporting both human decision-making and AI insights (Cortex). Without accurate, real-time metrics, we cannot measure success or identify problems.',
+      pillar: 'Data Foundation',
+      pillarOrder: 2,
+      whyItMatters: 'You cannot improve what you cannot measure. This hub ensures everyone sees the same numbers and understands how the business is performing.',
+      humanRole: {
+        before: 'Leadership spends hours in spreadsheets. Different people report different numbers. Decisions based on outdated data.',
+        after: 'Leadership opens one dashboard for truth. Humans focus on analyzing trends and making strategic decisions.',
+        whoIsEmpowered: ['Leadership', 'Operations', 'Team Leads'],
+        newCapabilities: ['Real-time performance tracking', 'Historical trend analysis', 'Anomaly detection', 'Goal tracking'],
+      },
       difficulty: 'Medium',
       estimatedHours: '50-70 hours',
       resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Installers', 'Regions'],
-      benefits: [
-        'Single source of truth for KPIs',
-        'Supports Cortex structured insights',
-        'Cross-team visibility',
-        'Performance benchmarking',
-      ],
-      prerequisites: ['Data warehouse design', 'KPI definitions', 'Dashboard framework'],
       apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats', '/internal/calls/stats'],
-      category: 'Reporting',
+      dependsOn: ['unified-data-layer'],
+      enables: ['ai-cortex', 'investor-portal', 'installer-performance-tracking'],
+      relatedTo: ['data-quality-monitor'],
+      dataRequirements: {
+        required: ['Deal pipeline data', 'Opportunity outcomes', 'Call metrics', 'Installer performance'],
+        generates: ['KPI snapshots', 'Trend calculations', 'Benchmark comparisons'],
+        improves: ['Decision accuracy', 'Goal alignment', 'Team accountability'],
+      },
+      benefits: ['Single source of truth for KPIs', 'Supports Cortex insights', 'Cross-team visibility', 'Performance benchmarking'],
+      prerequisites: ['KPI definitions agreed', 'Historical data available', 'Dashboard framework'],
+      category: 'Reporting & Intelligence',
       opsProcess: 'Performance Reporting',
       currentLOA: 'Manual',
       potentialLOA: 'High Automation',
@@ -1102,110 +1154,122 @@ export function getExistingProducts(): ProjectProposal[] {
       stage: 'Under Dev',
       prototypeUrl: 'https://abeto-reporting.vercel.app/',
       primaryUsers: ['Leadership', 'Ops'],
-      integrationsNeeded: ['CRM', 'Sales', 'Ops', 'Marketing pipelines'],
+      integrationsNeeded: ['Unified Data Layer'],
       dataStatus: 'Partial',
       nextMilestone: 'Define KPI set + build v1 dashboard',
     },
     {
-      id: 'ai-cortex',
-      title: 'AI Cortex',
-      description: 'Embedded intelligence layer across all tools. Converts ops data into copiloting and automation. Core multi-agent orchestration providing compounding advantage across workflows.',
-      difficulty: 'Hard',
-      estimatedHours: '100+ hours',
-      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Opportunities', 'Installers'],
-      benefits: [
-        'Compounding advantage across workflows',
-        'Multi-agent orchestration',
-        'Copiloting for all teams',
-        'Automated decision support',
-      ],
-      prerequisites: ['Data layer access', 'LLM integration', 'Agent framework'],
+      id: 'data-quality-monitor',
+      title: 'Data Quality Monitor',
+      description: 'Automated monitoring of data health, completeness, and freshness. Alerts when data is missing, stale, or inconsistent. Critical for maintaining trust in all other systems.',
+      pillar: 'Data Foundation',
+      pillarOrder: 3,
+      whyItMatters: 'Bad data leads to bad decisions. This ensures we catch data problems before they cascade into business problems.',
+      humanRole: {
+        before: 'Data issues discovered by accident when reports look wrong. Fire-fighting mode.',
+        after: 'Humans receive proactive alerts about data issues. Focus shifts to prevention and root cause analysis.',
+        whoIsEmpowered: ['Operations', 'Tech Team', 'Data Stewards'],
+        newCapabilities: ['Proactive issue detection', 'Data lineage tracking', 'Quality scoring', 'Automated remediation'],
+      },
+      difficulty: 'Medium',
+      estimatedHours: '30-40 hours',
+      resourcesUsed: ['All resources'],
       apiEndpoints: ['All endpoints'],
-      category: 'Platform',
-      opsProcess: 'All processes',
+      dependsOn: ['unified-data-layer'],
+      enables: ['ai-cortex'],
+      relatedTo: ['reporting-hub'],
+      dataRequirements: {
+        required: ['Access to all data sources', 'Historical baselines'],
+        generates: ['Quality scores', 'Freshness metrics', 'Completeness reports', 'Alert history'],
+        improves: ['Data reliability', 'Trust in systems', 'Issue response time'],
+      },
+      benefits: ['Early problem detection', 'Maintains data trust', 'Reduces downstream errors', 'Enables confident automation'],
+      prerequisites: ['Define quality rules', 'Set up alerting', 'Historical baselines'],
+      category: 'Data Layer',
+      opsProcess: 'Data governance',
       currentLOA: 'Not Implemented',
       potentialLOA: 'High Automation',
-      missingApiData: ['Unified data access layer', 'Real-time event streaming'],
-      priority: 'Critical',
-      stage: 'Pilot',
-      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/cortex-demo/walkthrough',
-      primaryUsers: ['All teams'],
-      integrationsNeeded: ['Data layer', 'All integrations'],
-      dataStatus: 'None',
-      nextMilestone: 'Define MVP + embed into SDR Portal first',
-    },
-    {
-      id: 'funnel-automation-os',
-      title: 'Funnel Automation OS',
-      description: 'Automates WhatsApp and telephony funnel execution. Flow editor, routing rules, and compliance dashboard. Scale lead volume 2-3× without headcount.',
-      difficulty: 'Hard',
-      estimatedHours: '80-100 hours',
-      resourcesUsed: ['Deals', 'Templates', 'Calls'],
-      benefits: [
-        'Scale lead volume 2-3× without headcount',
-        'Automated routing intelligence',
-        'Bot optimization insights',
-        'A/B testing capabilities',
-      ],
-      prerequisites: ['Flow editor', 'Routing engine', 'Compliance rules'],
-      apiEndpoints: ['/internal/deals', '/internal/templates', '/internal/calls'],
-      category: 'SDR Portal',
-      opsProcess: 'Chatbot Optimization + Recycling Workflow',
-      currentLOA: 'Manual',
-      potentialLOA: 'High Automation',
-      missingApiData: ['Flow state tracking', 'Routing rules engine', 'A/B test results'],
+      missingApiData: ['Quality metrics endpoints'],
       priority: 'High',
-      stage: 'Pilot',
-      prototypeUrl: 'https://claude.ai/public/artifacts/f4b89609-1d66-4cd5-ac68-178efb49891a',
-      primaryUsers: ['Sales Ops', 'SDR Ops'],
-      integrationsNeeded: ['CRM', 'WhatsApp Business', 'Telephony APIs'],
-      dataStatus: 'Static',
-      nextMilestone: 'Live integrations + execution engine + A/B testing',
+      stage: 'Idea',
+      primaryUsers: ['Ops', 'Tech'],
+      integrationsNeeded: ['Slack/Email alerts'],
+      dataStatus: 'None',
+      nextMilestone: 'Define quality rules + build monitoring dashboard',
     },
+
+    // =========================================================================
+    // 🚀 PILLAR 2: DATA GENERATION
+    // The goal is GROWTH. More leads, more calls, more sales, more partners.
+    // =========================================================================
     {
       id: 'campaign-os',
-      title: 'Campaign OS',
-      description: 'Runs paid media ops using historic data. Multi-channel dashboard, spend-to-CRM mapping, and VoC insights. Scale paid media without hiring; optimization moat.',
+      title: 'Campaign OS (Lead Generation)',
+      description: 'Generates NEW LEADS through optimized paid media campaigns. Multi-channel dashboard, spend-to-CRM mapping, and AI-powered creative suggestions. The more leads we generate, the more data we have, the smarter our systems become.',
+      pillar: 'Data Generation',
+      pillarOrder: 1,
+      whyItMatters: 'Leads are the lifeblood of the business. This tool helps generate MORE leads, not just manage existing ones. Every new lead feeds the entire system.',
+      humanRole: {
+        before: 'Marketing manually manages campaigns across platforms. Limited visibility into what works.',
+        after: 'Marketing focuses on creative strategy and market insights. AI handles optimization and scaling.',
+        whoIsEmpowered: ['Marketing', 'Growth', 'Leadership'],
+        newCapabilities: ['Cross-platform optimization', 'AI creative suggestions', 'Real-time ROI tracking', 'Automated bid management'],
+      },
       difficulty: 'Hard',
       estimatedHours: '70-90 hours',
       resourcesUsed: ['Deals', 'Qualifications'],
-      benefits: [
-        'Scale paid media without hiring',
-        'Optimization moat via historic data',
-        'Cortex-driven insights',
-        'Creative angle suggestions',
-      ],
-      prerequisites: ['Ad platform APIs', 'Attribution modeling', 'VoC analysis'],
       apiEndpoints: ['/internal/deals', '/internal/deals/stats'],
-      category: 'Marketing',
+      dependsOn: ['unified-data-layer', 'reporting-hub'],
+      enables: ['ai-cortex'],
+      relatedTo: ['funnel-automation-os'],
+      dataRequirements: {
+        required: ['UTM tracking', 'Ad platform APIs', 'Conversion data'],
+        generates: ['NEW LEADS', 'Campaign performance data', 'Attribution insights', 'Creative performance'],
+        improves: ['Lead quality', 'CAC efficiency', 'Channel mix'],
+      },
+      benefits: ['Scale lead volume 2-3×', 'Optimization moat via data', 'AI-driven creative angles', 'Cross-platform insights'],
+      prerequisites: ['Ad platform APIs (Meta, Google, TikTok)', 'Attribution modeling', 'UTM infrastructure'],
+      category: 'Lead Generation',
       opsProcess: 'Paid Media Optimization',
       currentLOA: 'Manual',
       potentialLOA: 'High Automation',
       missingApiData: ['UTM tracking', 'Ad spend data', 'Attribution paths'],
-      priority: 'Medium',
+      priority: 'High',
       stage: 'Pilot',
       prototypeUrl: 'https://claude.ai/public/artifacts/f4b89609-1d66-4cd5-ac68-178efb49891a',
       primaryUsers: ['Marketing', 'Growth'],
-      integrationsNeeded: ['Zoho', 'Meta', 'Google', 'TikTok', 'Transcripts'],
+      integrationsNeeded: ['Meta', 'Google', 'TikTok', 'Zoho'],
       dataStatus: 'Static',
-      nextMilestone: 'Live sync + Cortex-driven insights + execution',
+      nextMilestone: 'Live ad platform sync + automated optimization',
     },
     {
       id: 'partner-expansion-tool',
-      title: 'Partner Expansion Tool',
-      description: 'Scales installer partnerships end-to-end. Pipeline CRM, onboarding workflow, and outreach sequences. Removes partner acquisition bottleneck without scaling BDRs.',
+      title: 'Partner Expansion Engine',
+      description: 'Generates NEW PARTNERS (installers) through automated outreach, scoring, and onboarding. More partners = more capacity = more sales. Each new partner expands our ability to serve customers.',
+      pillar: 'Data Generation',
+      pillarOrder: 2,
+      whyItMatters: 'Growth is limited by installer capacity. This tool systematically expands our partner network, directly enabling more sales.',
+      humanRole: {
+        before: 'BizDev manually researches, contacts, and onboards installers. Bottleneck on one person.',
+        after: 'BizDev focuses on relationship building and strategic partnerships. Tool handles prospecting and follow-up.',
+        whoIsEmpowered: ['BizDev', 'Partner Ops', 'Leadership'],
+        newCapabilities: ['Automated prospecting', 'Engagement scoring', 'Sequence automation', 'Pipeline visibility'],
+      },
       difficulty: 'Medium',
       estimatedHours: '50-70 hours',
       resourcesUsed: ['Installers', 'Regions'],
-      benefits: [
-        'Remove partner acquisition bottleneck',
-        'Automated scoring and personalization',
-        'Workflow automation',
-        'No need to scale BDRs',
-      ],
-      prerequisites: ['Pipeline CRM', 'Email sequences', 'Scoring model'],
       apiEndpoints: ['/internal/installers', '/internal/regions'],
-      category: 'Partnerships',
+      dependsOn: ['unified-data-layer'],
+      enables: ['installer-portal-product'],
+      relatedTo: ['installer-performance-tracking'],
+      dataRequirements: {
+        required: ['Installer database', 'Region coverage data'],
+        generates: ['NEW PARTNERS', 'Prospecting data', 'Engagement history', 'Onboarding records'],
+        improves: ['Partner acquisition rate', 'Coverage expansion', 'Onboarding speed'],
+      },
+      benefits: ['Remove acquisition bottleneck', '3× partner acquisition rate', 'Systematic geographic expansion', 'No need to scale BDRs'],
+      prerequisites: ['Partner prospect database', 'Email sequences', 'Scoring model'],
+      category: 'Partner Growth',
       opsProcess: 'Installer Network Expansion',
       currentLOA: 'Manual',
       potentialLOA: 'High Automation',
@@ -1214,695 +1278,399 @@ export function getExistingProducts(): ProjectProposal[] {
       stage: 'Pilot',
       prototypeUrl: 'https://claude.ai/public/artifacts/8f4cfd99-f0db-4335-9e56-c930dde67988',
       primaryUsers: ['Partner Ops', 'BizDev'],
-      integrationsNeeded: ['DB', 'Email', 'Airtable', 'Webhooks', 'CRM'],
+      integrationsNeeded: ['Email', 'LinkedIn', 'CRM'],
       dataStatus: 'Static',
-      nextMilestone: 'Persistence + outreach automation + scoring engine',
+      nextMilestone: 'Automated outreach sequences + scoring engine',
+    },
+    {
+      id: 'funnel-automation-os',
+      title: 'Funnel Automation OS',
+      description: 'Generates NEW QUALIFICATIONS & CALLS through automated WhatsApp and telephony flows. More conversations = more qualified leads = more sales. Scales SDR capacity without hiring.',
+      pillar: 'Data Generation',
+      pillarOrder: 3,
+      whyItMatters: 'SDR capacity is the bottleneck. This tool multiplies what each SDR can accomplish, generating more qualifying conversations per day.',
+      humanRole: {
+        before: 'SDRs manually manage every conversation. Limited by hours in the day.',
+        after: 'SDRs focus on complex conversations and closing. Bot handles initial qualification and scheduling.',
+        whoIsEmpowered: ['SDRs', 'Sales Ops', 'Operations'],
+        newCapabilities: ['24/7 lead response', 'Automated qualification', 'Smart routing', 'A/B testing at scale'],
+      },
+      difficulty: 'Hard',
+      estimatedHours: '80-100 hours',
+      resourcesUsed: ['Deals', 'Templates', 'Calls'],
+      apiEndpoints: ['/internal/deals', '/internal/templates', '/internal/calls'],
+      dependsOn: ['unified-data-layer', 'sdr-portal'],
+      enables: ['ai-cortex'],
+      relatedTo: ['campaign-os'],
+      dataRequirements: {
+        required: ['Deal data', 'Message templates', 'Call outcomes'],
+        generates: ['NEW CALLS', 'NEW QUALIFICATIONS', 'Conversation data', 'A/B test results'],
+        improves: ['Response speed', 'Qualification rate', 'SDR efficiency'],
+      },
+      benefits: ['2-3× lead capacity', 'Instant response 24/7', 'Consistent qualification', 'A/B optimization'],
+      prerequisites: ['Flow editor', 'Routing engine', 'WhatsApp Business API'],
+      category: 'SDR Tools',
+      opsProcess: 'Chatbot + Call Automation',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Flow state tracking', 'Routing rules', 'A/B test results'],
+      priority: 'High',
+      stage: 'Pilot',
+      prototypeUrl: 'https://claude.ai/public/artifacts/f4b89609-1d66-4cd5-ac68-178efb49891a',
+      primaryUsers: ['Sales Ops', 'SDR Ops'],
+      integrationsNeeded: ['WhatsApp Business', 'Aircall'],
+      dataStatus: 'Static',
+      nextMilestone: 'Live WhatsApp integration + flow execution',
+    },
+
+    // =========================================================================
+    // 👥 PILLAR 3: HUMAN EMPOWERMENT
+    // AI tools make humans MORE capable, not obsolete
+    // =========================================================================
+    {
+      id: 'sdr-portal',
+      title: 'SDR Portal',
+      description: 'The daily workspace for SDRs. Empowers humans to handle more leads with better context. Every feature is designed to make SDRs faster and more effective, not to replace them.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 1,
+      whyItMatters: 'SDRs are the human connection point with customers. This tool gives them superpowers - better context, smarter prioritization, instant access to everything they need.',
+      humanRole: {
+        before: 'SDRs juggle multiple tabs, manually look up history, guess who to call next.',
+        after: 'SDRs have everything in one view. AI suggests priorities. Humans focus on building relationships and closing.',
+        whoIsEmpowered: ['SDRs', 'Team Leads', 'Operations'],
+        newCapabilities: ['Single-view workspace', 'AI-suggested priorities', 'Instant context', 'Performance tracking'],
+      },
+      difficulty: 'Hard',
+      estimatedHours: 'Ongoing',
+      resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Templates', 'Opportunities'],
+      apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls', '/internal/templates'],
+      dependsOn: ['unified-data-layer'],
+      enables: ['ai-cortex', 'funnel-automation-os'],
+      relatedTo: ['reporting-hub'],
+      dataRequirements: {
+        required: ['All SDR workflow data'],
+        generates: ['Activity logs', 'Performance metrics', 'User feedback'],
+        improves: ['SDR productivity', 'Data quality', 'Process compliance'],
+      },
+      benefits: ['Single workspace for all SDR tasks', 'AI-powered prioritization', 'Real-time pipeline view', 'Integrated communications'],
+      prerequisites: ['CRM integration', 'WhatsApp integration', 'Telephony integration'],
+      category: 'SDR Tools',
+      opsProcess: 'Full SDR Workflow',
+      currentLOA: 'Semi-Automated',
+      potentialLOA: 'High Automation',
+      missingApiData: [],
+      priority: 'Critical',
+      stage: 'Deployed',
+      prototypeUrl: 'https://notion.so/abeto/SDR-Portal-front-end-feedback-2e1e74322e5180bdbf87d88337be98fd',
+      primaryUsers: ['SDRs', 'Ops'],
+      integrationsNeeded: ['Zoho', 'WhatsApp', 'Aircall'],
+      dataStatus: 'Live',
+      nextMilestone: 'Expand Cortex copiloting',
     },
     {
       id: 'installer-portal-product',
       title: 'Installer Portal',
-      description: 'Productivity-first portal for installers. Co-pilot workflows, pipeline view, and performance dashboards. Adoption lever that complements existing installer teams.',
+      description: 'Empowers installers to self-serve, track their performance, and succeed. Happy, informed installers close more deals. This is about making our PARTNERS more effective.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 2,
+      whyItMatters: 'Installers are essential humans in our ecosystem. When they succeed, we succeed. This tool gives them visibility and control.',
+      humanRole: {
+        before: 'Installers call/email to get lead info. No visibility into performance. Frustrated by lack of transparency.',
+        after: 'Installers self-serve all information. Understand their performance. AI helps them prioritize and improve.',
+        whoIsEmpowered: ['Installers', 'Account Managers', 'Partner Ops'],
+        newCapabilities: ['Self-service lead access', 'Performance dashboards', 'AI recommendations', 'Direct communication'],
+      },
       difficulty: 'Hard',
       estimatedHours: '80-100 hours',
       resourcesUsed: ['Installers', 'Opportunities', 'Deals', 'Regions', 'Lost Reasons'],
-      benefits: [
-        'Installer self-service',
-        'Performance transparency',
-        'Reduced back-and-forth communication',
-        'Copilot for installer execution',
-      ],
-      prerequisites: ['Installer auth', 'Role-based access', 'Performance calculations'],
       apiEndpoints: ['/internal/installers', '/internal/opportunities', '/internal/regions/{id}/quotas'],
-      category: 'Installers Portal',
-      opsProcess: 'Partner ROI Tracking + Partner Follow-Up',
+      dependsOn: ['unified-data-layer', 'reporting-hub'],
+      enables: ['installer-performance-tracking'],
+      relatedTo: ['partner-expansion-tool'],
+      dataRequirements: {
+        required: ['Installer auth', 'Opportunity data', 'Performance metrics'],
+        generates: ['Installer activity logs', 'Feedback data', 'Engagement metrics'],
+        improves: ['Installer satisfaction', 'Conversion rates', 'Communication efficiency'],
+      },
+      benefits: ['Installer self-service', 'Performance transparency', 'Reduced support burden', 'Happier partners'],
+      prerequisites: ['Installer authentication', 'Role-based access', 'Performance calculations'],
+      category: 'Installer Tools',
+      opsProcess: 'Partner Relationship Management',
       currentLOA: 'Not Implemented',
       potentialLOA: 'High Automation',
       missingApiData: ['Installer auth endpoint', 'Per-installer metrics', 'SLA tracking'],
       priority: 'Critical',
       stage: 'Planned',
       primaryUsers: ['Installers', 'Account Managers'],
-      integrationsNeeded: ['Partner CRM', 'Leads', 'Performance data'],
+      integrationsNeeded: ['Partner CRM', 'Performance data'],
       dataStatus: 'None',
-      nextMilestone: 'Define MVP (productivity-first) + pilot rollout',
+      nextMilestone: 'Define MVP + pilot with top installers',
     },
     {
-      id: 'admin-accounting-hr',
-      title: 'Admin / Accounting / HR Tools',
-      description: 'Internal tooling for compliance, reporting, and admin workflows. Removes friction and scales operations with improved reliability and control.',
+      id: 'ai-cortex',
+      title: 'AI Cortex (Copilot for Everyone)',
+      description: 'The intelligence layer that makes every human more effective. Not a replacement for people, but a copilot that provides insights, suggestions, and automation WHEN humans need it.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 3,
+      whyItMatters: 'AI amplifies human capability. Cortex is the assistant that never sleeps, never forgets, and learns from every interaction to help humans make better decisions faster.',
+      humanRole: {
+        before: 'Humans make decisions based on intuition and limited data. Context is lost between handoffs.',
+        after: 'Humans make AI-informed decisions. Cortex provides context, suggestions, and handles routine tasks. Humans focus on judgment and relationships.',
+        whoIsEmpowered: ['Everyone - SDRs, Ops, Leadership, Partners'],
+        newCapabilities: ['Instant context on any lead', 'Proactive suggestions', 'Automated routine decisions', 'Natural language data access'],
+      },
+      difficulty: 'Hard',
+      estimatedHours: '100+ hours',
+      resourcesUsed: ['All resources'],
+      apiEndpoints: ['All endpoints'],
+      dependsOn: ['unified-data-layer', 'reporting-hub', 'data-quality-monitor'],
+      enables: [],
+      relatedTo: ['sdr-portal', 'installer-portal-product'],
+      dataRequirements: {
+        required: ['Complete data foundation', 'Historical patterns', 'User feedback'],
+        generates: ['Insights', 'Recommendations', 'Automated actions', 'Learning data'],
+        improves: ['Decision quality', 'Response speed', 'Consistency', 'Knowledge sharing'],
+      },
+      benefits: ['Compounding intelligence', 'Copilot for all teams', 'Automated routine decisions', 'Institutional memory'],
+      prerequisites: ['Solid data foundation', 'LLM integration', 'Agent framework'],
+      category: 'Platform Infrastructure',
+      opsProcess: 'All processes',
+      currentLOA: 'Not Implemented',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Unified context access', 'Real-time events'],
+      priority: 'Critical',
+      stage: 'Pilot',
+      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/cortex-demo/walkthrough',
+      primaryUsers: ['All teams'],
+      integrationsNeeded: ['All systems'],
+      dataStatus: 'None',
+      nextMilestone: 'MVP in SDR Portal first',
+    },
+    {
+      id: 'investor-portal',
+      title: 'Investor Portal',
+      description: 'Empowers leadership and investors with transparent, real-time business visibility. Builds trust through openness and professionalism.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 4,
+      whyItMatters: 'Investors and board members are humans who need clear information to support the company. This tool makes that relationship more effective.',
+      humanRole: {
+        before: 'Leadership spends days preparing board materials. Investors wait for quarterly updates.',
+        after: 'Leadership shares a link. Investors self-serve real-time data. Meetings focus on strategy, not data review.',
+        whoIsEmpowered: ['Leadership', 'Investors', 'Board Members'],
+        newCapabilities: ['Real-time performance access', 'Self-service data room', 'Automated report generation', 'Cortex Q&A'],
+      },
       difficulty: 'Medium',
       estimatedHours: '40-60 hours',
-      resourcesUsed: [],
-      benefits: [
-        'Remove operational friction',
-        'Scale operations',
-        'Improve reliability',
-        'Copilot for compliance workflows',
-      ],
-      prerequisites: ['Process mapping', 'Compliance rules', 'Workflow automation'],
-      apiEndpoints: [],
-      category: 'Admin',
-      opsProcess: 'Invoicing & Reconciliation',
+      resourcesUsed: ['Deals', 'Opportunities'],
+      apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats'],
+      dependsOn: ['unified-data-layer', 'reporting-hub'],
+      enables: [],
+      relatedTo: ['ai-cortex'],
+      dataRequirements: {
+        required: ['KPI data', 'Historical trends', 'Financial metrics'],
+        generates: ['Report archives', 'Access logs', 'Q&A history'],
+        improves: ['Investor relations', 'Board preparation time', 'Transparency'],
+      },
+      benefits: ['Professional investor experience', 'Automated reporting', 'Self-service data room', 'AI-powered Q&A'],
+      prerequisites: ['Reporting Hub operational', 'Document management', 'Access control'],
+      category: 'Reporting & Intelligence',
+      opsProcess: 'Board & Investor Relations',
       currentLOA: 'Manual',
-      potentialLOA: 'Medium Automation',
-      missingApiData: ['Accounting integrations', 'HR data access'],
-      priority: 'Low',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Financial aggregations', 'Board KPIs'],
+      priority: 'Medium',
+      stage: 'Under Dev',
+      prototypeUrl: 'https://investors-abeto-reporting.vercel.app/',
+      primaryUsers: ['Investors', 'Board', 'Leadership'],
+      integrationsNeeded: ['Reporting Hub'],
+      dataStatus: 'Partial',
+      nextMilestone: 'Complete data room + automated reporting',
+    },
+
+    // =========================================================================
+    // SUPPORTING INITIATIVES
+    // =========================================================================
+    {
+      id: 'installer-performance-tracking',
+      title: 'Installer Performance & SLA Tracking',
+      description: 'Sub-system of Installer Portal. Tracks conversion rates, response times, and SLA compliance. Enables fair lead distribution and performance coaching.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 5,
+      whyItMatters: 'Fair, transparent metrics help installers improve and help us allocate leads effectively.',
+      humanRole: {
+        before: 'Account managers manually track installer performance in spreadsheets.',
+        after: 'Performance is automatically tracked. Account managers focus on coaching and relationship building.',
+        whoIsEmpowered: ['Account Managers', 'Partner Ops', 'Installers'],
+        newCapabilities: ['Automated SLA tracking', 'Performance benchmarking', 'Coaching insights', 'Fair allocation'],
+      },
+      difficulty: 'Medium',
+      estimatedHours: '30-40 hours',
+      resourcesUsed: ['Opportunities', 'Installers'],
+      apiEndpoints: ['/internal/opportunities', '/internal/opportunities/stats', '/internal/installers'],
+      dependsOn: ['unified-data-layer', 'installer-portal-product'],
+      enables: ['dynamic-allocation-engine'],
+      relatedTo: ['reporting-hub'],
+      dataRequirements: {
+        required: ['Opportunity stage timestamps', 'Installer activity'],
+        generates: ['Performance scores', 'SLA metrics', 'Conversion rates'],
+        improves: ['Installer accountability', 'Lead allocation fairness', 'Coaching effectiveness'],
+      },
+      benefits: ['Fair performance measurement', 'SLA compliance tracking', 'Data-driven coaching', 'Optimal lead allocation'],
+      prerequisites: ['Opportunity timestamps', 'SLA definitions'],
+      category: 'Installer Tools',
+      opsProcess: 'Partner Performance Management',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Stage timestamps', 'SLA thresholds'],
+      priority: 'High',
       stage: 'Planned',
-      primaryUsers: ['Ops', 'Admin', 'HR'],
-      integrationsNeeded: ['Accounting', 'Reporting systems'],
-      dataStatus: 'None',
-      nextMilestone: 'Map processes + define top 3 automations',
+      primaryUsers: ['Account Managers', 'Installers'],
+      integrationsNeeded: ['Installer Portal'],
+      dataStatus: 'Partial',
+      nextMilestone: 'Define SLAs + build tracking',
+    },
+    {
+      id: 'dynamic-allocation-engine',
+      title: 'Dynamic Lead Allocation Engine',
+      description: 'AI-powered lead-to-installer matching. Uses performance data, capacity, and customer preferences to optimize allocation. Part of the funnel automation.',
+      pillar: 'Human Empowerment',
+      pillarOrder: 6,
+      whyItMatters: 'Better allocation = happier customers + happier installers + more conversions.',
+      humanRole: {
+        before: 'Ops manually assigns leads using Google Sheets. Time-consuming and inconsistent.',
+        after: 'AI handles routine allocation. Ops reviews edge cases and adjusts rules. Focus shifts to optimization.',
+        whoIsEmpowered: ['Operations', 'Account Managers'],
+        newCapabilities: ['Instant allocation', 'Performance-based routing', 'Capacity balancing', 'Deviation alerts'],
+      },
+      difficulty: 'Hard',
+      estimatedHours: '50-70 hours',
+      resourcesUsed: ['Deals', 'Opportunities', 'Regions', 'Installers'],
+      apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/regions', '/internal/installers'],
+      dependsOn: ['unified-data-layer', 'installer-performance-tracking'],
+      enables: [],
+      relatedTo: ['funnel-automation-os'],
+      dataRequirements: {
+        required: ['Installer performance scores', 'Capacity data', 'Region coverage'],
+        generates: ['Allocation decisions', 'Quota tracking', 'Deviation alerts'],
+        improves: ['Conversion rates', 'Installer satisfaction', 'Customer experience'],
+      },
+      benefits: ['Instant allocation', 'Optimal matching', 'Automatic quota balancing', 'Performance-based routing'],
+      prerequisites: ['Performance tracking operational', 'Allocation rules defined'],
+      category: 'Operations',
+      opsProcess: 'Lead Allocation',
+      currentLOA: 'Manual',
+      potentialLOA: 'High Automation',
+      missingApiData: ['Installer capacity', 'Weight targets', 'Deviation calculations'],
+      priority: 'High',
+      stage: 'Idea',
+      primaryUsers: ['Operations'],
+      integrationsNeeded: ['Installer Portal', 'SDR Portal'],
+      dataStatus: 'Partial',
+      nextMilestone: 'Define allocation rules + scoring model',
     },
   ];
 }
 
 export function generateProjectProposals(data: DashboardData): ProjectProposal[] {
-  const proposals: ProjectProposal[] = [];
+  // All projects are now defined in getExistingProducts() with the new structure
+  // This function adds default values and ranking
 
-  // =============================================================================
-  // HAND-OFF PHASE PROJECTS
-  // =============================================================================
+  const allProjects = getExistingProducts();
 
-  proposals.push({
-    id: 'dynamic-allocation-engine',
-    title: 'Dynamic Installer Allocation Engine',
-    description: 'AI-powered real-time lead-to-installer matching system. Scores installers based on region, capacity, historical conversion, SLA compliance, and customer preferences. Replaces manual Google Sheets allocation with automated decisions.',
-    difficulty: 'Hard',
-    estimatedHours: '50-70 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Regions', 'Installers'],
-    benefits: [
-      'Instant lead assignment (vs. manual decision time)',
-      'Optimized distribution based on conversion data',
-      'Automatic quota balancing across installers',
-      'Deviation alerts when targets drift >15%',
-    ],
-    prerequisites: ['Scoring algorithm design', 'Real-time event processing', 'Admin config panel'],
-    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/regions', '/internal/installers', '/internal/regions/{id}/quotas'],
-    category: 'Hand-Off',
-    opsProcess: 'Assignation per installer',
-    currentLOA: 'Manual (Google Sheets)',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Installer capacity/availability endpoint',
-      'Monthly weight targets per region/installer',
-      'Real-time deviation calculations',
-      'Installer performance scores (conversion rate, speed-to-contact)',
-    ],
-    priority: 'Critical',
-  });
-
-  proposals.push({
-    id: 'ai-qualification-notes',
-    title: 'AI Qualification Notes Generator',
-    description: 'Consolidate SDR comments, call transcripts, and qualification data into structured, standardized notes for installers. Include deal temperature, preferred contact times, and key customer motivations.',
-    difficulty: 'Medium',
-    estimatedHours: '30-40 hours',
-    resourcesUsed: ['Deals', 'Qualifications', 'Calls'],
-    benefits: [
-      'Consistent note quality across all SDRs',
-      'Faster installer onboarding per lead',
-      'Reduced "temperature was off" feedback',
-      'Structured data for ML training',
-    ],
-    prerequisites: ['LLM integration (GPT-4)', 'Prompt engineering', 'Zoho field mapping'],
-    apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls'],
-    category: 'Hand-Off',
-    opsProcess: 'AI Qualification Notes',
-    currentLOA: 'Semi-Automated',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Call transcripts endpoint',
-      'SDR comments field',
-      'Deal temperature field',
-      'Customer preferred channel/time preferences',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'handoff-whatsapp-automation',
-    title: 'Post-Handoff WhatsApp Automation',
-    description: 'Automatically send WhatsApp messages to customers after installer assignment with: installer name, expected call time, and contact number. Include 24h follow-up nudge if no contact made.',
-    difficulty: 'Easy',
-    estimatedHours: '15-20 hours',
-    resourcesUsed: ['Deals', 'Templates', 'Opportunities', 'Installers'],
-    benefits: [
-      'Customer knows who will call and when',
-      'Reduced missed calls from unknown numbers',
-      'Automatic follow-up reduces drop-off',
-      'Better customer experience post-qualification',
-    ],
-    prerequisites: ['WhatsApp Business API (Woztell)', 'Template approval'],
-    apiEndpoints: ['/internal/deals', '/internal/templates', '/internal/opportunities', '/internal/deals/{id}/messages'],
-    category: 'Hand-Off',
-    opsProcess: 'Call transfer and scheduling',
-    currentLOA: 'Not Implemented',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Installer contact details (rep name, phone)',
-      'Customer preferred time slot field',
-      'Message send status tracking',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'installer-feedback-dashboard',
-    title: 'Installer Feedback Collection Dashboard',
-    description: 'Track installer feedback per lead: temperature accuracy, missing details, lead viability. Use to refine AI prompts, coach SDRs, and improve qualification structure.',
-    difficulty: 'Medium',
-    estimatedHours: '25-35 hours',
-    resourcesUsed: ['Opportunities', 'Installers', 'Lost Reasons', 'Deals'],
-    benefits: [
-      'Systematic feedback collection',
-      'Identify qualification gaps by pattern',
-      'Coach SDRs with real examples',
-      'Continuous prompt improvement',
-    ],
-    prerequisites: ['Feedback form/API', 'Dashboard with filtering'],
-    apiEndpoints: ['/internal/opportunities', '/internal/installers', '/internal/lost-reasons'],
-    category: 'Hand-Off',
-    opsProcess: 'Installer/Customer Feedback Collection',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Installer feedback endpoint (per opportunity)',
-      'Feedback categories (temperature off, detail missing, etc.)',
-      'Feedback timestamps and installer ID',
-    ],
-    priority: 'Medium',
-  });
-
-  // =============================================================================
-  // QUALIFICATION PHASE PROJECTS
-  // =============================================================================
-
-  proposals.push({
-    id: 'contact-prioritization-engine',
-    title: 'AI Contact Prioritization System',
-    description: 'SDR Portal feature that ranks contacts by conversion probability, optimal contact time, and channel preference. Shows "next best call" recommendations based on historical patterns.',
-    difficulty: 'Hard',
-    estimatedHours: '45-60 hours',
-    resourcesUsed: ['Deals', 'Calls', 'Qualifications'],
-    benefits: [
-      'Higher answer rates from optimal timing',
-      'SDRs focus on highest-value contacts',
-      'Reduced time deciding who to call',
-      'Data-driven working hours optimization',
-    ],
-    prerequisites: ['ML model for contact scoring', 'Real-time queue management', 'SDR Portal integration'],
-    apiEndpoints: ['/internal/deals', '/internal/calls', '/internal/calls/stats', '/internal/qualifications'],
-    category: 'SDR Portal',
-    opsProcess: 'Contact prioritization',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Historical contact attempt times',
-      'Answer rate by time-of-day/day-of-week',
-      'Customer timezone/preferred hours',
-      'SDR availability calendar',
-    ],
-    priority: 'Critical',
-  });
-
-  proposals.push({
-    id: 'recycling-workflow-automation',
-    title: 'Lead Recycling Workflow System',
-    description: 'Automatic flagging and reassignment of recyclable leads based on installer CRM feedback. Track recycling outcomes and optimize re-engagement timing.',
-    difficulty: 'Medium',
-    estimatedHours: '30-40 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Lost Reasons', 'Calls'],
-    benefits: [
-      'Recover lost revenue from recyclable leads',
-      'Automatic re-assignment without manual review',
-      'Track recycling success rates',
-      'Optimize timing for re-engagement',
-    ],
-    prerequisites: ['Installer CRM integrations', 'Recycling rules engine'],
-    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/lost-reasons'],
-    category: 'Qualification',
-    opsProcess: 'Recycling Workflow',
-    currentLOA: 'Semi-Automated',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Recyclable flag on lost reasons',
-      'Recycling attempt count per deal',
-      'Installer CRM webhook events',
-      'Re-engagement cooldown rules',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'answer-rate-monitoring',
-    title: 'SIM/Number Answer Rate Monitor',
-    description: 'Track answer rates and spam flags per phone number. Alert when numbers need rotation. Proactive SIM card management to maintain high contact rates.',
-    difficulty: 'Easy',
-    estimatedHours: '15-25 hours',
-    resourcesUsed: ['Calls', 'Unmatched Calls'],
-    benefits: [
-      'Maintain high answer rates',
-      'Proactive SIM rotation before spam flags',
-      'Identify best-performing numbers',
-      'Reduce wasted call attempts',
-    ],
-    prerequisites: ['Aircall integration', 'Alerting system'],
-    apiEndpoints: ['/internal/calls', '/internal/calls/stats', '/internal/unmatched-calls'],
-    category: 'Qualification',
-    opsProcess: 'Answer Rate Monitoring',
-    currentLOA: 'Manual',
-    potentialLOA: 'Medium Automation',
-    missingApiData: [
-      'Outbound number identifier per call',
-      'Spam flag detection',
-      'Answer rate aggregation by number',
-    ],
-    priority: 'Medium',
-  });
-
-  proposals.push({
-    id: 'whatsapp-conversation-summary',
-    title: 'WhatsApp Conversation AI Summary',
-    description: 'AI-powered summary of WhatsApp conversations to speed up SDR call preparation. Extract key points, customer concerns, and suggested talking points.',
-    difficulty: 'Medium',
-    estimatedHours: '25-35 hours',
-    resourcesUsed: ['Deals', 'Templates'],
-    benefits: [
-      'Faster call prep for SDRs',
-      'No context loss between channels',
-      'Consistent information across team',
-      'Better customer experience (no repetition)',
-    ],
-    prerequisites: ['LLM integration', 'WhatsApp message history access'],
-    apiEndpoints: ['/internal/deals', '/internal/deals/{id}/messages', '/internal/templates'],
-    category: 'SDR Portal',
-    opsProcess: 'Calls & WhatsApp',
-    currentLOA: 'Semi-Automated',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Full WhatsApp conversation history endpoint',
-      'Message timestamps and direction',
-      'Conversation summary field in deals',
-    ],
-    priority: 'Critical',
-  });
-
-  proposals.push({
-    id: 'chatbot-ab-testing',
-    title: 'Chatbot A/B Testing & Analytics Platform',
-    description: 'Track per-template success rates, drop-off points, and escalation triggers. Enable controlled A/B tests on bot flows with automatic winner detection.',
-    difficulty: 'Medium',
-    estimatedHours: '35-45 hours',
-    resourcesUsed: ['Templates', 'Deals'],
-    benefits: [
-      'Data-driven template optimization',
-      'Identify failing flows quickly',
-      'Reduce escalation burden',
-      'Continuous bot improvement',
-    ],
-    prerequisites: ['Botpress/chatbot integration', 'Event tracking system'],
-    apiEndpoints: ['/internal/templates', '/internal/deals'],
-    category: 'Qualification',
-    opsProcess: 'Chatbot Optimization',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Chatbot conversation events endpoint',
-      'Template performance metrics (reply rate, success rate)',
-      'A/B test variant tracking',
-      'Escalation event logging',
-    ],
-    priority: 'Medium',
-  });
-
-  // =============================================================================
-  // LEAD ACQUISITION PHASE PROJECTS
-  // =============================================================================
-
-  proposals.push({
-    id: 'provider-roi-dashboard',
-    title: 'Lead Provider ROI Dashboard',
-    description: 'Real-time view of CPL, qualification rate, and conversion by provider and region. Automatic budget reallocation suggestions based on performance.',
-    difficulty: 'Medium',
-    estimatedHours: '30-40 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Regions'],
-    benefits: [
-      'Optimize budget allocation in real-time',
-      'Identify underperforming providers quickly',
-      'Track CPL trends over time',
-      'Data-driven provider negotiations',
-    ],
-    prerequisites: ['Provider tracking in deals', 'Financial calculations'],
-    apiEndpoints: ['/internal/deals', '/internal/deals/stats', '/internal/opportunities/stats', '/internal/regions'],
-    category: 'Lead Acquisition',
-    opsProcess: 'Budget Allocation Process',
-    currentLOA: 'Manual',
-    potentialLOA: 'Medium Automation',
-    missingApiData: [
-      'Lead provider/source field',
-      'CPL per provider',
-      'Provider agreement terms',
-      'Monthly budget caps per provider',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'lead-validation-automation',
-    title: 'Automated Lead Validation & Quality Control',
-    description: 'Pre-flag invalid leads using AI before SDR contact. Auto-generate weekly validation reports for providers. Track rejection rates by provider/region.',
-    difficulty: 'Medium',
-    estimatedHours: '25-35 hours',
-    resourcesUsed: ['Deals', 'Qualifications'],
-    benefits: [
-      'Reduce SDR time on invalid leads',
-      'Faster provider feedback cycles',
-      'Consistent validation criteria',
-      'Automated rejection documentation',
-    ],
-    prerequisites: ['Validation rules engine', 'Provider reporting templates'],
-    apiEndpoints: ['/internal/deals', '/internal/qualifications'],
-    category: 'Lead Acquisition',
-    opsProcess: 'Validation & Quality Control',
-    currentLOA: 'Semi-Automated',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Validation status field',
-      'Rejection reason categories',
-      'Provider ID on deals',
-      'Validation timestamp',
-    ],
-    priority: 'Medium',
-  });
-
-  proposals.push({
-    id: 'api-self-service-portal',
-    title: 'Provider API Self-Service Portal',
-    description: 'Self-service portal for lead providers to test API payloads, view integration status, and access documentation. Includes real-time webhook monitoring and error logs.',
-    difficulty: 'Hard',
-    estimatedHours: '45-60 hours',
-    resourcesUsed: ['Deals'],
-    benefits: [
-      'Faster provider onboarding',
-      'Reduced support burden',
-      'Self-service troubleshooting',
-      'Better integration quality',
-    ],
-    prerequisites: ['Authentication system', 'Webhook monitoring', 'Documentation generation'],
-    apiEndpoints: ['/internal/deals'],
-    category: 'Lead Acquisition',
-    opsProcess: 'API/CRM Integrations & Onboarding',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Provider authentication tokens',
-      'Webhook delivery logs',
-      'Integration health status per provider',
-      'Error rate tracking',
-    ],
-    priority: 'Medium',
-  });
-
-  // =============================================================================
-  // PARTNER MANAGEMENT PHASE PROJECTS
-  // =============================================================================
-
-  proposals.push({
-    id: 'installer-performance-portal',
-    title: 'Installer Performance Portal',
-    description: 'Self-service dashboard for installers showing: leads received, conversion rates, ROI, SLA compliance, and comparison to targets. Includes score degradation alerts.',
-    difficulty: 'Hard',
-    estimatedHours: '60-80 hours',
-    resourcesUsed: ['Installers', 'Opportunities', 'Deals', 'Regions', 'Lost Reasons'],
-    benefits: [
-      'Transparent performance tracking',
-      'Self-service reduces back-and-forth',
-      'Motivates improvement through visibility',
-      'Fair lead distribution justification',
-    ],
-    prerequisites: ['Installer authentication', 'Role-based access', 'Real-time calculations'],
-    apiEndpoints: ['/internal/installers', '/internal/opportunities', '/internal/opportunities/stats', '/internal/regions/{id}/quotas', '/internal/lost-reasons'],
-    category: 'Installers Portal',
-    opsProcess: 'Partner ROI Tracking',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Installer login/auth endpoint',
-      'Per-installer conversion metrics',
-      'SLA tracking (time-to-contact, etc.)',
-      'Score calculation formula',
-    ],
-    priority: 'Critical',
-  });
-
-  proposals.push({
-    id: 'installer-sla-monitoring',
-    title: 'Installer SLA & Conversion Monitoring',
-    description: 'Real-time tracking of installer SLA compliance: time-to-contact, follow-up frequency, stage update delays. Auto-alerts for SLA breaches.',
-    difficulty: 'Medium',
-    estimatedHours: '30-40 hours',
-    resourcesUsed: ['Opportunities', 'Installers'],
-    benefits: [
-      'Ensure consistent service levels',
-      'Early warning for underperformers',
-      'Data for partner conversations',
-      'Protect customer experience',
-    ],
-    prerequisites: ['SLA rules configuration', 'Alerting system'],
-    apiEndpoints: ['/internal/opportunities', '/internal/installers'],
-    category: 'Partner Management',
-    opsProcess: 'Conversion & SLA Monitoring',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Opportunity stage timestamps',
-      'First contact timestamp',
-      'SLA thresholds per installer',
-      'Alert configuration endpoint',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'installer-quote-sync',
-    title: 'Installer Quote Sync System',
-    description: 'Collect final offer amounts from installers via webhook, form, or portal. Enables financing integration and accurate ROI tracking.',
-    difficulty: 'Medium',
-    estimatedHours: '25-35 hours',
-    resourcesUsed: ['Opportunities', 'Installers', 'Deals'],
-    benefits: [
-      'Enable financing partnerships',
-      'Accurate revenue tracking',
-      'Price benchmarking across installers',
-      'Better forecasting',
-    ],
-    prerequisites: ['Webhook endpoint for installers', 'Data validation'],
-    apiEndpoints: ['/internal/opportunities', '/internal/installers'],
-    category: 'Installers Portal',
-    opsProcess: 'Financing Partnerships',
-    currentLOA: 'Not Implemented',
-    potentialLOA: 'Medium Automation',
-    missingApiData: [
-      'Offer amount field on opportunities',
-      'Offer timestamp',
-      'Installer webhook POST endpoint',
-      'Pricing baseline data',
-    ],
-    priority: 'Medium',
-  });
-
-  proposals.push({
-    id: 'automated-invoicing',
-    title: 'Automated Provider & Partner Invoicing',
-    description: 'Auto-generate monthly invoices for lead providers (based on validation results) and installers (based on won opportunities). Reconciliation with rejection tracking.',
-    difficulty: 'Medium',
-    estimatedHours: '35-45 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Installers'],
-    benefits: [
-      'Hours saved on manual invoicing',
-      'Fewer billing disputes',
-      'Automatic reconciliation',
-      'Clear audit trail',
-    ],
-    prerequisites: ['Accounting rules engine', 'PDF generation', 'Email integration'],
-    apiEndpoints: ['/internal/deals', '/internal/deals/stats', '/internal/opportunities', '/internal/opportunities/stats'],
-    category: 'Partner Management',
-    opsProcess: 'Invoicing & Reconciliation',
-    currentLOA: 'Manual',
-    potentialLOA: 'Medium Automation',
-    missingApiData: [
-      'Provider pricing/CPL data',
-      'Validation status for invoicing',
-      'Won opportunity revenue',
-      'Invoice line item breakdown',
-    ],
-    priority: 'Low',
-  });
-
-  // =============================================================================
-  // AI/ML PROJECTS
-  // =============================================================================
-
-  proposals.push({
-    id: 'lead-temperature-predictor',
-    title: 'AI Lead Temperature Predictor',
-    description: 'ML model that predicts deal temperature (Hot/Warm/Cold) based on qualification data, engagement patterns, and historical outcomes. Assist SDRs in temperature assignment.',
-    difficulty: 'Hard',
-    estimatedHours: '50-70 hours',
-    resourcesUsed: ['Deals', 'Qualifications', 'Calls', 'Opportunities'],
-    benefits: [
-      'Consistent temperature assignment',
-      'Reduce "temperature was off" installer feedback',
-      'Prioritize hot leads automatically',
-      'Train new SDRs faster',
-    ],
-    prerequisites: ['ML pipeline', 'Historical labeled data', 'Model serving infrastructure'],
-    apiEndpoints: ['/internal/deals', '/internal/qualifications', '/internal/calls', '/internal/opportunities'],
-    category: 'AI/ML',
-    opsProcess: 'AI Qualification Notes',
-    currentLOA: 'Manual (SDR judgment)',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Historical temperature labels',
-      'Temperature outcome validation (was it accurate?)',
-      'Engagement metrics (messages, calls, response times)',
-    ],
-    priority: 'High',
-  });
-
-  proposals.push({
-    id: 'lost-deal-pattern-analyzer',
-    title: 'Lost Deal Pattern Analyzer & Alert System',
-    description: 'ML-powered analysis of lost deals to identify patterns by region, installer, source, and time. Proactive alerts for at-risk deals based on early warning signals.',
-    difficulty: 'Hard',
-    estimatedHours: '45-60 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Lost Reasons', 'Installers', 'Regions'],
-    benefits: [
-      'Understand systematic loss patterns',
-      'Intervene before deals are lost',
-      'Coach installers on specific issues',
-      'Improve qualification criteria',
-    ],
-    prerequisites: ['Pattern recognition algorithms', 'Alerting infrastructure'],
-    apiEndpoints: ['/internal/deals', '/internal/opportunities', '/internal/lost-reasons', '/internal/deals/{id}/stage-changes'],
-    category: 'AI/ML',
-    opsProcess: 'Partner ROI Tracking',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Deal stage change history with timestamps',
-      'Lost reason linked to specific deal attributes',
-      'Installer-specific loss patterns',
-    ],
-    priority: 'Medium',
-  });
-
-  proposals.push({
-    id: 'optimal-contact-time-model',
-    title: 'Optimal Contact Time Predictor',
-    description: 'ML model that predicts the best time and channel to contact each lead based on historical answer patterns, timezone, and stated preferences.',
-    difficulty: 'Medium',
-    estimatedHours: '35-45 hours',
-    resourcesUsed: ['Deals', 'Calls'],
-    benefits: [
-      'Higher answer rates',
-      'Fewer wasted call attempts',
-      'Better customer experience',
-      'SDR efficiency improvement',
-    ],
-    prerequisites: ['Time-series analysis', 'Customer preference data'],
-    apiEndpoints: ['/internal/deals', '/internal/calls', '/internal/calls/stats'],
-    category: 'AI/ML',
-    opsProcess: 'Contact prioritization',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Call attempt timestamps with outcomes',
-      'Customer stated preferences',
-      'Regional time patterns',
-    ],
-    priority: 'High',
-  });
-
-  // =============================================================================
-  // REPORTING PROJECTS
-  // =============================================================================
-
-  proposals.push({
-    id: 'weekly-performance-digest',
-    title: 'Automated Weekly Performance Digest',
-    description: 'Auto-generated weekly report with: deals by stage, conversion rates, SDR performance, installer metrics, and provider ROI. Sent to stakeholders with key action items.',
-    difficulty: 'Medium',
-    estimatedHours: '25-35 hours',
-    resourcesUsed: ['Deals', 'Opportunities', 'Calls', 'Installers', 'Regions'],
-    benefits: [
-      'Consistent weekly visibility',
-      'Hours saved on manual reporting',
-      'Highlight key actions needed',
-      'Historical trend tracking',
-    ],
-    prerequisites: ['Report templating', 'Email/Slack integration', 'PDF generation'],
-    apiEndpoints: ['/internal/deals/stats', '/internal/opportunities/stats', '/internal/calls/stats'],
-    category: 'Lead Acquisition',
-    opsProcess: 'Performance Reporting',
-    currentLOA: 'Manual',
-    potentialLOA: 'High Automation',
-    missingApiData: [
-      'Week-over-week comparison data',
-      'SDR-level performance breakdown',
-      'Provider-level aggregations',
-    ],
-    priority: 'Medium',
-  });
-
-  proposals.push({
-    id: 'gdpr-compliance-tracker',
-    title: 'GDPR Compliance & Consent Tracker',
-    description: 'Track consent status for every lead, opt-out requests, and data retention compliance. Auto-anonymize expired leads and generate compliance audit reports.',
-    difficulty: 'Medium',
-    estimatedHours: '30-40 hours',
-    resourcesUsed: ['Deals', 'Qualifications'],
-    benefits: [
-      'Legal compliance assurance',
-      'Automated data retention',
-      'Audit-ready reports',
-      'Customer trust protection',
-    ],
-    prerequisites: ['Consent tracking system', 'Data retention rules', 'Anonymization logic'],
-    apiEndpoints: ['/internal/deals', '/internal/qualifications'],
-    category: 'Qualification',
-    opsProcess: 'GDPR & Law Compliance',
-    currentLOA: 'Not Implemented',
-    potentialLOA: 'Medium Automation',
-    missingApiData: [
-      'Consent flag and source per deal',
-      'Consent timestamp',
-      'Opt-out tracking',
-      'Data retention policy configuration',
-    ],
-    priority: 'Medium',
-    stage: 'Idea',
-    primaryUsers: ['Ops', 'Legal'],
-    integrationsNeeded: ['CRM', 'Data retention system'],
-    dataStatus: 'None',
-    nextMilestone: 'Define retention policy + consent tracking fields',
-  });
-
-  // Add default fields to all proposals that don't have them
-  const enrichedProposals = proposals.map((p, index) => ({
+  // Enrich projects with defaults and ranks
+  const enrichedProjects = allProjects.map((p, index) => ({
     ...p,
+    // Ensure all optional fields have values
     stage: p.stage || 'Idea' as ProjectStage,
     primaryUsers: p.primaryUsers || ['Ops'],
     integrationsNeeded: p.integrationsNeeded || [],
     dataStatus: p.dataStatus || 'None' as const,
     nextMilestone: p.nextMilestone || '',
-    rank: index + 100, // Ideas come after existing products
-  }));
-
-  // Merge with existing products (they come first)
-  const existingProducts = getExistingProducts().map((p, index) => ({
-    ...p,
+    pillar: p.pillar || 'Human Empowerment' as ProjectPillar,
+    pillarOrder: p.pillarOrder || 99,
+    whyItMatters: p.whyItMatters || p.description,
+    humanRole: p.humanRole || {
+      before: 'Manual process',
+      after: 'AI-assisted process',
+      whoIsEmpowered: p.primaryUsers || ['Ops'],
+      newCapabilities: p.benefits || [],
+    },
+    dependsOn: p.dependsOn || [],
+    enables: p.enables || [],
+    relatedTo: p.relatedTo || [],
+    dataRequirements: p.dataRequirements || {
+      required: p.missingApiData || [],
+      generates: [],
+      improves: [],
+    },
+    // Sort by pillar order first, then by pillarOrder within each pillar
     rank: index + 1,
   }));
 
-  return [...existingProducts, ...enrichedProposals];
+  // Sort by pillar (Data Foundation = 1, Data Generation = 2, Human Empowerment = 3)
+  // Then by pillarOrder within each pillar
+  const pillarRank = { 'Data Foundation': 1, 'Data Generation': 2, 'Human Empowerment': 3 };
+
+  return enrichedProjects.sort((a, b) => {
+    const pillarA = pillarRank[a.pillar as keyof typeof pillarRank] || 99;
+    const pillarB = pillarRank[b.pillar as keyof typeof pillarRank] || 99;
+    if (pillarA !== pillarB) return pillarA - pillarB;
+    return (a.pillarOrder || 99) - (b.pillarOrder || 99);
+  });
+
+  // The old proposals below are replaced by the new unified structure in getExistingProducts()
+  // keeping this as documentation of what was consolidated:
+  //
+  // Consolidated into unified-data-layer:
+  // - API health monitoring
+  // - Data access endpoints
+  //
+  // Consolidated into reporting-hub:
+  // - Weekly performance digest
+  // - Provider ROI dashboard
+  //
+  // Consolidated into data-quality-monitor:
+  // - Data freshness alerts
+  // - Quality scoring
+  //
+  // Consolidated into campaign-os:
+  // - Lead provider ROI dashboard
+  // - Lead validation automation
+  //
+  // Consolidated into partner-expansion-tool:
+  // - Partner pipeline CRM
+  // - Outreach automation
+  //
+  // Consolidated into funnel-automation-os:
+  // - WhatsApp automation
+  // - Chatbot optimization
+  // - Lead recycling workflow
+  //
+  // Consolidated into sdr-portal:
+  // - Contact prioritization
+  // - WhatsApp conversation summary
+  // - AI qualification notes
+  //
+  // Consolidated into installer-portal-product:
+  // - Installer feedback dashboard
+  // - Installer quote sync
+  //
+  // Consolidated into installer-performance-tracking:
+  // - SLA monitoring
+  // - Conversion tracking
+  //
+  // Consolidated into dynamic-allocation-engine:
+  // - Scoring algorithm
+  // - Quota balancing
+  //
+  // Consolidated into ai-cortex:
+  // - Lead temperature predictor
+  // - Lost deal pattern analyzer
+  // - Optimal contact time model
+  //
+  // Remaining ideas for future consideration:
+  // - GDPR compliance tracker
+  // - Answer rate monitoring
+  // - API self-service portal for providers
+  // - Automated invoicing
 }

@@ -1393,6 +1393,331 @@ a {
   opacity: 0.5;
 }
 
+/* Three Pillars Overview */
+.three-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.pillar {
+  padding: 1.25rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.pillar:hover {
+  transform: translateY(-2px);
+}
+
+.pillar-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.pillar h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.pillar p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.pillar p strong {
+  color: var(--text-primary);
+}
+
+.pillar-foundation {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.05));
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.pillar-foundation:hover {
+  border-color: var(--accent-orange);
+}
+
+.pillar-generation {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.pillar-generation:hover {
+  border-color: var(--accent-green);
+}
+
+.pillar-empowerment {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(59, 130, 246, 0.05));
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.pillar-empowerment:hover {
+  border-color: var(--accent-blue);
+}
+
+.intro-subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 0;
+}
+
+/* Pillar Badge */
+.pillar-badge {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.pillar-badge.pillar-data-foundation {
+  background: var(--accent-orange-bg);
+  color: var(--accent-orange);
+}
+
+.pillar-badge.pillar-data-generation {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+}
+
+.pillar-badge.pillar-human-empowerment {
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+}
+
+/* Why It Matters */
+.project-why-it-matters {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, var(--bg-secondary), transparent);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-yellow);
+  line-height: 1.5;
+}
+
+.why-label {
+  color: var(--accent-yellow);
+  font-weight: 500;
+}
+
+/* Human Role Section */
+.human-role-section {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.human-role-section h4 {
+  color: var(--accent-blue) !important;
+}
+
+.human-role-comparison {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.human-role-before,
+.human-role-after {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.human-role-before {
+  background: var(--accent-red-bg);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.human-role-before p {
+  color: var(--text-secondary);
+}
+
+.human-role-after {
+  background: var(--accent-green-bg);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.human-role-after p {
+  color: var(--text-secondary);
+}
+
+.human-role-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 1.5rem;
+}
+
+.role-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.35rem;
+}
+
+.human-role-before .role-label {
+  color: var(--accent-red);
+}
+
+.human-role-after .role-label {
+  color: var(--accent-green);
+}
+
+.empowered-roles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.empowered-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.empowered-tag {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+}
+
+.new-capabilities {
+  font-size: 0.85rem;
+}
+
+.capabilities-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.new-capabilities ul {
+  margin: 0;
+  padding-left: 0;
+}
+
+.new-capabilities li {
+  font-size: 0.8rem !important;
+  color: var(--accent-blue) !important;
+  padding: 0.15rem 0 !important;
+}
+
+.new-capabilities li::before {
+  content: '✓' !important;
+  color: var(--accent-green) !important;
+}
+
+/* Data Requirements Section */
+.data-requirements-section {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.data-flow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.data-flow-item {
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--bg-card);
+}
+
+.data-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.data-required .data-label {
+  color: var(--accent-red);
+}
+
+.data-generates .data-label {
+  color: var(--accent-green);
+}
+
+.data-improves .data-label {
+  color: var(--accent-blue);
+}
+
+.data-flow-item ul {
+  margin: 0;
+  padding-left: 0;
+}
+
+.data-flow-item li {
+  font-size: 0.75rem !important;
+  padding: 0.15rem 0 !important;
+}
+
+/* Dependencies Section */
+.dependencies-section {
+  background: var(--bg-secondary);
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.dependencies-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dependency-item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dep-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.dep-tag {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  background: var(--accent-yellow-bg);
+  color: var(--accent-yellow);
+  font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.dep-tag.enables-tag {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+}
+
 /* Footer */
 .footer {
   margin-top: 3rem;
@@ -1450,5 +1775,22 @@ a {
 
   .health-indicator {
     width: 100%;
+  }
+
+  .three-pillars {
+    grid-template-columns: 1fr;
+  }
+
+  .human-role-comparison {
+    flex-direction: column;
+  }
+
+  .human-role-arrow {
+    transform: rotate(90deg);
+    margin: 0.5rem 0;
+  }
+
+  .data-flow-grid {
+    grid-template-columns: 1fr;
   }
 }

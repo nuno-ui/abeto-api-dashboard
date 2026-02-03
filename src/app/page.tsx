@@ -6,7 +6,8 @@ import type {
   DashboardData,
   HealthStatus,
   HealthIndicator,
-  ProjectProposal
+  ProjectProposal,
+  ProjectPillar
 } from '@/lib/api';
 
 // Local storage key for custom project order
@@ -229,19 +230,22 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
     Low: 'var(--text-muted)',
   }[project.priority];
 
+  const pillarIcon: Record<string, string> = {
+    'Data Foundation': '🏗️',
+    'Data Generation': '🚀',
+    'Human Empowerment': '👥',
+  };
+
   const categoryIcon: Record<string, string> = {
-    'Hand-Off': '🤝',
-    'Qualification': '✅',
-    'Lead Acquisition': '📥',
-    'Partner Management': '🤝',
-    'AI/ML': '🤖',
-    'SDR Portal': '💬',
-    'Installers Portal': '🏗️',
-    'Reporting': '📊',
-    'Platform': '⚡',
-    'Marketing': '📣',
-    'Partnerships': '🤝',
-    'Admin': '⚙️',
+    'Data Layer': '💾',
+    'Lead Generation': '📥',
+    'SDR Tools': '💬',
+    'Partner Growth': '🤝',
+    'Installer Tools': '🔧',
+    'Reporting & Intelligence': '📊',
+    'Marketing & Campaigns': '📣',
+    'Operations': '⚙️',
+    'Platform Infrastructure': '🧠',
   };
 
   const stageClass = project.stage?.toLowerCase().replace(' ', '-') || 'idea';
@@ -265,6 +269,11 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
             <span className="drag-handle" title="Drag to reorder">⋮⋮</span>
           )}
           <span className={`stage-badge stage-${stageClass}`}>{project.stage}</span>
+          {project.pillar && (
+            <span className={`pillar-badge pillar-${project.pillar?.toLowerCase().replace(' ', '-')}`}>
+              {pillarIcon[project.pillar]} {project.pillar}
+            </span>
+          )}
         </div>
         <span className={`data-status-badge data-${project.dataStatus?.toLowerCase()}`}>
           {project.dataStatus === 'Live' && '🟢'}
@@ -294,6 +303,13 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
       </div>
 
       <p className="project-description">{project.description}</p>
+
+      {/* Why It Matters - Key message */}
+      {project.whyItMatters && project.whyItMatters !== project.description && (
+        <div className="project-why-it-matters">
+          <span className="why-label">💡 Why it matters:</span> {project.whyItMatters}
+        </div>
+      )}
 
       {/* Primary Users */}
       {project.primaryUsers && project.primaryUsers.length > 0 && (
@@ -353,6 +369,106 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
 
       {expanded && (
         <div className="project-expanded">
+          {/* Human Role - THE KEY MESSAGE */}
+          {project.humanRole && (
+            <div className="project-section human-role-section">
+              <h4>👥 Human Role: Before vs. After</h4>
+              <div className="human-role-comparison">
+                <div className="human-role-before">
+                  <span className="role-label">❌ Before</span>
+                  <p>{project.humanRole.before}</p>
+                </div>
+                <div className="human-role-arrow">→</div>
+                <div className="human-role-after">
+                  <span className="role-label">✅ After</span>
+                  <p>{project.humanRole.after}</p>
+                </div>
+              </div>
+              {project.humanRole.whoIsEmpowered && project.humanRole.whoIsEmpowered.length > 0 && (
+                <div className="empowered-roles">
+                  <span className="empowered-label">Empowers:</span>
+                  {project.humanRole.whoIsEmpowered.map((role, idx) => (
+                    <span key={idx} className="empowered-tag">{role}</span>
+                  ))}
+                </div>
+              )}
+              {project.humanRole.newCapabilities && project.humanRole.newCapabilities.length > 0 && (
+                <div className="new-capabilities">
+                  <span className="capabilities-label">New capabilities:</span>
+                  <ul>
+                    {project.humanRole.newCapabilities.slice(0, 4).map((cap, idx) => (
+                      <li key={idx}>{cap}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Data Requirements */}
+          {project.dataRequirements && (
+            <div className="project-section data-requirements-section">
+              <h4>📊 Data Flow</h4>
+              <div className="data-flow-grid">
+                {project.dataRequirements.required && project.dataRequirements.required.length > 0 && (
+                  <div className="data-flow-item data-required">
+                    <span className="data-label">🔴 Requires</span>
+                    <ul>
+                      {project.dataRequirements.required.slice(0, 3).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {project.dataRequirements.generates && project.dataRequirements.generates.length > 0 && (
+                  <div className="data-flow-item data-generates">
+                    <span className="data-label">🟢 Generates</span>
+                    <ul>
+                      {project.dataRequirements.generates.slice(0, 3).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                {project.dataRequirements.improves && project.dataRequirements.improves.length > 0 && (
+                  <div className="data-flow-item data-improves">
+                    <span className="data-label">🔵 Improves</span>
+                    <ul>
+                      {project.dataRequirements.improves.slice(0, 3).map((item, idx) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Project Dependencies */}
+          {((project.dependsOn && project.dependsOn.length > 0) || (project.enables && project.enables.length > 0)) && (
+            <div className="project-section dependencies-section">
+              <h4>🔗 Dependencies</h4>
+              <div className="dependencies-grid">
+                {project.dependsOn && project.dependsOn.length > 0 && (
+                  <div className="dependency-item">
+                    <span className="dep-label">⬅️ Depends on:</span>
+                    {project.dependsOn.map((dep, idx) => (
+                      <span key={idx} className="dep-tag">{dep}</span>
+                    ))}
+                  </div>
+                )}
+                {project.enables && project.enables.length > 0 && (
+                  <div className="dependency-item">
+                    <span className="dep-label">➡️ Enables:</span>
+                    {project.enables.map((dep, idx) => (
+                      <span key={idx} className="dep-tag enables-tag">{dep}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Ops Process */}
           <div className="project-section">
             <h4>Ops Process</h4>
@@ -425,8 +541,9 @@ export default function Dashboard() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [stageFilter, setStageFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
+  const [pillarFilter, setPillarFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
-  const [sortBy, setSortBy] = useState<'priority' | 'stage' | 'difficulty' | 'custom'>('priority');
+  const [sortBy, setSortBy] = useState<'pillar' | 'priority' | 'stage' | 'difficulty' | 'custom'>('pillar');
 
   // Drag and drop state
   const [customOrder, setCustomOrder] = useState<string[]>([]);
@@ -579,11 +696,15 @@ export default function Dashboard() {
   if (priorityFilter !== 'all') {
     filteredProjects = filteredProjects.filter(p => p.priority === priorityFilter);
   }
+  if (pillarFilter !== 'all') {
+    filteredProjects = filteredProjects.filter(p => p.pillar === pillarFilter);
+  }
 
   // Sort projects
   const priorityOrder = { Critical: 0, High: 1, Medium: 2, Low: 3 };
   const stageOrder = { Deployed: 0, 'Under Dev': 1, Pilot: 2, Planned: 3, Idea: 4 };
   const difficultyOrder = { Easy: 0, Medium: 1, Hard: 2 };
+  const pillarOrder: Record<string, number> = { 'Data Foundation': 0, 'Data Generation': 1, 'Human Empowerment': 2 };
 
   filteredProjects = [...filteredProjects].sort((a, b) => {
     if (sortBy === 'custom') {
@@ -591,6 +712,16 @@ export default function Dashboard() {
       const bIndex = customOrder.indexOf(b.id);
       // If not in custom order, put at the end
       return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+    }
+    if (sortBy === 'pillar') {
+      const pillarA = pillarOrder[a.pillar as string] ?? 99;
+      const pillarB = pillarOrder[b.pillar as string] ?? 99;
+      if (pillarA !== pillarB) return pillarA - pillarB;
+      // Within same pillar, sort by pillarOrder then priority
+      if ((a.pillarOrder || 99) !== (b.pillarOrder || 99)) {
+        return (a.pillarOrder || 99) - (b.pillarOrder || 99);
+      }
+      return (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99);
     }
     if (sortBy === 'priority') {
       return (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99);
@@ -713,11 +844,29 @@ export default function Dashboard() {
       {activeTab === 'projects' && (
         <>
           <div className="projects-intro">
-            <h2>Products & Project Ideas</h2>
-            <p>
-              All Abeto products, prototypes, and planned initiatives. Filter by stage, priority, or category.
-              Each item shows development status, required API data, and links to prototypes.
+            <h2>The Three Pillars of Scalable Growth</h2>
+            <p className="intro-subtitle">
+              A strategic view of Abeto products and initiatives. Each project is designed with a clear purpose and human role.
             </p>
+
+            {/* Three Pillars Overview */}
+            <div className="three-pillars">
+              <div className="pillar pillar-foundation">
+                <div className="pillar-icon">🏗️</div>
+                <h3>Data Foundation</h3>
+                <p>Without reliable, real-time data, <strong>nothing else works</strong>. This is the bedrock.</p>
+              </div>
+              <div className="pillar pillar-generation">
+                <div className="pillar-icon">🚀</div>
+                <h3>Data Generation</h3>
+                <p>The goal is <strong>GROWTH</strong>. More leads, calls, qualifications, sales, and partners.</p>
+              </div>
+              <div className="pillar pillar-empowerment">
+                <div className="pillar-icon">👥</div>
+                <h3>Human Empowerment</h3>
+                <p>AI makes humans <strong>MORE capable</strong>, not obsolete. People are always essential.</p>
+              </div>
+            </div>
           </div>
 
           {/* Stage Summary Pills */}
@@ -747,6 +896,15 @@ export default function Dashboard() {
           {/* Filters Row */}
           <div className="filters-row">
             <div className="filter-group">
+              <label>Pillar:</label>
+              <select value={pillarFilter} onChange={(e) => setPillarFilter(e.target.value)}>
+                <option value="all">All Pillars</option>
+                <option value="Data Foundation">🏗️ Data Foundation</option>
+                <option value="Data Generation">🚀 Data Generation</option>
+                <option value="Human Empowerment">👥 Human Empowerment</option>
+              </select>
+            </div>
+            <div className="filter-group">
               <label>Category:</label>
               <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
                 {categories.map((cat) => (
@@ -764,7 +922,8 @@ export default function Dashboard() {
             </div>
             <div className="filter-group">
               <label>Sort by:</label>
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'priority' | 'stage' | 'difficulty' | 'custom')}>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'pillar' | 'priority' | 'stage' | 'difficulty' | 'custom')}>
+                <option value="pillar">🏛️ Pillar (Recommended)</option>
                 <option value="priority">Priority</option>
                 <option value="stage">Stage</option>
                 <option value="difficulty">Difficulty</option>

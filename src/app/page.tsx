@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type {
   ResourceStatus,
   DashboardData,
@@ -8,6 +8,9 @@ import type {
   HealthIndicator,
   ProjectProposal
 } from '@/lib/api';
+
+// Local storage key for custom project order
+const CUSTOM_ORDER_KEY = 'abeto-project-custom-order';
 
 function formatDate(dateString: string | undefined): string {
   if (!dateString) return 'N/A';
@@ -200,7 +203,17 @@ function ResourceCard({ resource }: { resource: ResourceStatus }) {
   );
 }
 
-function ProjectCard({ project }: { project: ProjectProposal }) {
+interface ProjectCardProps {
+  project: ProjectProposal;
+  index: number;
+  isDraggable: boolean;
+  onDragStart?: (e: React.DragEvent, index: number) => void;
+  onDragOver?: (e: React.DragEvent, index: number) => void;
+  onDragEnd?: () => void;
+  isDragOver?: boolean;
+}
+
+function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onDragEnd, isDragOver }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
 
   const difficultyColor = {
@@ -234,10 +247,24 @@ function ProjectCard({ project }: { project: ProjectProposal }) {
   const stageClass = project.stage?.toLowerCase().replace(' ', '-') || 'idea';
 
   return (
-    <div className={`project-card stage-card-${stageClass}`} onClick={() => setExpanded(!expanded)}>
-      {/* Stage Badge - Top Right */}
+    <div
+      className={`project-card stage-card-${stageClass} ${isDragOver ? 'drag-over' : ''} ${isDraggable ? 'draggable' : ''}`}
+      draggable={isDraggable}
+      onDragStart={isDraggable ? (e) => onDragStart?.(e, index) : undefined}
+      onDragOver={isDraggable ? (e) => {
+        e.preventDefault();
+        onDragOver?.(e, index);
+      } : undefined}
+      onDragEnd={isDraggable ? onDragEnd : undefined}
+      onClick={() => setExpanded(!expanded)}
+      {/* Drag Handle & Stage Badge */}
       <div className="project-top-row">
-        <span className={`stage-badge stage-${stageClass}`}>{project.stage}</span>
+        <div className="project-top-left">
+          {isDraggable && (
+            <span className="drag-handle" title="Drag to reorder">⋮⋮</span>
+          )}
+          <span className={`stage-badge stage-${stageClass}`}>{project.stage}</span>
+        </div>
         <span className={`data-status-badge data-${project.dataStatus?.toLowerCase()}`}>
           {project.dataStatus === 'Live' && '🟢'}
           {project.dataStatus === 'Partial' && '🟡'}
@@ -398,7 +425,36 @@ export default function Dashboard() {
   const [stageFilter, setStageFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
-  const [sortBy, setSortBy] = useState<'priority' | 'stage' | 'difficulty'>('priority');
+  const [sortBy, setSortBy] = useState<'priority' | 'stage' | 'difficulty' | 'custom'>('priority');
+
+  // Drag and drop state
+  const [customOrder, setCustomOrder] = useState<string[]>([]);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const filteredProjectsRef = useRef<ProjectProposal[]>([]);
+
+  // Load custom order from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(CUSTOM_ORDER_KEY);
+      if (saved) {
+        setCustomOrder(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error('Failed to load custom order:', e);
+    }
+  }, []);
+
+  // Save custom order to localStorage when it changes
+  useEffect(() => {
+    if (customOrder.length > 0) {
+      try {
+        localStorage.setItem(CUSTOM_ORDER_KEY, JSON.stringify(customOrder));
+      } catch (e) {
+        console.error('Failed to save custom order:', e);
+      }
+    }
+  }, [customOrder]);
 
   const loadData = useCallback(async (showRefreshing = false) => {
     if (showRefreshing) setRefreshing(true);
@@ -414,13 +470,18 @@ export default function Dashboard() {
 
       setData(result.data);
       setProjects(result.projects);
+
+      // Initialize custom order if empty
+      if (customOrder.length === 0 && result.projects.length > 0) {
+        setCustomOrder(result.projects.map((p: ProjectProposal) => p.id));
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch data');
     } finally {
       setLoading(false);
       setRefreshing(false);
     }
-  }, []);
+  }, [customOrder.length]);
 
   useEffect(() => {
     loadData();
@@ -428,6 +489,54 @@ export default function Dashboard() {
 
   const handleRefresh = () => {
     loadData(true);
+  };
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    // Add a slight delay to show the drag effect
+    const target = e.target as HTMLElement;
+    setTimeout(() => {
+      target.style.opacity = '0.5';
+    }, 0);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex !== null && draggedIndex !== index) {
+      setDragOverIndex(index);
+    }
+  };
+
+  const handleDragEnd = () => {
+    if (draggedIndex !== null && dragOverIndex !== null && draggedIndex !== dragOverIndex) {
+      // Get the current filtered projects in their display order
+      const currentFilteredIds = [...filteredProjectsRef.current].map(p => p.id);
+
+      // Get the dragged item id and target position
+      const draggedId = currentFilteredIds[draggedIndex];
+      const targetId = currentFilteredIds[dragOverIndex];
+
+      // Create new order by moving the item in the full custom order
+      const newOrder = [...customOrder];
+      const draggedCurrentIndex = newOrder.indexOf(draggedId);
+      const targetCurrentIndex = newOrder.indexOf(targetId);
+
+      if (draggedCurrentIndex !== -1 && targetCurrentIndex !== -1) {
+        newOrder.splice(draggedCurrentIndex, 1);
+        newOrder.splice(targetCurrentIndex, 0, draggedId);
+        setCustomOrder(newOrder);
+      }
+    }
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const resetCustomOrder = () => {
+    const defaultOrder = projects.map(p => p.id);
+    setCustomOrder(defaultOrder);
+    localStorage.removeItem(CUSTOM_ORDER_KEY);
   };
 
   if (loading) {
@@ -476,6 +585,12 @@ export default function Dashboard() {
   const difficultyOrder = { Easy: 0, Medium: 1, Hard: 2 };
 
   filteredProjects = [...filteredProjects].sort((a, b) => {
+    if (sortBy === 'custom') {
+      const aIndex = customOrder.indexOf(a.id);
+      const bIndex = customOrder.indexOf(b.id);
+      // If not in custom order, put at the end
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
+    }
     if (sortBy === 'priority') {
       return (priorityOrder[a.priority] || 99) - (priorityOrder[b.priority] || 99);
     }
@@ -487,6 +602,9 @@ export default function Dashboard() {
     }
     return 0;
   });
+
+  // Update the ref for drag operations
+  filteredProjectsRef.current = filteredProjects;
 
   const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
   const priorities = ['all', 'Critical', 'High', 'Medium', 'Low'];
@@ -645,17 +763,29 @@ export default function Dashboard() {
             </div>
             <div className="filter-group">
               <label>Sort by:</label>
-              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'priority' | 'stage' | 'difficulty')}>
+              <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'priority' | 'stage' | 'difficulty' | 'custom')}>
                 <option value="priority">Priority</option>
                 <option value="stage">Stage</option>
                 <option value="difficulty">Difficulty</option>
+                <option value="custom">✋ Custom (Drag to reorder)</option>
               </select>
             </div>
+            {sortBy === 'custom' && (
+              <button className="reset-order-btn" onClick={resetCustomOrder}>
+                ↺ Reset Order
+              </button>
+            )}
             <div className="filter-group view-toggle">
               <button className={viewMode === 'cards' ? 'active' : ''} onClick={() => setViewMode('cards')}>▦ Cards</button>
               <button className={viewMode === 'table' ? 'active' : ''} onClick={() => setViewMode('table')}>☰ Table</button>
             </div>
           </div>
+
+          {sortBy === 'custom' && viewMode === 'cards' && (
+            <div className="drag-hint">
+              💡 Drag cards to reorder. Your custom order is saved automatically.
+            </div>
+          )}
 
           <div className="projects-count">
             Showing {filteredProjects.length} of {projects.length} projects
@@ -663,9 +793,18 @@ export default function Dashboard() {
 
           {/* Projects Grid or Table */}
           {viewMode === 'cards' ? (
-            <div className="projects-grid">
-              {filteredProjects.map((project) => (
-                <ProjectCard key={project.id} project={project} />
+            <div className={`projects-grid ${sortBy === 'custom' ? 'drag-enabled' : ''}`}>
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  isDraggable={sortBy === 'custom'}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDragEnd={handleDragEnd}
+                  isDragOver={dragOverIndex === index}
+                />
               ))}
             </div>
           ) : (
@@ -673,6 +812,7 @@ export default function Dashboard() {
               <table className="projects-table">
                 <thead>
                   <tr>
+                    {sortBy === 'custom' && <th style={{ width: '40px' }}>#</th>}
                     <th>Product / Project</th>
                     <th>Stage</th>
                     <th>Priority</th>
@@ -683,8 +823,23 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredProjects.map((project) => (
-                    <tr key={project.id} className={`stage-row-${project.stage?.toLowerCase().replace(' ', '-')}`}>
+                  {filteredProjects.map((project, index) => (
+                    <tr
+                      key={project.id}
+                      className={`stage-row-${project.stage?.toLowerCase().replace(' ', '-')} ${dragOverIndex === index ? 'drag-over' : ''} ${sortBy === 'custom' ? 'draggable' : ''}`}
+                      draggable={sortBy === 'custom'}
+                      onDragStart={sortBy === 'custom' ? (e) => handleDragStart(e, index) : undefined}
+                      onDragOver={sortBy === 'custom' ? (e) => {
+                        e.preventDefault();
+                        handleDragOver(e, index);
+                      } : undefined}
+                      onDragEnd={sortBy === 'custom' ? handleDragEnd : undefined}
+                    >
+                      {sortBy === 'custom' && (
+                        <td className="drag-cell">
+                          <span className="drag-handle-table">⋮⋮</span>
+                        </td>
+                      )}
                       <td>
                         <div className="table-project-name">{project.title}</div>
                         <div className="table-project-desc">{project.description.substring(0, 100)}...</div>

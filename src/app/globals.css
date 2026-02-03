@@ -1299,6 +1299,100 @@ a {
   color: var(--accent-blue);
 }
 
+/* Drag and Drop */
+.drag-hint {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: var(--accent-blue-bg);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.reset-order-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.reset-order-btn:hover {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+.project-top-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: var(--text-muted);
+  font-size: 1rem;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.drag-handle:hover {
+  color: var(--accent-blue);
+  background: var(--accent-blue-bg);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+.drag-handle-table {
+  cursor: grab;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.drag-handle-table:hover {
+  color: var(--accent-blue);
+}
+
+.drag-cell {
+  text-align: center;
+  padding: 0.5rem !important;
+}
+
+.project-card.draggable {
+  cursor: default;
+}
+
+.project-card.drag-over {
+  border: 2px dashed var(--accent-blue);
+  background: var(--accent-blue-bg);
+}
+
+.projects-grid.drag-enabled .project-card {
+  transition: transform 0.2s, border 0.2s, background 0.2s;
+}
+
+.projects-table tbody tr.draggable {
+  cursor: default;
+}
+
+.projects-table tbody tr.drag-over {
+  background: var(--accent-blue-bg) !important;
+  border-top: 2px solid var(--accent-blue);
+}
+
+.projects-table tbody tr.draggable:active {
+  opacity: 0.5;
+}
+
 /* Footer */
 .footer {
   margin-top: 3rem;

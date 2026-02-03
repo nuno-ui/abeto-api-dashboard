@@ -1005,13 +1005,13 @@ export interface ProjectProposal {
   potentialLOA: string;
   missingApiData: string[];
   priority: 'Critical' | 'High' | 'Medium' | 'Low';
-  // New fields
-  stage: ProjectStage;
+  // New fields - optional with defaults applied in generateProjectProposals
+  stage?: ProjectStage;
   prototypeUrl?: string;
   notionUrl?: string;
-  primaryUsers: string[];
-  integrationsNeeded: string[];
-  dataStatus: 'Live' | 'Partial' | 'Static' | 'None';
+  primaryUsers?: string[];
+  integrationsNeeded?: string[];
+  dataStatus?: 'Live' | 'Partial' | 'Static' | 'None';
   nextMilestone?: string;
   rank?: number; // For manual ordering
 }

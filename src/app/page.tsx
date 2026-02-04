@@ -8,10 +8,9 @@ import type {
   HealthIndicator,
   ProjectProposal,
   ProjectPillar,
-  MissingApiResource,
-  GrowthHack
+  MissingApiResource
 } from '@/lib/api';
-import { getMissingApiResources, getGrowthHacks } from '@/lib/api';
+import { getMissingApiResources } from '@/lib/api';
 
 // Local storage key for custom project order
 const CUSTOM_ORDER_KEY = 'abeto-project-custom-order';
@@ -540,9 +539,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api' | 'growth-hacks'>('status');
+  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api'>('status');
   const missingApiResources = getMissingApiResources();
-  const growthHacks = getGrowthHacks();
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [stageFilter, setStageFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
@@ -791,14 +789,8 @@ export default function Dashboard() {
         <div className="narrative-arrow">→</div>
         <div className="narrative-step" onClick={() => setActiveTab('projects')}>
           <span className="narrative-number">3</span>
-          <span className="narrative-label">Enable Products</span>
+          <span className="narrative-label">Enable Products & Growth</span>
           <span className="narrative-sublabel">{projects.length} initiatives</span>
-        </div>
-        <div className="narrative-arrow">→</div>
-        <div className="narrative-step" onClick={() => setActiveTab('growth-hacks')}>
-          <span className="narrative-number">4</span>
-          <span className="narrative-label">Drive Growth</span>
-          <span className="narrative-sublabel">{growthHacks.length} growth hacks</span>
         </div>
       </div>
 
@@ -821,12 +813,6 @@ export default function Dashboard() {
           onClick={() => setActiveTab('projects')}
         >
           💡 Projects ({projects.length})
-        </button>
-        <button
-          className={`tab ${activeTab === 'growth-hacks' ? 'active' : ''}`}
-          onClick={() => setActiveTab('growth-hacks')}
-        >
-          🚀 Growth Hacks ({growthHacks.length})
         </button>
       </div>
 
@@ -1220,189 +1206,6 @@ export default function Dashboard() {
                 </div>
               </div>
             ))}
-          </div>
-        </>
-      )}
-
-      {activeTab === 'growth-hacks' && (
-        <>
-          <div className="projects-intro">
-            <h2>🚀 Growth Hacks Roadmap</h2>
-            <p className="intro-subtitle">
-              Strategic initiatives to dominate Spain&apos;s solar market. Ordered by impact and build time.
-            </p>
-
-            {/* Key Message */}
-            <div className="growth-narrative">
-              <div className="growth-narrative-item">
-                <span className="growth-narrative-icon">📊</span>
-                <div>
-                  <strong>Data enables everything.</strong> Without reliable API endpoints, tools can&apos;t function.
-                </div>
-              </div>
-              <div className="growth-narrative-arrow">→</div>
-              <div className="growth-narrative-item">
-                <span className="growth-narrative-icon">🔧</span>
-                <div>
-                  <strong>Tools multiply humans.</strong> Each growth hack makes teams more effective, not obsolete.
-                </div>
-              </div>
-              <div className="growth-narrative-arrow">→</div>
-              <div className="growth-narrative-item">
-                <span className="growth-narrative-icon">📈</span>
-                <div>
-                  <strong>Humans drive results.</strong> AI handles volume; people handle judgment and relationships.
-                </div>
-              </div>
-            </div>
-
-            {/* CAC Impact Summary */}
-            <div className="growth-summary">
-              <div className="growth-summary-card">
-                <span className="growth-summary-value">-60%</span>
-                <span className="growth-summary-label">Max CAC Reduction</span>
-              </div>
-              <div className="growth-summary-card">
-                <span className="growth-summary-value">90 days</span>
-                <span className="growth-summary-label">Full Roadmap</span>
-              </div>
-              <div className="growth-summary-card compliance">
-                <span className="growth-summary-value">€0</span>
-                <span className="growth-summary-label">Fines (Compliance First)</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Tier 1: Must Build */}
-          <div className="growth-tier">
-            <div className="tier-header tier-1">
-              <h3>🏆 Tier 1: Must Build <span className="tier-timeline">Weeks 1-4</span></h3>
-              <p>Foundation for organic dominance. Start here.</p>
-            </div>
-            <div className="growth-grid">
-              {growthHacks.filter(h => h.tier === 'Tier 1: Must Build').map((hack) => (
-                <div key={hack.id} className={`growth-card ${hack.urgency ? 'has-urgency' : ''}`}>
-                  <div className="growth-card-header">
-                    <span className="cac-badge">{hack.cacImpact} CAC</span>
-                    <span className="build-time">{hack.buildTime}</span>
-                  </div>
-                  <h4 className="growth-card-title">{hack.name}</h4>
-                  <p className="growth-card-description">{hack.description}</p>
-                  <div className="growth-card-benefit">
-                    <span className="benefit-icon">💡</span> {hack.keyBenefit}
-                  </div>
-                  {hack.urgency && (
-                    <div className="growth-urgency">
-                      {hack.urgency}
-                    </div>
-                  )}
-                  <div className="growth-card-footer">
-                    <div className="growth-data-sources">
-                      <span className="sources-label">Data:</span>
-                      {hack.dataSources.slice(0, 2).map((source, idx) => (
-                        <span key={idx} className="source-tag">{source}</span>
-                      ))}
-                      {hack.dataSources.length > 2 && <span className="source-more">+{hack.dataSources.length - 2}</span>}
-                    </div>
-                    {hack.requiresApi.length > 0 && (
-                      <div className="growth-requires-api">
-                        <span className="requires-label">Needs:</span>
-                        {hack.requiresApi.slice(0, 2).map((api, idx) => (
-                          <span key={idx} className="requires-tag">{api}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tier 2: High Impact */}
-          <div className="growth-tier">
-            <div className="tier-header tier-2">
-              <h3>⚡ Tier 2: High Impact <span className="tier-timeline">Weeks 5-8</span></h3>
-              <p>Scale and automate. Build on foundation.</p>
-            </div>
-            <div className="growth-grid">
-              {growthHacks.filter(h => h.tier === 'Tier 2: High Impact').map((hack) => (
-                <div key={hack.id} className="growth-card">
-                  <div className="growth-card-header">
-                    <span className="cac-badge">{hack.cacImpact} CAC</span>
-                    <span className="build-time">{hack.buildTime}</span>
-                  </div>
-                  <h4 className="growth-card-title">{hack.name}</h4>
-                  <p className="growth-card-description">{hack.description}</p>
-                  <div className="growth-card-benefit">
-                    <span className="benefit-icon">💡</span> {hack.keyBenefit}
-                  </div>
-                  <div className="growth-card-footer">
-                    <div className="growth-data-sources">
-                      <span className="sources-label">Data:</span>
-                      {hack.dataSources.slice(0, 2).map((source, idx) => (
-                        <span key={idx} className="source-tag">{source}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tier 3: Quick Wins */}
-          <div className="growth-tier">
-            <div className="tier-header tier-3">
-              <h3>🛡️ Tier 3: Quick Wins & Compliance <span className="tier-timeline">Parallel Track</span></h3>
-              <p>Essential compliance + low-effort wins. Run alongside Tier 1.</p>
-            </div>
-            <div className="growth-grid">
-              {growthHacks.filter(h => h.tier === 'Tier 3: Quick Wins').map((hack) => (
-                <div key={hack.id} className={`growth-card ${hack.urgency ? 'has-urgency compliance-card' : ''}`}>
-                  <div className="growth-card-header">
-                    <span className={`cac-badge ${hack.cacImpact === 'Compliance' ? 'compliance' : ''}`}>{hack.cacImpact}</span>
-                    <span className="build-time">{hack.buildTime}</span>
-                  </div>
-                  <h4 className="growth-card-title">{hack.name}</h4>
-                  <p className="growth-card-description">{hack.description}</p>
-                  <div className="growth-card-benefit">
-                    <span className="benefit-icon">{hack.cacImpact === 'Compliance' ? '⚠️' : '💡'}</span> {hack.keyBenefit}
-                  </div>
-                  {hack.urgency && (
-                    <div className="growth-urgency compliance-urgency">
-                      {hack.urgency}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Timeline Summary */}
-          <div className="growth-timeline-summary">
-            <h3>📅 Expected Results</h3>
-            <div className="timeline-grid">
-              <div className="timeline-item">
-                <span className="timeline-week">Week 4</span>
-                <div className="timeline-content">
-                  <div className="timeline-metric">100-150 leads/week</div>
-                  <div className="timeline-detail">500 SEO pages live, PVPC widget viral</div>
-                </div>
-              </div>
-              <div className="timeline-item">
-                <span className="timeline-week">Week 8</span>
-                <div className="timeline-content">
-                  <div className="timeline-metric">200-300 leads/week</div>
-                  <div className="timeline-detail">WhatsApp = 40% of leads, +30% quality</div>
-                </div>
-              </div>
-              <div className="timeline-item">
-                <span className="timeline-week">Week 12</span>
-                <div className="timeline-content">
-                  <div className="timeline-metric">400-500 leads/week</div>
-                  <div className="timeline-detail">-50% CAC, 75% organic</div>
-                </div>
-              </div>
-            </div>
           </div>
         </>
       )}

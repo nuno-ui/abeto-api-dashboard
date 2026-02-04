@@ -8,9 +8,10 @@ import type {
   HealthIndicator,
   ProjectProposal,
   ProjectPillar,
-  MissingApiResource
+  MissingApiResource,
+  GrowthHack
 } from '@/lib/api';
-import { getMissingApiResources } from '@/lib/api';
+import { getMissingApiResources, getGrowthHacks } from '@/lib/api';
 
 // Local storage key for custom project order
 const CUSTOM_ORDER_KEY = 'abeto-project-custom-order';
@@ -539,8 +540,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api'>('status');
+  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api' | 'growth-hacks'>('status');
   const missingApiResources = getMissingApiResources();
+  const growthHacks = getGrowthHacks();
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [stageFilter, setStageFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
@@ -773,25 +775,58 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Narrative Flow Banner */}
+      <div className="narrative-flow">
+        <div className="narrative-step" onClick={() => setActiveTab('status')}>
+          <span className="narrative-number">1</span>
+          <span className="narrative-label">Data Foundation</span>
+          <span className="narrative-sublabel">Live API Health</span>
+        </div>
+        <div className="narrative-arrow">→</div>
+        <div className="narrative-step" onClick={() => setActiveTab('missing-api')}>
+          <span className="narrative-number">2</span>
+          <span className="narrative-label">Build Missing</span>
+          <span className="narrative-sublabel">{missingApiResources.length} endpoints needed</span>
+        </div>
+        <div className="narrative-arrow">→</div>
+        <div className="narrative-step" onClick={() => setActiveTab('projects')}>
+          <span className="narrative-number">3</span>
+          <span className="narrative-label">Enable Products</span>
+          <span className="narrative-sublabel">{projects.length} initiatives</span>
+        </div>
+        <div className="narrative-arrow">→</div>
+        <div className="narrative-step" onClick={() => setActiveTab('growth-hacks')}>
+          <span className="narrative-number">4</span>
+          <span className="narrative-label">Drive Growth</span>
+          <span className="narrative-sublabel">{growthHacks.length} growth hacks</span>
+        </div>
+      </div>
+
       {/* Tabs */}
       <div className="tabs">
         <button
           className={`tab ${activeTab === 'status' ? 'active' : ''}`}
           onClick={() => setActiveTab('status')}
         >
-          📊 Resource Status
-        </button>
-        <button
-          className={`tab ${activeTab === 'projects' ? 'active' : ''}`}
-          onClick={() => setActiveTab('projects')}
-        >
-          💡 Project Ideas ({projects.length})
+          📊 API Status
         </button>
         <button
           className={`tab ${activeTab === 'missing-api' ? 'active' : ''}`}
           onClick={() => setActiveTab('missing-api')}
         >
           🔧 Missing API ({missingApiResources.length})
+        </button>
+        <button
+          className={`tab ${activeTab === 'projects' ? 'active' : ''}`}
+          onClick={() => setActiveTab('projects')}
+        >
+          💡 Projects ({projects.length})
+        </button>
+        <button
+          className={`tab ${activeTab === 'growth-hacks' ? 'active' : ''}`}
+          onClick={() => setActiveTab('growth-hacks')}
+        >
+          🚀 Growth Hacks ({growthHacks.length})
         </button>
       </div>
 
@@ -878,75 +913,148 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Stage Summary Pills */}
-          <div className="stage-summary">
-            <div className="stage-pill deployed" onClick={() => setStageFilter(stageFilter === 'Deployed' ? 'all' : 'Deployed')}>
-              <span className="stage-count">{stageCounts.Deployed}</span>
-              <span className="stage-label">Deployed</span>
+          {/* Interactive Filter Bar */}
+          <div className="interactive-filters">
+            {/* Stage Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Stage:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${stageFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setStageFilter('all')}
+                >
+                  All ({projects.length})
+                </button>
+                <button
+                  className={`filter-pill deployed ${stageFilter === 'Deployed' ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stageFilter === 'Deployed' ? 'all' : 'Deployed')}
+                >
+                  ✓ Deployed ({stageCounts.Deployed})
+                </button>
+                <button
+                  className={`filter-pill under-dev ${stageFilter === 'Under Dev' ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stageFilter === 'Under Dev' ? 'all' : 'Under Dev')}
+                >
+                  🔨 Under Dev ({stageCounts['Under Dev']})
+                </button>
+                <button
+                  className={`filter-pill pilot ${stageFilter === 'Pilot' ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stageFilter === 'Pilot' ? 'all' : 'Pilot')}
+                >
+                  🧪 Pilot ({stageCounts.Pilot})
+                </button>
+                <button
+                  className={`filter-pill planned ${stageFilter === 'Planned' ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stageFilter === 'Planned' ? 'all' : 'Planned')}
+                >
+                  📋 Planned ({stageCounts.Planned})
+                </button>
+                <button
+                  className={`filter-pill idea ${stageFilter === 'Idea' ? 'active' : ''}`}
+                  onClick={() => setStageFilter(stageFilter === 'Idea' ? 'all' : 'Idea')}
+                >
+                  💡 Ideas ({stageCounts.Idea})
+                </button>
+              </div>
             </div>
-            <div className="stage-pill under-dev" onClick={() => setStageFilter(stageFilter === 'Under Dev' ? 'all' : 'Under Dev')}>
-              <span className="stage-count">{stageCounts['Under Dev']}</span>
-              <span className="stage-label">Under Dev</span>
+
+            {/* Pillar Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Pillar:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${pillarFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setPillarFilter('all')}
+                >
+                  All Pillars
+                </button>
+                <button
+                  className={`filter-pill pillar-foundation ${pillarFilter === 'Data Foundation' ? 'active' : ''}`}
+                  onClick={() => setPillarFilter(pillarFilter === 'Data Foundation' ? 'all' : 'Data Foundation')}
+                >
+                  🏗️ Data Foundation
+                </button>
+                <button
+                  className={`filter-pill pillar-generation ${pillarFilter === 'Data Generation' ? 'active' : ''}`}
+                  onClick={() => setPillarFilter(pillarFilter === 'Data Generation' ? 'all' : 'Data Generation')}
+                >
+                  🚀 Data Generation
+                </button>
+                <button
+                  className={`filter-pill pillar-empowerment ${pillarFilter === 'Human Empowerment' ? 'active' : ''}`}
+                  onClick={() => setPillarFilter(pillarFilter === 'Human Empowerment' ? 'all' : 'Human Empowerment')}
+                >
+                  👥 Human Empowerment
+                </button>
+              </div>
             </div>
-            <div className="stage-pill pilot" onClick={() => setStageFilter(stageFilter === 'Pilot' ? 'all' : 'Pilot')}>
-              <span className="stage-count">{stageCounts.Pilot}</span>
-              <span className="stage-label">Pilot</span>
-            </div>
-            <div className="stage-pill planned" onClick={() => setStageFilter(stageFilter === 'Planned' ? 'all' : 'Planned')}>
-              <span className="stage-count">{stageCounts.Planned}</span>
-              <span className="stage-label">Planned</span>
-            </div>
-            <div className="stage-pill idea" onClick={() => setStageFilter(stageFilter === 'Idea' ? 'all' : 'Idea')}>
-              <span className="stage-count">{stageCounts.Idea}</span>
-              <span className="stage-label">Ideas</span>
+
+            {/* Priority Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Priority:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${priorityFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setPriorityFilter('all')}
+                >
+                  All
+                </button>
+                <button
+                  className={`filter-pill priority-critical ${priorityFilter === 'Critical' ? 'active' : ''}`}
+                  onClick={() => setPriorityFilter(priorityFilter === 'Critical' ? 'all' : 'Critical')}
+                >
+                  🔴 Critical
+                </button>
+                <button
+                  className={`filter-pill priority-high ${priorityFilter === 'High' ? 'active' : ''}`}
+                  onClick={() => setPriorityFilter(priorityFilter === 'High' ? 'all' : 'High')}
+                >
+                  🟠 High
+                </button>
+                <button
+                  className={`filter-pill priority-medium ${priorityFilter === 'Medium' ? 'active' : ''}`}
+                  onClick={() => setPriorityFilter(priorityFilter === 'Medium' ? 'all' : 'Medium')}
+                >
+                  🟡 Medium
+                </button>
+                <button
+                  className={`filter-pill priority-low ${priorityFilter === 'Low' ? 'active' : ''}`}
+                  onClick={() => setPriorityFilter(priorityFilter === 'Low' ? 'all' : 'Low')}
+                >
+                  ⚪ Low
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Filters Row */}
-          <div className="filters-row">
-            <div className="filter-group">
-              <label>Pillar:</label>
-              <select value={pillarFilter} onChange={(e) => setPillarFilter(e.target.value)}>
-                <option value="all">All Pillars</option>
-                <option value="Data Foundation">🏗️ Data Foundation</option>
-                <option value="Data Generation">🚀 Data Generation</option>
-                <option value="Human Empowerment">👥 Human Empowerment</option>
-              </select>
-            </div>
-            <div className="filter-group">
-              <label>Category:</label>
-              <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>{cat === 'all' ? 'All Categories' : cat}</option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label>Priority:</label>
-              <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
-                {priorities.map((p) => (
-                  <option key={p} value={p}>{p === 'all' ? 'All Priorities' : p}</option>
-                ))}
-              </select>
-            </div>
-            <div className="filter-group">
-              <label>Sort by:</label>
+          {/* Compact Sort & View Controls */}
+          <div className="sort-view-row">
+            <div className="sort-controls">
+              <span className="sort-label">Sort:</span>
               <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'pillar' | 'priority' | 'stage' | 'difficulty' | 'custom')}>
-                <option value="pillar">🏛️ Pillar (Recommended)</option>
-                <option value="priority">Priority</option>
+                <option value="pillar">🏛️ Pillar</option>
+                <option value="priority">Priority (Ops Focus)</option>
                 <option value="stage">Stage</option>
                 <option value="difficulty">Difficulty</option>
-                <option value="custom">✋ Custom (Drag to reorder)</option>
+                <option value="custom">✋ Custom Order</option>
               </select>
+              {sortBy === 'custom' && (
+                <button className="reset-order-btn" onClick={resetCustomOrder}>
+                  ↺ Reset
+                </button>
+              )}
             </div>
-            {sortBy === 'custom' && (
-              <button className="reset-order-btn" onClick={resetCustomOrder}>
-                ↺ Reset Order
-              </button>
-            )}
-            <div className="filter-group view-toggle">
-              <button className={viewMode === 'cards' ? 'active' : ''} onClick={() => setViewMode('cards')}>▦ Cards</button>
-              <button className={viewMode === 'table' ? 'active' : ''} onClick={() => setViewMode('table')}>☰ Table</button>
+            <div className="view-controls">
+              <button className={`view-btn ${viewMode === 'cards' ? 'active' : ''}`} onClick={() => setViewMode('cards')}>▦ Cards</button>
+              <button className={`view-btn ${viewMode === 'table' ? 'active' : ''}`} onClick={() => setViewMode('table')}>☰ Table</button>
+            </div>
+            <div className="category-select">
+              <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                <option value="all">All Categories</option>
+                {categories.filter(c => c !== 'all').map((cat) => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -1112,6 +1220,189 @@ export default function Dashboard() {
                 </div>
               </div>
             ))}
+          </div>
+        </>
+      )}
+
+      {activeTab === 'growth-hacks' && (
+        <>
+          <div className="projects-intro">
+            <h2>🚀 Growth Hacks Roadmap</h2>
+            <p className="intro-subtitle">
+              Strategic initiatives to dominate Spain&apos;s solar market. Ordered by impact and build time.
+            </p>
+
+            {/* Key Message */}
+            <div className="growth-narrative">
+              <div className="growth-narrative-item">
+                <span className="growth-narrative-icon">📊</span>
+                <div>
+                  <strong>Data enables everything.</strong> Without reliable API endpoints, tools can&apos;t function.
+                </div>
+              </div>
+              <div className="growth-narrative-arrow">→</div>
+              <div className="growth-narrative-item">
+                <span className="growth-narrative-icon">🔧</span>
+                <div>
+                  <strong>Tools multiply humans.</strong> Each growth hack makes teams more effective, not obsolete.
+                </div>
+              </div>
+              <div className="growth-narrative-arrow">→</div>
+              <div className="growth-narrative-item">
+                <span className="growth-narrative-icon">📈</span>
+                <div>
+                  <strong>Humans drive results.</strong> AI handles volume; people handle judgment and relationships.
+                </div>
+              </div>
+            </div>
+
+            {/* CAC Impact Summary */}
+            <div className="growth-summary">
+              <div className="growth-summary-card">
+                <span className="growth-summary-value">-60%</span>
+                <span className="growth-summary-label">Max CAC Reduction</span>
+              </div>
+              <div className="growth-summary-card">
+                <span className="growth-summary-value">90 days</span>
+                <span className="growth-summary-label">Full Roadmap</span>
+              </div>
+              <div className="growth-summary-card compliance">
+                <span className="growth-summary-value">€0</span>
+                <span className="growth-summary-label">Fines (Compliance First)</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Tier 1: Must Build */}
+          <div className="growth-tier">
+            <div className="tier-header tier-1">
+              <h3>🏆 Tier 1: Must Build <span className="tier-timeline">Weeks 1-4</span></h3>
+              <p>Foundation for organic dominance. Start here.</p>
+            </div>
+            <div className="growth-grid">
+              {growthHacks.filter(h => h.tier === 'Tier 1: Must Build').map((hack) => (
+                <div key={hack.id} className={`growth-card ${hack.urgency ? 'has-urgency' : ''}`}>
+                  <div className="growth-card-header">
+                    <span className="cac-badge">{hack.cacImpact} CAC</span>
+                    <span className="build-time">{hack.buildTime}</span>
+                  </div>
+                  <h4 className="growth-card-title">{hack.name}</h4>
+                  <p className="growth-card-description">{hack.description}</p>
+                  <div className="growth-card-benefit">
+                    <span className="benefit-icon">💡</span> {hack.keyBenefit}
+                  </div>
+                  {hack.urgency && (
+                    <div className="growth-urgency">
+                      {hack.urgency}
+                    </div>
+                  )}
+                  <div className="growth-card-footer">
+                    <div className="growth-data-sources">
+                      <span className="sources-label">Data:</span>
+                      {hack.dataSources.slice(0, 2).map((source, idx) => (
+                        <span key={idx} className="source-tag">{source}</span>
+                      ))}
+                      {hack.dataSources.length > 2 && <span className="source-more">+{hack.dataSources.length - 2}</span>}
+                    </div>
+                    {hack.requiresApi.length > 0 && (
+                      <div className="growth-requires-api">
+                        <span className="requires-label">Needs:</span>
+                        {hack.requiresApi.slice(0, 2).map((api, idx) => (
+                          <span key={idx} className="requires-tag">{api}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tier 2: High Impact */}
+          <div className="growth-tier">
+            <div className="tier-header tier-2">
+              <h3>⚡ Tier 2: High Impact <span className="tier-timeline">Weeks 5-8</span></h3>
+              <p>Scale and automate. Build on foundation.</p>
+            </div>
+            <div className="growth-grid">
+              {growthHacks.filter(h => h.tier === 'Tier 2: High Impact').map((hack) => (
+                <div key={hack.id} className="growth-card">
+                  <div className="growth-card-header">
+                    <span className="cac-badge">{hack.cacImpact} CAC</span>
+                    <span className="build-time">{hack.buildTime}</span>
+                  </div>
+                  <h4 className="growth-card-title">{hack.name}</h4>
+                  <p className="growth-card-description">{hack.description}</p>
+                  <div className="growth-card-benefit">
+                    <span className="benefit-icon">💡</span> {hack.keyBenefit}
+                  </div>
+                  <div className="growth-card-footer">
+                    <div className="growth-data-sources">
+                      <span className="sources-label">Data:</span>
+                      {hack.dataSources.slice(0, 2).map((source, idx) => (
+                        <span key={idx} className="source-tag">{source}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tier 3: Quick Wins */}
+          <div className="growth-tier">
+            <div className="tier-header tier-3">
+              <h3>🛡️ Tier 3: Quick Wins & Compliance <span className="tier-timeline">Parallel Track</span></h3>
+              <p>Essential compliance + low-effort wins. Run alongside Tier 1.</p>
+            </div>
+            <div className="growth-grid">
+              {growthHacks.filter(h => h.tier === 'Tier 3: Quick Wins').map((hack) => (
+                <div key={hack.id} className={`growth-card ${hack.urgency ? 'has-urgency compliance-card' : ''}`}>
+                  <div className="growth-card-header">
+                    <span className={`cac-badge ${hack.cacImpact === 'Compliance' ? 'compliance' : ''}`}>{hack.cacImpact}</span>
+                    <span className="build-time">{hack.buildTime}</span>
+                  </div>
+                  <h4 className="growth-card-title">{hack.name}</h4>
+                  <p className="growth-card-description">{hack.description}</p>
+                  <div className="growth-card-benefit">
+                    <span className="benefit-icon">{hack.cacImpact === 'Compliance' ? '⚠️' : '💡'}</span> {hack.keyBenefit}
+                  </div>
+                  {hack.urgency && (
+                    <div className="growth-urgency compliance-urgency">
+                      {hack.urgency}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Timeline Summary */}
+          <div className="growth-timeline-summary">
+            <h3>📅 Expected Results</h3>
+            <div className="timeline-grid">
+              <div className="timeline-item">
+                <span className="timeline-week">Week 4</span>
+                <div className="timeline-content">
+                  <div className="timeline-metric">100-150 leads/week</div>
+                  <div className="timeline-detail">500 SEO pages live, PVPC widget viral</div>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <span className="timeline-week">Week 8</span>
+                <div className="timeline-content">
+                  <div className="timeline-metric">200-300 leads/week</div>
+                  <div className="timeline-detail">WhatsApp = 40% of leads, +30% quality</div>
+                </div>
+              </div>
+              <div className="timeline-item">
+                <span className="timeline-week">Week 12</span>
+                <div className="timeline-content">
+                  <div className="timeline-metric">400-500 leads/week</div>
+                  <div className="timeline-detail">-50% CAC, 75% organic</div>
+                </div>
+              </div>
+            </div>
           </div>
         </>
       )}

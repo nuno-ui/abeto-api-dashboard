@@ -2490,6 +2490,192 @@ export function getMissingApiResources(): MissingApiResource[] {
   ];
 }
 
+// =============================================================================
+// DATA SOURCES NEEDED
+// These are databases, CRM fields, configurations, and external data sources
+// that are NOT API endpoints but are required to build the projects.
+// =============================================================================
+
+export type DataSourceType = 'Internal Database' | 'CRM Field' | 'External API' | 'Configuration' | 'Calculated/Aggregated';
+export type DataSourceStatus = 'Not Started' | 'In Progress' | 'Partial' | 'Available';
+
+export interface DataSourceNeeded {
+  id: string;
+  name: string;
+  description: string;
+  type: DataSourceType;
+  source: string; // Where it comes from (e.g., "Holded", "Google API", "Manual Entry")
+  enablesProjects: string[];
+  priority: 'Critical' | 'High' | 'Medium' | 'Low';
+  effort: 'Low' | 'Medium' | 'High'; // Implementation effort
+  status: DataSourceStatus;
+  notes?: string;
+}
+
+export function getDataSourcesNeeded(): DataSourceNeeded[] {
+  return [
+    // CRITICAL - Block multiple high-value projects
+    {
+      id: 'equipment-pricing-db',
+      name: 'Equipment Pricing Database',
+      description: 'Solar panel, inverter, battery, and mounting equipment pricing. Required for accurate quote calculations.',
+      type: 'Internal Database',
+      source: 'Manual Entry + Supplier APIs',
+      enablesProjects: ['unified-quote-api', 'programmatic-seo-pages', 'installer-quoting-tool'],
+      priority: 'Critical',
+      effort: 'Medium',
+      status: 'Not Started',
+      notes: 'Need to define equipment catalog structure and pricing update workflow',
+    },
+    {
+      id: 'ine-municipality-data',
+      name: 'INE Municipality Database',
+      description: 'Spanish municipality data: population, coordinates, province, autonomous community. Required for SEO page generation.',
+      type: 'External API',
+      source: 'INE (Instituto Nacional de Estadística)',
+      enablesProjects: ['programmatic-seo-pages', 'gmb-automation'],
+      priority: 'Critical',
+      effort: 'Low',
+      status: 'Not Started',
+      notes: 'Public data, needs one-time import + yearly refresh',
+    },
+    {
+      id: 'irpf-tax-rules',
+      name: 'IRPF Tax Rules Database',
+      description: 'Tax bracket data, IRPF deduction percentages, deadlines by autonomous community. For personalized savings calculations.',
+      type: 'Internal Database',
+      source: 'AEAT (Tax Agency) + Manual Research',
+      enablesProjects: ['irpf-calculator', 'programmatic-seo-pages', 'unified-quote-api'],
+      priority: 'High',
+      effort: 'Medium',
+      status: 'Not Started',
+      notes: 'Changes yearly, needs maintenance workflow',
+    },
+
+    // HIGH PRIORITY - Enable key features
+    {
+      id: 'installation-completion-timestamp',
+      name: 'Installation Completion Date',
+      description: 'Timestamp when installation is marked complete. Triggers post-install workflows (reviews, surveys).',
+      type: 'CRM Field',
+      source: 'Holded CRM',
+      enablesProjects: ['review-generation-system', 'customer-satisfaction-survey', 'installer-performance-tracking'],
+      priority: 'High',
+      effort: 'Low',
+      status: 'Not Started',
+      notes: 'Simple field addition to Opportunities',
+    },
+    {
+      id: 'service-territory-mapping',
+      name: 'Service Territory Database',
+      description: 'Geographic boundaries for each GMB location. Which postal codes each "location" serves.',
+      type: 'Internal Database',
+      source: 'Manual Definition',
+      enablesProjects: ['gmb-automation', 'review-generation-system', 'installer-matching'],
+      priority: 'High',
+      effort: 'Medium',
+      status: 'Not Started',
+      notes: 'Need to define 50+ service areas across Spain',
+    },
+    {
+      id: 'google-business-api-access',
+      name: 'Google Business Profile API',
+      description: 'OAuth access to manage multiple GMB locations: posts, reviews, Q&A, photos.',
+      type: 'External API',
+      source: 'Google Business API',
+      enablesProjects: ['gmb-automation', 'review-generation-system'],
+      priority: 'High',
+      effort: 'Medium',
+      status: 'Not Started',
+      notes: 'Requires API verification process with Google',
+    },
+
+    // MEDIUM PRIORITY - Enable optimization features
+    {
+      id: 'recycling-attempt-count',
+      name: 'Lead Recycling Attempt Counter',
+      description: 'Track how many times a lost lead has been re-engaged. Prevents over-contacting.',
+      type: 'CRM Field',
+      source: 'Holded CRM',
+      enablesProjects: ['lead-recycling-workflow'],
+      priority: 'Medium',
+      effort: 'Low',
+      status: 'Not Started',
+    },
+    {
+      id: 'reengagement-cooldown-rules',
+      name: 'Re-engagement Cooldown Configuration',
+      description: 'Rules for when lost leads can be re-contacted based on lost reason, time elapsed, and previous attempts.',
+      type: 'Configuration',
+      source: 'Internal Config',
+      enablesProjects: ['lead-recycling-workflow', 'funnel-automation-os'],
+      priority: 'Medium',
+      effort: 'Low',
+      status: 'Not Started',
+    },
+    {
+      id: 'provider-integration-health',
+      name: 'Provider Integration Health Metrics',
+      description: 'Webhook delivery success rates, error logs, latency per lead provider.',
+      type: 'Calculated/Aggregated',
+      source: 'Internal Logs + Monitoring',
+      enablesProjects: ['api-self-service-portal', 'campaign-os', 'data-quality-monitor'],
+      priority: 'Medium',
+      effort: 'Medium',
+      status: 'Not Started',
+      notes: 'Requires logging infrastructure',
+    },
+    {
+      id: 'competitor-pricing-intel',
+      name: 'Competitor Pricing Intelligence',
+      description: 'Scraped or manually tracked competitor pricing, offers, and positioning.',
+      type: 'Internal Database',
+      source: 'Web Scraping + Manual Research',
+      enablesProjects: ['competitor-intel-agent', 'programmatic-seo-pages'],
+      priority: 'Medium',
+      effort: 'High',
+      status: 'Not Started',
+      notes: 'Legal considerations for scraping',
+    },
+    {
+      id: 'ad-spend-tracking',
+      name: 'Ad Spend & Attribution Data',
+      description: 'Daily ad spend by campaign/channel with attribution to leads and sales.',
+      type: 'External API',
+      source: 'Google Ads, Meta Ads, LinkedIn',
+      enablesProjects: ['campaign-os', 'reporting-hub', 'partner-expansion-tool'],
+      priority: 'Medium',
+      effort: 'Medium',
+      status: 'Partial',
+      notes: 'Some UTM tracking exists, needs full attribution pipeline',
+    },
+
+    // LOWER PRIORITY - Nice to have
+    {
+      id: 'customer-nps-scores',
+      name: 'Customer NPS & Satisfaction Scores',
+      description: 'Net Promoter Scores and satisfaction survey results linked to deals.',
+      type: 'CRM Field',
+      source: 'Survey Tool + Holded',
+      enablesProjects: ['customer-satisfaction-survey', 'installer-performance-tracking', 'review-generation-system'],
+      priority: 'Low',
+      effort: 'Low',
+      status: 'Not Started',
+    },
+    {
+      id: 'installer-certifications',
+      name: 'Installer Certification Database',
+      description: 'Certifications, training completed, and expiry dates per installer.',
+      type: 'Internal Database',
+      source: 'Manual Entry',
+      enablesProjects: ['installer-portal-product', 'installer-matching', 'installer-performance-tracking'],
+      priority: 'Low',
+      effort: 'Low',
+      status: 'Not Started',
+    },
+  ];
+}
+
 export function generateProjectProposals(data: DashboardData): ProjectProposal[] {
   // All projects are now defined in getExistingProducts() with the new structure
   // This function adds default values and ranking

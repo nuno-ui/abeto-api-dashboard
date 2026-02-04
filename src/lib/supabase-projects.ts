@@ -3,7 +3,7 @@
  * Replaces static data with live database queries
  */
 
-import { createClient } from './supabase/server';
+import { createAdminClient } from './supabase/admin';
 
 // Types that match the Supabase schema
 export interface SupabaseProject {
@@ -74,7 +74,7 @@ export interface SupabaseTeam {
  * Fetch all projects with their related data
  */
 export async function getProjectsFromSupabase(): Promise<SupabaseProject[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from('projects')
@@ -102,7 +102,7 @@ export async function getProjectsFromSupabase(): Promise<SupabaseProject[]> {
  * Fetch a single project by slug
  */
 export async function getProjectBySlug(slug: string): Promise<SupabaseProject | null> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from('projects')
@@ -130,7 +130,7 @@ export async function getProjectBySlug(slug: string): Promise<SupabaseProject | 
  * Fetch all pillars
  */
 export async function getPillars(): Promise<SupabasePillar[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from('pillars')
@@ -149,7 +149,7 @@ export async function getPillars(): Promise<SupabasePillar[]> {
  * Fetch all teams
  */
 export async function getTeams(): Promise<SupabaseTeam[]> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data, error } = await supabase
     .from('teams')
@@ -168,7 +168,7 @@ export async function getTeams(): Promise<SupabaseTeam[]> {
  * Get project statistics
  */
 export async function getProjectStats() {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { data: projects, error: projectsError } = await supabase
     .from('projects')
@@ -314,7 +314,7 @@ export async function getProjectsInLegacyFormat(): Promise<any[]> {
  * Used to determine if we should use Supabase or fall back to static data
  */
 export async function hasSupabaseData(): Promise<boolean> {
-  const supabase = await createClient();
+  const supabase = createAdminClient();
 
   const { count, error } = await supabase
     .from('projects')

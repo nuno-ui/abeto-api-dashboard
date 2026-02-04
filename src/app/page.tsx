@@ -890,15 +890,22 @@ export default function Dashboard() {
   const [missingViewMode, setMissingViewMode] = useState<'api' | 'data'>('api');
   const dataSourcesNeeded = getDataSourcesNeeded();
 
-  // Sub-tasks data
-  const projectSubTasks = getProjectSubTasks();
+  // Sub-tasks data - static data kept as fallback
+  const staticProjectSubTasks = getProjectSubTasks();
   const sharedTasks = getSharedTasks();
   const [showSubTasks, setShowSubTasks] = useState(true);
   const [showSharedTasks, setShowSharedTasks] = useState(false);
 
   // Helper to get sub-tasks for a project
+  // First try to get tasks from the project itself (from Supabase), then fall back to static data
   const getSubTasksForProject = (projectId: string): SubTask[] => {
-    const projectData = projectSubTasks.find(p => p.projectId === projectId);
+    // Try to find the project and get its tasks from Supabase data
+    const project = projects.find(p => p.id === projectId);
+    if (project?.tasks && project.tasks.length > 0) {
+      return project.tasks as SubTask[];
+    }
+    // Fall back to static data
+    const projectData = staticProjectSubTasks.find(p => p.projectId === projectId);
     return projectData?.subTasks || [];
   };
 
@@ -1519,8 +1526,9 @@ export default function Dashboard() {
                       <td><span className={`priority-badge priority-${project.priority?.toLowerCase()}`}>{project.priority}</span></td>
                       <td>
                         {(() => {
-                          const subTaskData = projectSubTasks.find(p => p.projectId === project.id);
-                          const taskCount = subTaskData?.subTasks?.length || 0;
+                          // First try tasks from Supabase, then fall back to static data
+                          const taskCount = project.tasks?.length ||
+                            staticProjectSubTasks.find(p => p.projectId === project.id)?.subTasks?.length || 0;
                           return taskCount > 0 ? (
                             <span className="subtask-count-badge">{taskCount} tasks</span>
                           ) : (

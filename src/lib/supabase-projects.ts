@@ -282,22 +282,66 @@ export function convertToLegacyFormat(project: SupabaseProject): any {
     subTaskCount: taskCount,
     completedSubTasks: completedTasks,
     progress: project.progress,
-    tasks: project.tasks?.map(t => ({
-      id: t.id,
-      title: t.title,
-      description: t.description,
-      phase: t.phase,
-      status: t.status,
-      difficulty: t.difficulty,
-      aiPotential: t.ai_potential,
-      estimatedHours: t.estimated_hours,
-      owner: t.owner_team?.name || 'TBD',
-      toolsNeeded: t.tools_needed,
-      knowledgeAreas: t.knowledge_areas,
-      acceptanceCriteria: t.acceptance_criteria,
-      isFoundational: t.is_foundational,
-      isCriticalPath: t.is_critical_path,
-    })) || [],
+    tasks: project.tasks?.map(t => {
+      // Convert Supabase task to SubTask format expected by API Dashboard
+      const phaseMap: Record<string, string> = {
+        'discovery': 'Discovery',
+        'planning': 'Planning',
+        'development': 'Development',
+        'testing': 'Testing',
+        'training': 'Training',
+        'rollout': 'Rollout',
+        'monitoring': 'Monitoring',
+      };
+      const statusMap: Record<string, string> = {
+        'backlog': 'Not Started',
+        'ready': 'Not Started',
+        'not_started': 'Not Started',
+        'in_progress': 'In Progress',
+        'review': 'In Progress',
+        'done': 'Done',
+        'completed': 'Done',
+        'blocked': 'Blocked',
+      };
+      const difficultyMap: Record<string, string> = {
+        'trivial': 'Easy',
+        'easy': 'Easy',
+        'medium': 'Medium',
+        'hard': 'Hard',
+        'complex': 'Hard',
+      };
+      const aiPotentialMap: Record<string, string> = {
+        'none': 'None',
+        'low': 'Low',
+        'medium': 'Medium',
+        'high': 'High',
+        'full': 'High',
+      };
+
+      return {
+        id: t.id,
+        title: t.title,
+        description: t.description || '',
+        phase: phaseMap[t.phase] || 'Development',
+        status: statusMap[t.status] || 'Not Started',
+        difficulty: difficultyMap[t.difficulty] || 'Medium',
+        aiPotential: aiPotentialMap[t.ai_potential || 'none'] || 'None',
+        aiAssistDescription: t.ai_assist_description || '',
+        estimatedHours: t.estimated_hours || 'TBD',
+        owner: t.owner_team?.name || 'TBD',
+        stakeholders: [],
+        toolsNeeded: t.tools_needed || [],
+        knowledgeAreas: t.knowledge_areas || [],
+        acceptanceCriteria: t.acceptance_criteria || [],
+        successMetrics: t.success_metrics || [],
+        risks: t.risks || [],
+        isFoundational: t.is_foundational || false,
+        isCriticalPath: t.is_critical_path || false,
+        dependsOnTasks: [],
+        blockedBy: [],
+        sharedWithProjects: [],
+      };
+    }) || [],
   };
 }
 

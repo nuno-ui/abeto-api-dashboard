@@ -1065,6 +1065,13 @@ export interface ProjectProposal {
   missingApiData: string[];
   integrationsNeeded?: string[];
   rank?: number;
+
+  // Tasks from Supabase
+  owner?: string;
+  subTaskCount?: number;
+  completedSubTasks?: number;
+  progress?: number;
+  tasks?: SubTask[];
 }
 
 // =============================================================================

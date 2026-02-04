@@ -540,7 +540,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api'>('status');
+  const [activeTab, setActiveTab] = useState<'status' | 'projects' | 'missing-api' | 'vision'>('status');
   const missingApiResources = getMissingApiResources();
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [stageFilter, setStageFilter] = useState<string>('all');
@@ -821,6 +821,12 @@ export default function Dashboard() {
           onClick={() => setActiveTab('projects')}
         >
           💡 Projects ({projects.length})
+        </button>
+        <button
+          className={`tab ${activeTab === 'vision' ? 'active' : ''}`}
+          onClick={() => setActiveTab('vision')}
+        >
+          🎯 Vision
         </button>
       </div>
 
@@ -1508,6 +1514,298 @@ export default function Dashboard() {
         </>
         );
       })()}
+
+      {/* Vision Tab */}
+      {activeTab === 'vision' && (
+        <div className="vision-tab">
+          {/* Hero Section */}
+          <div className="vision-hero">
+            <h2>You can&apos;t scale chaos.</h2>
+            <p className="vision-tagline">
+              Before AI can help, data must flow. Before data flows, pipes must be built.
+            </p>
+          </div>
+
+          {/* The Problem Section */}
+          <div className="vision-section vision-problem">
+            <h3>😤 The Problem We&apos;re Solving</h3>
+            <div className="problem-grid">
+              <div className="problem-card">
+                <span className="problem-icon">📊</span>
+                <h4>Data in Silos</h4>
+                <p>Zoho, Sheets, WhatsApp, Aircall - information scattered everywhere.</p>
+              </div>
+              <div className="problem-card">
+                <span className="problem-icon">🎯</span>
+                <h4>SDRs Flying Blind</h4>
+                <p>No way to know which lead to call next or which installer is available.</p>
+              </div>
+              <div className="problem-card">
+                <span className="problem-icon">📈</span>
+                <h4>Can&apos;t Measure What Works</h4>
+                <p>Spending on ads without knowing which campaigns actually convert.</p>
+              </div>
+              <div className="problem-card">
+                <span className="problem-icon">⏰</span>
+                <h4>Manual Doesn&apos;t Scale</h4>
+                <p>More leads = more chaos. Growth is limited by operational capacity.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* The Solution: Three Pillars */}
+          <div className="vision-section vision-pillars">
+            <h3>🏛️ The Three Pillars of Scalable Growth</h3>
+            <p className="section-intro">Build in order. Each layer enables the next.</p>
+
+            <div className="pillar-deep-grid">
+              <div className="pillar-deep pillar-deep-foundation">
+                <div className="pillar-deep-header">
+                  <span className="pillar-deep-icon">🏗️</span>
+                  <div>
+                    <h4>1. Data Foundation</h4>
+                    <span className="pillar-deep-status">Building Now</span>
+                  </div>
+                </div>
+                <p className="pillar-deep-what"><strong>What:</strong> Reliable APIs, unified data layer, quality monitoring</p>
+                <p className="pillar-deep-why"><strong>Why:</strong> Every AI feature, every dashboard, every automation depends on this. No foundation = no building.</p>
+                <div className="pillar-deep-example">
+                  <span className="example-label">💡 Example:</span>
+                  <p>&quot;Without knowing which installer is available and their performance history, we can&apos;t route leads intelligently.&quot;</p>
+                </div>
+              </div>
+
+              <div className="pillar-deep pillar-deep-knowledge">
+                <div className="pillar-deep-header">
+                  <span className="pillar-deep-icon">🧠</span>
+                  <div>
+                    <h4>2. Knowledge Generation</h4>
+                    <span className="pillar-deep-status">Next Phase</span>
+                  </div>
+                </div>
+                <p className="pillar-deep-what"><strong>What:</strong> Tools that CREATE data while doing their job</p>
+                <p className="pillar-deep-why"><strong>Why:</strong> The more leads we generate, the more data we have, the smarter our systems become. Growth feeds intelligence.</p>
+                <div className="pillar-deep-example">
+                  <span className="example-label">💡 Example:</span>
+                  <p>&quot;SDR Portal captures call outcomes → AI learns which questions close deals → Future calls improve.&quot;</p>
+                </div>
+              </div>
+
+              <div className="pillar-deep pillar-deep-empowerment">
+                <div className="pillar-deep-header">
+                  <span className="pillar-deep-icon">👥</span>
+                  <div>
+                    <h4>3. Human Empowerment</h4>
+                    <span className="pillar-deep-status">The Goal</span>
+                  </div>
+                </div>
+                <p className="pillar-deep-what"><strong>What:</strong> AI copilots that amplify human capability</p>
+                <p className="pillar-deep-why"><strong>Why:</strong> SDRs focus on relationships, not data entry. Managers see trends, not spreadsheets. Humans do what humans do best.</p>
+                <div className="pillar-deep-example">
+                  <span className="example-label">💡 Example:</span>
+                  <p>&quot;Cortex summarizes 10 WhatsApp messages into 2-line context before the call. SDR walks in prepared.&quot;</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Dependency Chain */}
+          <div className="vision-section vision-dependencies">
+            <h3>🔗 Why Order Matters</h3>
+            <p className="section-intro">Each tool depends on the one before it. Skip a step and nothing works.</p>
+
+            <div className="dependency-flow">
+              <div className="dep-node dep-foundation">
+                <span className="dep-icon">🏗️</span>
+                <span className="dep-name">Unified Data Layer</span>
+                <span className="dep-desc">The source of truth</span>
+              </div>
+              <div className="dep-arrow">↓</div>
+              <div className="dep-branches">
+                <div className="dep-branch">
+                  <div className="dep-node dep-tool">
+                    <span className="dep-icon">📊</span>
+                    <span className="dep-name">Reporting Hub</span>
+                    <span className="dep-desc">Know what&apos;s happening</span>
+                  </div>
+                </div>
+                <div className="dep-branch">
+                  <div className="dep-node dep-tool">
+                    <span className="dep-icon">💬</span>
+                    <span className="dep-name">SDR Portal</span>
+                    <span className="dep-desc">Work efficiently</span>
+                  </div>
+                  <div className="dep-arrow">↓</div>
+                  <div className="dep-node dep-ai">
+                    <span className="dep-icon">🤖</span>
+                    <span className="dep-name">AI Cortex</span>
+                    <span className="dep-desc">Work smarter</span>
+                  </div>
+                </div>
+                <div className="dep-branch">
+                  <div className="dep-node dep-tool">
+                    <span className="dep-icon">📣</span>
+                    <span className="dep-name">Campaign OS</span>
+                    <span className="dep-desc">Generate leads</span>
+                  </div>
+                  <div className="dep-arrow">↓</div>
+                  <div className="dep-node dep-ai">
+                    <span className="dep-icon">🎯</span>
+                    <span className="dep-name">AI Optimization</span>
+                    <span className="dep-desc">Auto-optimize spend</span>
+                  </div>
+                </div>
+                <div className="dep-branch">
+                  <div className="dep-node dep-tool">
+                    <span className="dep-icon">🔧</span>
+                    <span className="dep-name">Installer Portal</span>
+                    <span className="dep-desc">Partner efficiency</span>
+                  </div>
+                  <div className="dep-arrow">↓</div>
+                  <div className="dep-node dep-ai">
+                    <span className="dep-icon">⚡</span>
+                    <span className="dep-name">Dynamic Allocation</span>
+                    <span className="dep-desc">Auto-route leads</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Practical Examples */}
+          <div className="vision-section vision-examples">
+            <h3>🎬 Real Examples: Before & After</h3>
+
+            <div className="example-cards">
+              <div className="example-card">
+                <h4>SDR Portal + AI Cortex</h4>
+                <div className="example-comparison">
+                  <div className="example-before">
+                    <span className="comparison-label">❌ Without Foundation</span>
+                    <p>SDR opens 5 tabs, manually checks installer availability, guesses which lead to call next. Spends 30% of time on admin.</p>
+                  </div>
+                  <div className="example-after">
+                    <span className="comparison-label">✅ With Foundation</span>
+                    <p>Portal shows: &quot;Next: João in Lisboa. Installer Maria available. Similar deals closed in 2 calls.&quot;</p>
+                  </div>
+                  <div className="example-ai">
+                    <span className="comparison-label">🤖 + AI Layer</span>
+                    <p>Cortex adds: &quot;João mentioned business panels - focus on ROI angle. His last message was about financing options.&quot;</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="example-card">
+                <h4>Campaign OS + Attribution</h4>
+                <div className="example-comparison">
+                  <div className="example-before">
+                    <span className="comparison-label">❌ Without Foundation</span>
+                    <p>Spend €10k/month on ads. No idea which campaigns convert. Marketing is a black box.</p>
+                  </div>
+                  <div className="example-after">
+                    <span className="comparison-label">✅ With Foundation</span>
+                    <p>Know exactly: This creative → this lead → this sale. CPL by channel, conversion by campaign.</p>
+                  </div>
+                  <div className="example-ai">
+                    <span className="comparison-label">🤖 + AI Layer</span>
+                    <p>Auto-pause underperforming ads. Suggest winning variants. Predict CAC before launching.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="example-card">
+                <h4>Installer Portal + Dynamic Allocation</h4>
+                <div className="example-comparison">
+                  <div className="example-before">
+                    <span className="comparison-label">❌ Without Foundation</span>
+                    <p>Assign leads randomly. Some installers overwhelmed, others idle. Lead response time: hours.</p>
+                  </div>
+                  <div className="example-after">
+                    <span className="comparison-label">✅ With Foundation</span>
+                    <p>Know: Response times, conversion rates, capacity per installer. Balance workload fairly.</p>
+                  </div>
+                  <div className="example-ai">
+                    <span className="comparison-label">🤖 + AI Layer</span>
+                    <p>Auto-route to best available installer for region/type. Lead response time: minutes.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Progress Section */}
+          <div className="vision-section vision-progress">
+            <h3>📍 Where We Are Now</h3>
+
+            <div className="progress-items">
+              <div className="progress-item done">
+                <span className="progress-icon">✅</span>
+                <div className="progress-content">
+                  <span className="progress-name">API Health Monitoring</span>
+                  <span className="progress-status">Live</span>
+                </div>
+              </div>
+              <div className="progress-item done">
+                <span className="progress-icon">✅</span>
+                <div className="progress-content">
+                  <span className="progress-name">SDR Portal v1</span>
+                  <span className="progress-status">Deployed</span>
+                </div>
+              </div>
+              <div className="progress-item in-progress">
+                <span className="progress-icon">🔨</span>
+                <div className="progress-content">
+                  <span className="progress-name">Reporting Hub</span>
+                  <span className="progress-status">Under Development</span>
+                </div>
+              </div>
+              <div className="progress-item pending">
+                <span className="progress-icon">📋</span>
+                <div className="progress-content">
+                  <span className="progress-name">Missing Infrastructure</span>
+                  <span className="progress-status">{missingApiResources.length} API endpoints + {dataSourcesNeeded.length} data sources</span>
+                </div>
+              </div>
+              <div className="progress-item next">
+                <span className="progress-icon">🎯</span>
+                <div className="progress-content">
+                  <span className="progress-name">Next Milestone</span>
+                  <span className="progress-status">Complete data layer → Enable AI features</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* End Game */}
+          <div className="vision-section vision-endgame">
+            <h3>🚀 The End Game</h3>
+            <p className="endgame-intro">When the foundation is complete:</p>
+
+            <div className="endgame-outcomes">
+              <div className="endgame-item">
+                <span className="endgame-icon">📈</span>
+                <p>SDRs handle <strong>3x volume</strong> without burning out</p>
+              </div>
+              <div className="endgame-item">
+                <span className="endgame-icon">⚡</span>
+                <p>Every lead reaches the right installer in <strong>minutes, not hours</strong></p>
+              </div>
+              <div className="endgame-item">
+                <span className="endgame-icon">🤖</span>
+                <p>AI handles <strong>routine decisions</strong>, humans handle <strong>relationships</strong></p>
+              </div>
+              <div className="endgame-item">
+                <span className="endgame-icon">🌍</span>
+                <p>Growth limited by <strong>market size</strong>, not operational chaos</p>
+              </div>
+            </div>
+
+            <div className="endgame-cta">
+              <p>The vision is clear. The path is defined. Now we build. 🏗️</p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <div className="footer">

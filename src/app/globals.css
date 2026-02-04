@@ -2638,3 +2638,462 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+/* =============================================================================
+   VISION TAB
+   ============================================================================= */
+
+.vision-tab {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Hero Section */
+.vision-hero {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+  border-radius: 20px;
+  margin-bottom: 2.5rem;
+  border: 1px solid var(--border-color);
+}
+
+.vision-hero h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.vision-tagline {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Vision Sections */
+.vision-section {
+  margin-bottom: 3rem;
+}
+
+.vision-section h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.section-intro {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Problem Section */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.problem-card {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: all 0.2s;
+}
+
+.problem-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.problem-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.problem-card h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #fca5a5;
+}
+
+.problem-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Deep Pillar Cards */
+.pillar-deep-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pillar-deep {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+  border-left: 4px solid var(--text-muted);
+}
+
+.pillar-deep-foundation {
+  border-left-color: var(--accent-orange);
+}
+
+.pillar-deep-knowledge {
+  border-left-color: var(--accent-green);
+}
+
+.pillar-deep-empowerment {
+  border-left-color: var(--accent-blue);
+}
+
+.pillar-deep-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pillar-deep-icon {
+  font-size: 2rem;
+}
+
+.pillar-deep-header h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.pillar-deep-status {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pillar-deep-what,
+.pillar-deep-why {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.pillar-deep-what strong,
+.pillar-deep-why strong {
+  color: var(--text-primary);
+}
+
+.pillar-deep-example {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+}
+
+.example-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-yellow);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.pillar-deep-example p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Dependency Flow */
+.dependency-flow {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.dep-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  text-align: center;
+  min-width: 140px;
+}
+
+.dep-node.dep-foundation {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.15), rgba(249, 115, 22, 0.05));
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.dep-node.dep-tool {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.12), rgba(34, 197, 94, 0.04));
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.dep-node.dep-ai {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(59, 130, 246, 0.04));
+  border-color: rgba(59, 130, 246, 0.25);
+}
+
+.dep-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.dep-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dep-desc {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.dep-arrow {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  padding: 0.5rem 0;
+}
+
+.dep-branches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.dep-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Example Cards */
+.example-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.example-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.example-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.example-comparison {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.example-before,
+.example-after,
+.example-ai {
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.example-before {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.example-after {
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.example-ai {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.comparison-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.example-before .comparison-label { color: #fca5a5; }
+.example-after .comparison-label { color: var(--accent-green); }
+.example-ai .comparison-label { color: var(--accent-blue); }
+
+.example-comparison p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Progress Section */
+.progress-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.progress-icon {
+  font-size: 1.25rem;
+}
+
+.progress-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.progress-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.progress-status {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.progress-item.done {
+  border-left: 3px solid var(--accent-green);
+}
+
+.progress-item.in-progress {
+  border-left: 3px solid var(--accent-yellow);
+}
+
+.progress-item.pending {
+  border-left: 3px solid var(--accent-orange);
+}
+
+.progress-item.next {
+  border-left: 3px solid var(--accent-blue);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* End Game Section */
+.vision-endgame {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.endgame-intro {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.endgame-outcomes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.endgame-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  text-align: left;
+}
+
+.endgame-icon {
+  font-size: 1.5rem;
+}
+
+.endgame-item p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.endgame-item strong {
+  color: var(--text-primary);
+}
+
+.endgame-cta {
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.endgame-cta p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--accent-blue);
+  margin: 0;
+}
+
+/* Vision Tab Responsive */
+@media (max-width: 768px) {
+  .vision-hero h2 {
+    font-size: 1.75rem;
+  }
+
+  .problem-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dep-branches {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .example-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .endgame-outcomes {
+    grid-template-columns: 1fr;
+  }
+}

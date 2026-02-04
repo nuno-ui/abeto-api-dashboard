@@ -14,7 +14,8 @@ import type {
   ProjectSubTasks,
   SharedTask,
   AIPotential,
-  KnowledgeArea
+  KnowledgeArea,
+  TaskPhase
 } from '@/lib/api';
 import { getMissingApiResources, getDataSourcesNeeded, getProjectSubTasks, getSharedTasks } from '@/lib/api';
 
@@ -223,7 +224,21 @@ function getAIPotentialColor(potential: AIPotential): string {
   }
 }
 
-// SubTask display component - Enhanced with more detail
+// Phase color helper
+function getPhaseColor(phase: string): string {
+  const colors: Record<string, string> = {
+    Discovery: '#8b5cf6',      // purple
+    Planning: '#3b82f6',       // blue
+    Development: '#f97316',    // orange
+    Testing: '#eab308',        // yellow
+    Training: '#22c55e',       // green
+    Rollout: '#06b6d4',        // cyan
+    Monitoring: '#6366f1',     // indigo
+  };
+  return colors[phase] || 'var(--text-muted)';
+}
+
+// SubTask display component - COO Enhanced with full execution details
 function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isShared?: boolean; allProjects?: ProjectProposal[] }) {
   const [expanded, setExpanded] = useState(false);
 
@@ -253,11 +268,19 @@ function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isS
           <span className="subtask-status-icon">{statusIcon}</span>
           <div className="subtask-info">
             <span className="subtask-title">{subTask.title}</span>
+            {/* Phase badge - COO perspective */}
+            {subTask.phase && (
+              <span className="phase-badge" style={{ backgroundColor: getPhaseColor(subTask.phase) }}>
+                {subTask.phase}
+              </span>
+            )}
             {isShared && <span className="shared-badge">🔗 Shared</span>}
             {subTask.isFoundational && <span className="foundational-badge">⭐ Foundational</span>}
           </div>
         </div>
         <div className="subtask-header-right">
+          {/* Owner badge - COO perspective */}
+          {subTask.owner && <span className="owner-badge">👤 {subTask.owner}</span>}
           <span className="subtask-hours">{subTask.estimatedHours}</span>
           <span className="subtask-difficulty" style={{ color: difficultyColor }}>{subTask.difficulty}</span>
           <span className="subtask-ai-potential" style={{ backgroundColor: getAIPotentialColor(subTask.aiPotential) }}>
@@ -273,6 +296,18 @@ function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isS
       {expanded && (
         <div className="subtask-expanded">
           <div className="subtask-details-grid">
+            {/* Stakeholders - COO perspective */}
+            {subTask.stakeholders && subTask.stakeholders.length > 0 && (
+              <div className="subtask-detail-card stakeholders-card">
+                <div className="detail-card-header">👥 Stakeholders to Involve</div>
+                <div className="subtask-tags">
+                  {subTask.stakeholders.map((stakeholder, idx) => (
+                    <span key={idx} className="stakeholder-tag">{stakeholder}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="subtask-detail-card">
               <div className="detail-card-header">🛠️ Tools Required</div>
               <div className="subtask-tags">
@@ -290,6 +325,42 @@ function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isS
                 ))}
               </div>
             </div>
+
+            {/* Acceptance Criteria - COO perspective */}
+            {subTask.acceptanceCriteria && subTask.acceptanceCriteria.length > 0 && (
+              <div className="subtask-detail-card acceptance-card">
+                <div className="detail-card-header">✅ Acceptance Criteria</div>
+                <ul className="acceptance-list">
+                  {subTask.acceptanceCriteria.map((criteria, idx) => (
+                    <li key={idx}>{criteria}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Success Metrics - COO perspective */}
+            {subTask.successMetrics && subTask.successMetrics.length > 0 && (
+              <div className="subtask-detail-card metrics-card">
+                <div className="detail-card-header">📈 Success Metrics</div>
+                <ul className="metrics-list">
+                  {subTask.successMetrics.map((metric, idx) => (
+                    <li key={idx}>{metric}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Risks - COO perspective */}
+            {subTask.risks && subTask.risks.length > 0 && (
+              <div className="subtask-detail-card risks-card">
+                <div className="detail-card-header">⚠️ Risks to Mitigate</div>
+                <ul className="risks-list">
+                  {subTask.risks.map((risk, idx) => (
+                    <li key={idx}>{risk}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="subtask-detail-card ai-assist-card">
               <div className="detail-card-header">🤖 AI Assistance Potential</div>
@@ -327,7 +398,7 @@ function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isS
               </div>
             )}
 
-            {subTask.sharedWithProjects.length > 0 && (
+            {subTask.sharedWithProjects && subTask.sharedWithProjects.length > 0 && (
               <div className="subtask-detail-card shared-card">
                 <div className="detail-card-header">🔗 Also Enables These Projects</div>
                 <div className="shared-projects-list">

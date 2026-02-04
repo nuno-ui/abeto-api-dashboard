@@ -3872,6 +3872,124 @@ a {
   color: var(--text-muted);
 }
 
+/* =====================================================
+   COO-LEVEL SUB-TASK STYLES
+   ===================================================== */
+
+/* Phase badge */
+.phase-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Owner badge */
+.owner-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+/* Stakeholders card */
+.subtask-detail-card.stakeholders-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(139, 92, 246, 0.1));
+  grid-column: span 2;
+}
+
+.stakeholder-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(139, 92, 246, 0.15);
+  color: #a78bfa;
+  border-radius: 4px;
+}
+
+/* Acceptance Criteria card */
+.subtask-detail-card.acceptance-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(34, 197, 94, 0.1));
+  grid-column: span 2;
+}
+
+.acceptance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.acceptance-list li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.acceptance-list li::before {
+  content: '☐';
+  position: absolute;
+  left: 0;
+  color: var(--accent-green);
+}
+
+/* Success Metrics card */
+.subtask-detail-card.metrics-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(6, 182, 212, 0.1));
+}
+
+.metrics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.metrics-list li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.metrics-list li::before {
+  content: '📊';
+  position: absolute;
+  left: 0;
+  font-size: 0.75rem;
+}
+
+/* Risks card */
+.subtask-detail-card.risks-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(239, 68, 68, 0.1));
+}
+
+.risks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.risks-list li {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 0.35rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.risks-list li::before {
+  content: '⚠️';
+  position: absolute;
+  left: 0;
+  font-size: 0.75rem;
+}
+
 /* Mobile responsive for enhanced styles */
 @media (max-width: 768px) {
   .subtask-details-grid {
@@ -3879,7 +3997,9 @@ a {
   }
 
   .subtask-detail-card.ai-assist-card,
-  .subtask-detail-card.shared-card {
+  .subtask-detail-card.shared-card,
+  .subtask-detail-card.stakeholders-card,
+  .subtask-detail-card.acceptance-card {
     grid-column: span 1;
   }
 
@@ -3889,5 +4009,15 @@ a {
 
   .shared-task-impact {
     flex-wrap: wrap;
+  }
+
+  .subtask-header-right {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .owner-badge,
+  .phase-badge {
+    font-size: 0.65rem;
   }
 }

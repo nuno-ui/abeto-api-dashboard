@@ -548,6 +548,11 @@ export default function Dashboard() {
   const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
   const [sortBy, setSortBy] = useState<'pillar' | 'priority' | 'stage' | 'difficulty' | 'custom'>('pillar');
 
+  // Missing API filters
+  const [apiPriorityFilter, setApiPriorityFilter] = useState<string>('all');
+  const [apiCategoryFilter, setApiCategoryFilter] = useState<string>('all');
+  const [apiDifficultyFilter, setApiDifficultyFilter] = useState<string>('all');
+
   // Drag and drop state
   const [customOrder, setCustomOrder] = useState<string[]>([]);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -1129,44 +1134,185 @@ export default function Dashboard() {
         </>
       )}
 
-      {activeTab === 'missing-api' && (
+      {activeTab === 'missing-api' && (() => {
+        // Filter missing API resources
+        let filteredApiResources = missingApiResources;
+        if (apiPriorityFilter !== 'all') {
+          filteredApiResources = filteredApiResources.filter(r => r.priority === apiPriorityFilter);
+        }
+        if (apiCategoryFilter !== 'all') {
+          filteredApiResources = filteredApiResources.filter(r => r.category === apiCategoryFilter);
+        }
+        if (apiDifficultyFilter !== 'all') {
+          filteredApiResources = filteredApiResources.filter(r => r.difficulty === apiDifficultyFilter);
+        }
+
+        // Sort by priority
+        const apiPriorityOrder = { Critical: 0, High: 1, Medium: 2, Low: 3 };
+        filteredApiResources = [...filteredApiResources].sort((a, b) =>
+          (apiPriorityOrder[a.priority] || 99) - (apiPriorityOrder[b.priority] || 99)
+        );
+
+        // Count by category
+        const categoryCounts = {
+          'Core Data': missingApiResources.filter(r => r.category === 'Core Data').length,
+          'Analytics': missingApiResources.filter(r => r.category === 'Analytics').length,
+          'External Integration': missingApiResources.filter(r => r.category === 'External Integration').length,
+          'Compliance': missingApiResources.filter(r => r.category === 'Compliance').length,
+          'Financial': missingApiResources.filter(r => r.category === 'Financial').length,
+        };
+
+        return (
         <>
           <div className="projects-intro">
             <h2>🔧 Missing API Resources</h2>
             <p className="intro-subtitle">
-              API endpoints that need to be created to enable all projects. Building these unlocks the full potential of the platform.
+              API endpoints needed to unlock the full potential of the platform. Build these to enable all projects.
             </p>
+          </div>
 
-            {/* Priority Summary */}
-            <div className="api-priority-summary">
-              <div className="api-summary-card critical">
-                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'Critical').length}</span>
-                <span className="api-summary-label">Critical</span>
+          {/* Summary Stats Row */}
+          <div className="api-stats-row">
+            <div className="api-stat-item">
+              <span className="api-stat-value">{missingApiResources.length}</span>
+              <span className="api-stat-label">Total Endpoints</span>
+            </div>
+            <div className="api-stat-item critical">
+              <span className="api-stat-value">{missingApiResources.filter(r => r.priority === 'Critical').length}</span>
+              <span className="api-stat-label">Critical</span>
+            </div>
+            <div className="api-stat-item high">
+              <span className="api-stat-value">{missingApiResources.filter(r => r.priority === 'High').length}</span>
+              <span className="api-stat-label">High Priority</span>
+            </div>
+            <div className="api-stat-item">
+              <span className="api-stat-value">{missingApiResources.reduce((sum, r) => sum + parseInt(r.estimatedHours.split('-')[0]), 0)}+</span>
+              <span className="api-stat-label">Est. Hours</span>
+            </div>
+          </div>
+
+          {/* Interactive Filters */}
+          <div className="interactive-filters api-filters">
+            {/* Priority Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Priority:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${apiPriorityFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setApiPriorityFilter('all')}
+                >
+                  All ({missingApiResources.length})
+                </button>
+                <button
+                  className={`filter-pill priority-critical ${apiPriorityFilter === 'Critical' ? 'active' : ''}`}
+                  onClick={() => setApiPriorityFilter(apiPriorityFilter === 'Critical' ? 'all' : 'Critical')}
+                >
+                  🔴 Critical ({missingApiResources.filter(r => r.priority === 'Critical').length})
+                </button>
+                <button
+                  className={`filter-pill priority-high ${apiPriorityFilter === 'High' ? 'active' : ''}`}
+                  onClick={() => setApiPriorityFilter(apiPriorityFilter === 'High' ? 'all' : 'High')}
+                >
+                  🟠 High ({missingApiResources.filter(r => r.priority === 'High').length})
+                </button>
+                <button
+                  className={`filter-pill priority-medium ${apiPriorityFilter === 'Medium' ? 'active' : ''}`}
+                  onClick={() => setApiPriorityFilter(apiPriorityFilter === 'Medium' ? 'all' : 'Medium')}
+                >
+                  🟡 Medium ({missingApiResources.filter(r => r.priority === 'Medium').length})
+                </button>
               </div>
-              <div className="api-summary-card high">
-                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'High').length}</span>
-                <span className="api-summary-label">High</span>
+            </div>
+
+            {/* Category Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Category:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${apiCategoryFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter('all')}
+                >
+                  All Categories
+                </button>
+                <button
+                  className={`filter-pill category-core ${apiCategoryFilter === 'Core Data' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter(apiCategoryFilter === 'Core Data' ? 'all' : 'Core Data')}
+                >
+                  💾 Core Data ({categoryCounts['Core Data']})
+                </button>
+                <button
+                  className={`filter-pill category-analytics ${apiCategoryFilter === 'Analytics' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter(apiCategoryFilter === 'Analytics' ? 'all' : 'Analytics')}
+                >
+                  📊 Analytics ({categoryCounts['Analytics']})
+                </button>
+                <button
+                  className={`filter-pill category-external ${apiCategoryFilter === 'External Integration' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter(apiCategoryFilter === 'External Integration' ? 'all' : 'External Integration')}
+                >
+                  🔗 External ({categoryCounts['External Integration']})
+                </button>
+                <button
+                  className={`filter-pill category-compliance ${apiCategoryFilter === 'Compliance' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter(apiCategoryFilter === 'Compliance' ? 'all' : 'Compliance')}
+                >
+                  ⚖️ Compliance ({categoryCounts['Compliance']})
+                </button>
+                <button
+                  className={`filter-pill category-financial ${apiCategoryFilter === 'Financial' ? 'active' : ''}`}
+                  onClick={() => setApiCategoryFilter(apiCategoryFilter === 'Financial' ? 'all' : 'Financial')}
+                >
+                  💰 Financial ({categoryCounts['Financial']})
+                </button>
               </div>
-              <div className="api-summary-card medium">
-                <span className="api-summary-count">{missingApiResources.filter(r => r.priority === 'Medium').length}</span>
-                <span className="api-summary-label">Medium</span>
-              </div>
-              <div className="api-summary-card total">
-                <span className="api-summary-count">{missingApiResources.reduce((sum, r) => sum + parseInt(r.estimatedHours.split('-')[0]), 0)}+</span>
-                <span className="api-summary-label">Est. Hours</span>
+            </div>
+
+            {/* Difficulty Pills */}
+            <div className="filter-section">
+              <span className="filter-section-label">Difficulty:</span>
+              <div className="filter-pills">
+                <button
+                  className={`filter-pill ${apiDifficultyFilter === 'all' ? 'active' : ''}`}
+                  onClick={() => setApiDifficultyFilter('all')}
+                >
+                  All
+                </button>
+                <button
+                  className={`filter-pill difficulty-easy ${apiDifficultyFilter === 'Easy' ? 'active' : ''}`}
+                  onClick={() => setApiDifficultyFilter(apiDifficultyFilter === 'Easy' ? 'all' : 'Easy')}
+                >
+                  🟢 Easy
+                </button>
+                <button
+                  className={`filter-pill difficulty-medium ${apiDifficultyFilter === 'Medium' ? 'active' : ''}`}
+                  onClick={() => setApiDifficultyFilter(apiDifficultyFilter === 'Medium' ? 'all' : 'Medium')}
+                >
+                  🟡 Medium
+                </button>
+                <button
+                  className={`filter-pill difficulty-hard ${apiDifficultyFilter === 'Hard' ? 'active' : ''}`}
+                  onClick={() => setApiDifficultyFilter(apiDifficultyFilter === 'Hard' ? 'all' : 'Hard')}
+                >
+                  🟠 Hard
+                </button>
               </div>
             </div>
           </div>
 
+          {/* Results count */}
+          <div className="api-results-count">
+            Showing {filteredApiResources.length} of {missingApiResources.length} endpoints
+          </div>
+
           {/* Missing API Resources Grid */}
           <div className="missing-api-grid">
-            {missingApiResources.map((resource) => (
+            {filteredApiResources.map((resource) => (
               <div key={resource.id} className={`missing-api-card priority-${resource.priority.toLowerCase()}`}>
                 <div className="api-card-header">
                   <span className={`priority-badge priority-${resource.priority.toLowerCase()}`}>
                     {resource.priority}
                   </span>
-                  <span className={`category-badge category-${resource.category.toLowerCase().replace(' ', '-')}`}>
+                  <span className={`category-badge category-${resource.category.toLowerCase().replace(/\s+/g, '-')}`}>
                     {resource.category}
                   </span>
                 </div>
@@ -1179,22 +1325,22 @@ export default function Dashboard() {
                 </div>
 
                 <div className="api-card-meta">
-                  <span className="api-difficulty" style={{
-                    color: resource.difficulty === 'Easy' ? 'var(--accent-green)' :
-                           resource.difficulty === 'Medium' ? 'var(--accent-yellow)' : 'var(--accent-orange)'
-                  }}>
+                  <span className={`api-difficulty difficulty-${resource.difficulty.toLowerCase()}`}>
+                    {resource.difficulty === 'Easy' && '🟢'}
+                    {resource.difficulty === 'Medium' && '🟡'}
+                    {resource.difficulty === 'Hard' && '🟠'}
                     {resource.difficulty}
                   </span>
-                  <span className="api-hours">{resource.estimatedHours} hours</span>
+                  <span className="api-hours">⏱️ {resource.estimatedHours}</span>
                 </div>
 
                 <div className="api-data-source">
-                  <span className="source-label">Data Source:</span>
+                  <span className="source-label">📡 Source:</span>
                   <span className="source-value">{resource.dataSource}</span>
                 </div>
 
                 <div className="api-enables">
-                  <span className="enables-label">Enables:</span>
+                  <span className="enables-label">🔓 Enables:</span>
                   <div className="enables-list">
                     {resource.enablesProjects.slice(0, 3).map((projectId, idx) => (
                       <span key={idx} className="enables-tag">{projectId}</span>
@@ -1208,7 +1354,8 @@ export default function Dashboard() {
             ))}
           </div>
         </>
-      )}
+        );
+      })()}
 
       {/* Footer */}
       <div className="footer">

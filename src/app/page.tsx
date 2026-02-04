@@ -223,8 +223,8 @@ function getAIPotentialColor(potential: AIPotential): string {
   }
 }
 
-// SubTask display component
-function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boolean }) {
+// SubTask display component - Enhanced with more detail
+function SubTaskCard({ subTask, isShared, allProjects }: { subTask: SubTask; isShared?: boolean; allProjects?: ProjectProposal[] }) {
   const [expanded, setExpanded] = useState(false);
 
   const difficultyColor = {
@@ -240,6 +240,12 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
     'Done': '✅',
   }[subTask.status];
 
+  // Get project titles for shared projects
+  const getProjectTitle = (projectId: string) => {
+    const project = allProjects?.find(p => p.id === projectId);
+    return project?.title || projectId;
+  };
+
   return (
     <div className={`subtask-card ${subTask.status.toLowerCase().replace(' ', '-')} ${expanded ? 'expanded' : ''} ${isShared ? 'shared' : ''}`}>
       <div className="subtask-header" onClick={() => setExpanded(!expanded)}>
@@ -248,6 +254,7 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
           <div className="subtask-info">
             <span className="subtask-title">{subTask.title}</span>
             {isShared && <span className="shared-badge">🔗 Shared</span>}
+            {subTask.isFoundational && <span className="foundational-badge">⭐ Foundational</span>}
           </div>
         </div>
         <div className="subtask-header-right">
@@ -260,13 +267,14 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
         </div>
       </div>
 
+      {/* Always show description preview */}
+      <p className="subtask-description-preview">{subTask.description}</p>
+
       {expanded && (
         <div className="subtask-expanded">
-          <p className="subtask-description">{subTask.description}</p>
-
-          <div className="subtask-details">
-            <div className="subtask-section">
-              <span className="subtask-label">🛠️ Tools:</span>
+          <div className="subtask-details-grid">
+            <div className="subtask-detail-card">
+              <div className="detail-card-header">🛠️ Tools Required</div>
               <div className="subtask-tags">
                 {subTask.toolsNeeded.map((tool, idx) => (
                   <span key={idx} className="tool-tag">{tool}</span>
@@ -274,8 +282,8 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
               </div>
             </div>
 
-            <div className="subtask-section">
-              <span className="subtask-label">📚 Knowledge:</span>
+            <div className="subtask-detail-card">
+              <div className="detail-card-header">📚 Knowledge Areas</div>
               <div className="subtask-tags">
                 {subTask.knowledgeAreas.map((area, idx) => (
                   <span key={idx} className="knowledge-tag">{area}</span>
@@ -283,39 +291,50 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
               </div>
             </div>
 
-            <div className="subtask-section ai-assist">
-              <span className="subtask-label">🤖 AI Assist:</span>
-              <p className="ai-assist-description">{subTask.aiAssistDescription}</p>
+            <div className="subtask-detail-card ai-assist-card">
+              <div className="detail-card-header">🤖 AI Assistance Potential</div>
+              <div className="ai-potential-detail">
+                <span className="ai-potential-level" style={{ backgroundColor: getAIPotentialColor(subTask.aiPotential) }}>
+                  {subTask.aiPotential}
+                </span>
+                <p className="ai-assist-description">{subTask.aiAssistDescription}</p>
+              </div>
             </div>
 
-            {subTask.dependsOnTasks.length > 0 && (
-              <div className="subtask-section">
-                <span className="subtask-label">⬅️ Depends on:</span>
-                <div className="subtask-tags">
-                  {subTask.dependsOnTasks.map((dep, idx) => (
-                    <span key={idx} className="dep-tag-small">{dep}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {subTask.blockedBy.length > 0 && (
-              <div className="subtask-section blocked">
-                <span className="subtask-label">🚫 Blocked by:</span>
-                <div className="subtask-tags">
-                  {subTask.blockedBy.map((blocker, idx) => (
-                    <span key={idx} className="blocker-tag">{blocker}</span>
-                  ))}
-                </div>
+            {(subTask.dependsOnTasks.length > 0 || subTask.blockedBy.length > 0) && (
+              <div className="subtask-detail-card dependencies-card">
+                <div className="detail-card-header">🔗 Dependencies</div>
+                {subTask.dependsOnTasks.length > 0 && (
+                  <div className="dependency-row">
+                    <span className="dep-label">⬅️ Depends on:</span>
+                    <div className="subtask-tags">
+                      {subTask.dependsOnTasks.map((dep, idx) => (
+                        <span key={idx} className="dep-tag-small">{dep}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {subTask.blockedBy.length > 0 && (
+                  <div className="dependency-row blocked">
+                    <span className="dep-label">🚫 Blocked by:</span>
+                    <div className="subtask-tags">
+                      {subTask.blockedBy.map((blocker, idx) => (
+                        <span key={idx} className="blocker-tag">{blocker}</span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
             {subTask.sharedWithProjects.length > 0 && (
-              <div className="subtask-section shared-projects">
-                <span className="subtask-label">🔗 Also enables:</span>
-                <div className="subtask-tags">
+              <div className="subtask-detail-card shared-card">
+                <div className="detail-card-header">🔗 Also Enables These Projects</div>
+                <div className="shared-projects-list">
                   {subTask.sharedWithProjects.map((proj, idx) => (
-                    <span key={idx} className="shared-project-tag">{proj}</span>
+                    <div key={idx} className="shared-project-item">
+                      <span className="shared-project-tag">{getProjectTitle(proj)}</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -327,8 +346,8 @@ function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boole
   );
 }
 
-// Shared Task display component
-function SharedTaskCard({ task }: { task: SharedTask }) {
+// Shared Task display component - Enhanced
+function SharedTaskCard({ task, allProjects }: { task: SharedTask; allProjects?: ProjectProposal[] }) {
   const [expanded, setExpanded] = useState(false);
 
   const priorityColor = {
@@ -345,6 +364,12 @@ function SharedTaskCard({ task }: { task: SharedTask }) {
     'Done': '✅',
   }[task.status];
 
+  // Get project titles
+  const getProjectTitle = (projectId: string) => {
+    const project = allProjects?.find(p => p.id === projectId);
+    return project?.title || projectId;
+  };
+
   return (
     <div className={`shared-task-card ${task.status.toLowerCase().replace(' ', '-')}`}>
       <div className="shared-task-header" onClick={() => setExpanded(!expanded)}>
@@ -352,25 +377,44 @@ function SharedTaskCard({ task }: { task: SharedTask }) {
           <span className="shared-task-status">{statusIcon}</span>
           <div className="shared-task-info">
             <span className="shared-task-name">{task.name}</span>
-            <span className="shared-task-impact">🔗 Enables {task.sharedAcrossCount} projects</span>
+            <span className="shared-task-impact">
+              <span className="impact-badge">🔗 {task.sharedAcrossCount} projects</span>
+              <span className="hours-badge">⏱️ {task.estimatedHours}</span>
+            </span>
           </div>
         </div>
         <div className="shared-task-right">
-          <span className="shared-task-priority" style={{ color: priorityColor }}>{task.priority}</span>
-          <span className="shared-task-hours">{task.estimatedHours}</span>
+          <span className="shared-task-priority-badge" style={{ backgroundColor: priorityColor }}>
+            {task.priority}
+          </span>
           <span className="expand-icon-small">{expanded ? '▼' : '▶'}</span>
         </div>
       </div>
 
+      {/* Always show description */}
+      <p className="shared-task-desc-preview">{task.description}</p>
+
       {expanded && (
         <div className="shared-task-expanded">
-          <p className="shared-task-description">{task.description}</p>
-          <div className="shared-task-projects">
-            <span className="subtask-label">Projects unlocked:</span>
-            <div className="subtask-tags">
-              {task.projectIds.map((proj, idx) => (
-                <span key={idx} className="shared-project-tag">{proj}</span>
-              ))}
+          <div className="shared-task-projects-grid">
+            <div className="projects-unlocked-header">
+              <span className="unlock-icon">🔓</span>
+              <span>Building this task unlocks these {task.sharedAcrossCount} projects:</span>
+            </div>
+            <div className="projects-unlocked-list">
+              {task.projectIds.map((proj, idx) => {
+                const project = allProjects?.find(p => p.id === proj);
+                return (
+                  <div key={idx} className="unlocked-project-card">
+                    <span className="unlocked-project-name">{getProjectTitle(proj)}</span>
+                    {project && (
+                      <span className={`unlocked-project-stage stage-${project.stage?.toLowerCase().replace(' ', '-')}`}>
+                        {project.stage}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -389,11 +433,12 @@ interface ProjectCardProps {
   isDragOver?: boolean;
   subTasks?: SubTask[];
   showSubTasks?: boolean;
+  allProjects?: ProjectProposal[];
 }
 
-function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onDragEnd, isDragOver, subTasks, showSubTasks }: ProjectCardProps) {
+function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onDragEnd, isDragOver, subTasks, showSubTasks, allProjects }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
-  const [subTasksExpanded, setSubTasksExpanded] = useState(false);
+  const [subTasksExpanded, setSubTasksExpanded] = useState(true); // Auto-expand sub-tasks
 
   const difficultyColor = {
     Easy: 'var(--accent-green)',
@@ -739,6 +784,7 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
                       key={subTask.id}
                       subTask={subTask}
                       isShared={subTask.isFoundational || subTask.sharedWithProjects.length > 0}
+                      allProjects={allProjects}
                     />
                   ))}
                 </div>
@@ -1164,7 +1210,7 @@ export default function Dashboard() {
                 </div>
                 <div className="shared-tasks-grid">
                   {sharedTasks.map((task) => (
-                    <SharedTaskCard key={task.id} task={task} />
+                    <SharedTaskCard key={task.id} task={task} allProjects={projects} />
                   ))}
                 </div>
               </div>
@@ -1356,6 +1402,7 @@ export default function Dashboard() {
                   isDragOver={dragOverIndex === index}
                   subTasks={getSubTasksForProject(project.id)}
                   showSubTasks={showSubTasks}
+                  allProjects={projects}
                 />
               ))}
             </div>

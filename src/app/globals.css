@@ -3640,3 +3640,254 @@ a {
     gap: 0.5rem;
   }
 }
+
+/* =====================================================
+   ENHANCED SUB-TASK STYLES
+   ===================================================== */
+
+/* Foundational badge */
+.foundational-badge {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: linear-gradient(90deg, rgba(234, 179, 8, 0.2), rgba(234, 179, 8, 0.1));
+  color: var(--accent-yellow);
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* Sub-task description preview (always visible) */
+.subtask-description-preview {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding: 0 1rem 0.75rem;
+  margin: 0;
+}
+
+/* Sub-task details grid */
+.subtask-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.subtask-detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.detail-card-header {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.subtask-detail-card.ai-assist-card {
+  grid-column: span 2;
+  background: linear-gradient(135deg, var(--bg-card), rgba(59, 130, 246, 0.1));
+}
+
+.ai-potential-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.ai-potential-level {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.subtask-detail-card.dependencies-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(249, 115, 22, 0.05));
+}
+
+.dependency-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.dependency-row:last-child {
+  margin-bottom: 0;
+}
+
+.dependency-row .dep-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.dependency-row.blocked {
+  padding: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 6px;
+}
+
+.subtask-detail-card.shared-card {
+  grid-column: span 2;
+  background: linear-gradient(135deg, var(--bg-card), rgba(34, 197, 94, 0.1));
+}
+
+.shared-projects-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.shared-project-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* =====================================================
+   ENHANCED SHARED TASK STYLES
+   ===================================================== */
+
+.shared-task-impact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.impact-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--accent-blue);
+  border-radius: 4px;
+}
+
+.hours-badge {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-radius: 4px;
+}
+
+.shared-task-priority-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+}
+
+.shared-task-desc-preview {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  padding: 0 1rem 0.75rem;
+  margin: 0;
+}
+
+.shared-task-projects-grid {
+  padding: 0 1rem 1rem;
+}
+
+.projects-unlocked-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.unlock-icon {
+  font-size: 1.1rem;
+}
+
+.projects-unlocked-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.5rem;
+}
+
+.unlocked-project-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  gap: 0.5rem;
+}
+
+.unlocked-project-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unlocked-project-stage {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.unlocked-project-stage.stage-deployed {
+  background: var(--accent-green-bg);
+  color: var(--accent-green);
+}
+
+.unlocked-project-stage.stage-under-dev {
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue);
+}
+
+.unlocked-project-stage.stage-pilot {
+  background: var(--accent-yellow-bg);
+  color: var(--accent-yellow);
+}
+
+.unlocked-project-stage.stage-planned {
+  background: var(--accent-orange-bg);
+  color: var(--accent-orange);
+}
+
+.unlocked-project-stage.stage-idea {
+  background: rgba(128, 128, 128, 0.15);
+  color: var(--text-muted);
+}
+
+/* Mobile responsive for enhanced styles */
+@media (max-width: 768px) {
+  .subtask-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .subtask-detail-card.ai-assist-card,
+  .subtask-detail-card.shared-card {
+    grid-column: span 1;
+  }
+
+  .projects-unlocked-list {
+    grid-template-columns: 1fr;
+  }
+
+  .shared-task-impact {
+    flex-wrap: wrap;
+  }
+}

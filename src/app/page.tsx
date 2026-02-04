@@ -9,9 +9,14 @@ import type {
   ProjectProposal,
   ProjectPillar,
   MissingApiResource,
-  DataSourceNeeded
+  DataSourceNeeded,
+  SubTask,
+  ProjectSubTasks,
+  SharedTask,
+  AIPotential,
+  KnowledgeArea
 } from '@/lib/api';
-import { getMissingApiResources, getDataSourcesNeeded } from '@/lib/api';
+import { getMissingApiResources, getDataSourcesNeeded, getProjectSubTasks, getSharedTasks } from '@/lib/api';
 
 // Local storage key for custom project order
 const CUSTOM_ORDER_KEY = 'abeto-project-custom-order';
@@ -207,6 +212,173 @@ function ResourceCard({ resource }: { resource: ResourceStatus }) {
   );
 }
 
+// AI Potential color helper
+function getAIPotentialColor(potential: AIPotential): string {
+  switch (potential) {
+    case 'High': return 'var(--accent-green)';
+    case 'Medium': return 'var(--accent-yellow)';
+    case 'Low': return 'var(--accent-orange)';
+    case 'None': return 'var(--text-muted)';
+    default: return 'var(--text-muted)';
+  }
+}
+
+// SubTask display component
+function SubTaskCard({ subTask, isShared }: { subTask: SubTask; isShared?: boolean }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const difficultyColor = {
+    Easy: 'var(--accent-green)',
+    Medium: 'var(--accent-yellow)',
+    Hard: 'var(--accent-orange)',
+  }[subTask.difficulty];
+
+  const statusIcon = {
+    'Not Started': '⚪',
+    'In Progress': '🔵',
+    'Blocked': '🔴',
+    'Done': '✅',
+  }[subTask.status];
+
+  return (
+    <div className={`subtask-card ${subTask.status.toLowerCase().replace(' ', '-')} ${expanded ? 'expanded' : ''} ${isShared ? 'shared' : ''}`}>
+      <div className="subtask-header" onClick={() => setExpanded(!expanded)}>
+        <div className="subtask-header-left">
+          <span className="subtask-status-icon">{statusIcon}</span>
+          <div className="subtask-info">
+            <span className="subtask-title">{subTask.title}</span>
+            {isShared && <span className="shared-badge">🔗 Shared</span>}
+          </div>
+        </div>
+        <div className="subtask-header-right">
+          <span className="subtask-hours">{subTask.estimatedHours}</span>
+          <span className="subtask-difficulty" style={{ color: difficultyColor }}>{subTask.difficulty}</span>
+          <span className="subtask-ai-potential" style={{ backgroundColor: getAIPotentialColor(subTask.aiPotential) }}>
+            🤖 {subTask.aiPotential}
+          </span>
+          <span className="expand-icon-small">{expanded ? '▼' : '▶'}</span>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="subtask-expanded">
+          <p className="subtask-description">{subTask.description}</p>
+
+          <div className="subtask-details">
+            <div className="subtask-section">
+              <span className="subtask-label">🛠️ Tools:</span>
+              <div className="subtask-tags">
+                {subTask.toolsNeeded.map((tool, idx) => (
+                  <span key={idx} className="tool-tag">{tool}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="subtask-section">
+              <span className="subtask-label">📚 Knowledge:</span>
+              <div className="subtask-tags">
+                {subTask.knowledgeAreas.map((area, idx) => (
+                  <span key={idx} className="knowledge-tag">{area}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="subtask-section ai-assist">
+              <span className="subtask-label">🤖 AI Assist:</span>
+              <p className="ai-assist-description">{subTask.aiAssistDescription}</p>
+            </div>
+
+            {subTask.dependsOnTasks.length > 0 && (
+              <div className="subtask-section">
+                <span className="subtask-label">⬅️ Depends on:</span>
+                <div className="subtask-tags">
+                  {subTask.dependsOnTasks.map((dep, idx) => (
+                    <span key={idx} className="dep-tag-small">{dep}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {subTask.blockedBy.length > 0 && (
+              <div className="subtask-section blocked">
+                <span className="subtask-label">🚫 Blocked by:</span>
+                <div className="subtask-tags">
+                  {subTask.blockedBy.map((blocker, idx) => (
+                    <span key={idx} className="blocker-tag">{blocker}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {subTask.sharedWithProjects.length > 0 && (
+              <div className="subtask-section shared-projects">
+                <span className="subtask-label">🔗 Also enables:</span>
+                <div className="subtask-tags">
+                  {subTask.sharedWithProjects.map((proj, idx) => (
+                    <span key={idx} className="shared-project-tag">{proj}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Shared Task display component
+function SharedTaskCard({ task }: { task: SharedTask }) {
+  const [expanded, setExpanded] = useState(false);
+
+  const priorityColor = {
+    Critical: 'var(--accent-red)',
+    High: 'var(--accent-orange)',
+    Medium: 'var(--accent-yellow)',
+    Low: 'var(--text-muted)',
+  }[task.priority];
+
+  const statusIcon = {
+    'Not Started': '⚪',
+    'In Progress': '🔵',
+    'Blocked': '🔴',
+    'Done': '✅',
+  }[task.status];
+
+  return (
+    <div className={`shared-task-card ${task.status.toLowerCase().replace(' ', '-')}`}>
+      <div className="shared-task-header" onClick={() => setExpanded(!expanded)}>
+        <div className="shared-task-left">
+          <span className="shared-task-status">{statusIcon}</span>
+          <div className="shared-task-info">
+            <span className="shared-task-name">{task.name}</span>
+            <span className="shared-task-impact">🔗 Enables {task.sharedAcrossCount} projects</span>
+          </div>
+        </div>
+        <div className="shared-task-right">
+          <span className="shared-task-priority" style={{ color: priorityColor }}>{task.priority}</span>
+          <span className="shared-task-hours">{task.estimatedHours}</span>
+          <span className="expand-icon-small">{expanded ? '▼' : '▶'}</span>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="shared-task-expanded">
+          <p className="shared-task-description">{task.description}</p>
+          <div className="shared-task-projects">
+            <span className="subtask-label">Projects unlocked:</span>
+            <div className="subtask-tags">
+              {task.projectIds.map((proj, idx) => (
+                <span key={idx} className="shared-project-tag">{proj}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 interface ProjectCardProps {
   project: ProjectProposal;
   index: number;
@@ -215,10 +387,13 @@ interface ProjectCardProps {
   onDragOver?: (e: React.DragEvent, index: number) => void;
   onDragEnd?: () => void;
   isDragOver?: boolean;
+  subTasks?: SubTask[];
+  showSubTasks?: boolean;
 }
 
-function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onDragEnd, isDragOver }: ProjectCardProps) {
+function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onDragEnd, isDragOver, subTasks, showSubTasks }: ProjectCardProps) {
   const [expanded, setExpanded] = useState(false);
+  const [subTasksExpanded, setSubTasksExpanded] = useState(false);
 
   const difficultyColor = {
     Easy: 'var(--accent-green)',
@@ -528,6 +703,48 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
               ))}
             </div>
           </div>
+
+          {/* Sub-Tasks Section */}
+          {showSubTasks && subTasks && subTasks.length > 0 && (
+            <div className="project-section subtasks-section">
+              <div className="subtasks-header" onClick={(e) => { e.stopPropagation(); setSubTasksExpanded(!subTasksExpanded); }}>
+                <h4>📋 Sub-Tasks ({subTasks.length})</h4>
+                <div className="subtasks-summary">
+                  <span className="subtask-count-badge done">✅ {subTasks.filter(t => t.status === 'Done').length}</span>
+                  <span className="subtask-count-badge in-progress">🔵 {subTasks.filter(t => t.status === 'In Progress').length}</span>
+                  <span className="subtask-count-badge not-started">⚪ {subTasks.filter(t => t.status === 'Not Started').length}</span>
+                  <span className="subtask-count-badge blocked">🔴 {subTasks.filter(t => t.status === 'Blocked').length}</span>
+                </div>
+                <span className="expand-icon">{subTasksExpanded ? '▼' : '▶'}</span>
+              </div>
+
+              {subTasksExpanded && (
+                <div className="subtasks-list">
+                  {/* AI Potential summary */}
+                  <div className="ai-potential-summary">
+                    <span className="ai-summary-label">🤖 AI Assist Potential:</span>
+                    <span className="ai-summary-item high">High: {subTasks.filter(t => t.aiPotential === 'High').length}</span>
+                    <span className="ai-summary-item medium">Medium: {subTasks.filter(t => t.aiPotential === 'Medium').length}</span>
+                    <span className="ai-summary-item low">Low: {subTasks.filter(t => t.aiPotential === 'Low').length}</span>
+                  </div>
+
+                  {/* Critical Path */}
+                  <div className="critical-path-hint">
+                    <span>🎯 Critical Path: {subTasks.map(t => t.id).join(' → ')}</span>
+                  </div>
+
+                  {/* Sub-task cards */}
+                  {subTasks.map((subTask) => (
+                    <SubTaskCard
+                      key={subTask.id}
+                      subTask={subTask}
+                      isShared={subTask.isFoundational || subTask.sharedWithProjects.length > 0}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -555,6 +772,18 @@ export default function Dashboard() {
   const [apiDifficultyFilter, setApiDifficultyFilter] = useState<string>('all');
   const [missingViewMode, setMissingViewMode] = useState<'api' | 'data'>('api');
   const dataSourcesNeeded = getDataSourcesNeeded();
+
+  // Sub-tasks data
+  const projectSubTasks = getProjectSubTasks();
+  const sharedTasks = getSharedTasks();
+  const [showSubTasks, setShowSubTasks] = useState(true);
+  const [showSharedTasks, setShowSharedTasks] = useState(false);
+
+  // Helper to get sub-tasks for a project
+  const getSubTasksForProject = (projectId: string): SubTask[] => {
+    const projectData = projectSubTasks.find(p => p.projectId === projectId);
+    return projectData?.subTasks || [];
+  };
 
   // Drag and drop state
   const [customOrder, setCustomOrder] = useState<string[]>([]);
@@ -913,6 +1142,50 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Shared Tasks Panel */}
+          <div className="shared-tasks-panel">
+            <div className="shared-tasks-toggle" onClick={() => setShowSharedTasks(!showSharedTasks)}>
+              <h3>🔗 Foundational Tasks ({sharedTasks.length})</h3>
+              <span className="shared-tasks-hint">Build once, unlock multiple projects</span>
+              <span className="expand-icon">{showSharedTasks ? '▼' : '▶'}</span>
+            </div>
+
+            {showSharedTasks && (
+              <div className="shared-tasks-content">
+                <div className="shared-tasks-summary">
+                  <span className="summary-item">
+                    <span className="summary-label">Total Impact:</span>
+                    <span className="summary-value">{sharedTasks.reduce((sum, t) => sum + t.sharedAcrossCount, 0)} project dependencies</span>
+                  </span>
+                  <span className="summary-item">
+                    <span className="summary-label">Est. Hours:</span>
+                    <span className="summary-value">{sharedTasks.map(t => t.estimatedHours).join(' + ')}</span>
+                  </span>
+                </div>
+                <div className="shared-tasks-grid">
+                  {sharedTasks.map((task) => (
+                    <SharedTaskCard key={task.id} task={task} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sub-Tasks Toggle */}
+          <div className="subtasks-toggle-row">
+            <label className="subtasks-toggle-label">
+              <input
+                type="checkbox"
+                checked={showSubTasks}
+                onChange={(e) => setShowSubTasks(e.target.checked)}
+              />
+              <span>📋 Show Sub-Tasks</span>
+            </label>
+            <span className="subtasks-toggle-hint">
+              {showSubTasks ? 'Sub-task breakdowns visible in expanded projects' : 'Enable to see detailed task breakdowns'}
+            </span>
+          </div>
+
           {/* Interactive Filter Bar */}
           <div className="interactive-filters">
             {/* Stage Pills */}
@@ -1081,6 +1354,8 @@ export default function Dashboard() {
                   onDragOver={handleDragOver}
                   onDragEnd={handleDragEnd}
                   isDragOver={dragOverIndex === index}
+                  subTasks={getSubTasksForProject(project.id)}
+                  showSubTasks={showSubTasks}
                 />
               ))}
             </div>

@@ -234,7 +234,7 @@ function ProjectCard({ project, index, isDraggable, onDragStart, onDragOver, onD
 
   const pillarIcon: Record<string, string> = {
     'Data Foundation': '🏗️',
-    'Data Generation': '🚀',
+    'Knowledge Generation': '🧠',
     'Human Empowerment': '👥',
   };
 
@@ -675,8 +675,8 @@ export default function Dashboard() {
     return (
       <div className="dashboard">
         <div className="header">
-          <h1>Abeto API Dashboard</h1>
-          <p>Failed to load dashboard data</p>
+          <h1 className="main-title">Abeto<span className="title-accent">:</span> From Data to Opportunity</h1>
+          <p className="main-subtitle">Failed to load dashboard data</p>
         </div>
         <div className="error-message">{error}</div>
         <button className="refresh-button" onClick={handleRefresh}>
@@ -707,7 +707,7 @@ export default function Dashboard() {
   const priorityOrder = { Critical: 0, High: 1, Medium: 2, Low: 3 };
   const stageOrder = { Deployed: 0, 'Under Dev': 1, Pilot: 2, Planned: 3, Idea: 4 };
   const difficultyOrder = { Easy: 0, Medium: 1, Hard: 2 };
-  const pillarOrder: Record<string, number> = { 'Data Foundation': 0, 'Data Generation': 1, 'Human Empowerment': 2 };
+  const pillarOrder: Record<string, number> = { 'Data Foundation': 0, 'Knowledge Generation': 1, 'Human Empowerment': 2 };
 
   filteredProjects = [...filteredProjects].sort((a, b) => {
     if (sortBy === 'custom') {
@@ -758,8 +758,8 @@ export default function Dashboard() {
       <div className="header">
         <div className="header-top">
           <div>
-            <h1>Abeto API Dashboard</h1>
-            <p>Real-time status of API resources for lead management and installer coordination</p>
+            <h1 className="main-title">Abeto<span className="title-accent">:</span> From Data to Opportunity</h1>
+            <p className="main-subtitle">Where reliable APIs meet strategic initiatives. Build the foundation, unlock the growth.</p>
           </div>
           <div className="header-actions">
             <button
@@ -789,7 +789,7 @@ export default function Dashboard() {
         <div className="narrative-arrow">→</div>
         <div className="narrative-step" onClick={() => setActiveTab('projects')}>
           <span className="narrative-number">3</span>
-          <span className="narrative-label">Enable Products & Growth</span>
+          <span className="narrative-label">Knowledge & Growth</span>
           <span className="narrative-sublabel">{projects.length} initiatives</span>
         </div>
       </div>
@@ -887,9 +887,9 @@ export default function Dashboard() {
                 <p>Without reliable, real-time data, <strong>nothing else works</strong>. This is the bedrock.</p>
               </div>
               <div className="pillar pillar-generation">
-                <div className="pillar-icon">🚀</div>
-                <h3>Data Generation</h3>
-                <p>The goal is <strong>GROWTH</strong>. More leads, calls, qualifications, sales, and partners.</p>
+                <div className="pillar-icon">🧠</div>
+                <h3>Knowledge Generation</h3>
+                <p>Data enables <strong>exponential knowledge</strong>. AI-driven tools empower humans to make smarter decisions, faster.</p>
               </div>
               <div className="pillar pillar-empowerment">
                 <div className="pillar-icon">👥</div>
@@ -961,10 +961,10 @@ export default function Dashboard() {
                   🏗️ Data Foundation
                 </button>
                 <button
-                  className={`filter-pill pillar-generation ${pillarFilter === 'Data Generation' ? 'active' : ''}`}
-                  onClick={() => setPillarFilter(pillarFilter === 'Data Generation' ? 'all' : 'Data Generation')}
+                  className={`filter-pill pillar-generation ${pillarFilter === 'Knowledge Generation' ? 'active' : ''}`}
+                  onClick={() => setPillarFilter(pillarFilter === 'Knowledge Generation' ? 'all' : 'Knowledge Generation')}
                 >
-                  🚀 Data Generation
+                  🧠 Knowledge Generation
                 </button>
                 <button
                   className={`filter-pill pillar-empowerment ${pillarFilter === 'Human Empowerment' ? 'active' : ''}`}

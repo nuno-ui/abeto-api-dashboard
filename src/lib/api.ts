@@ -1007,7 +1007,7 @@ export async function fetchDashboardData(): Promise<DashboardData> {
 // =============================================================================
 
 export type ProjectStage = 'Deployed' | 'Under Dev' | 'Pilot' | 'Planned' | 'Idea';
-export type ProjectPillar = 'Data Foundation' | 'Data Generation' | 'Human Empowerment';
+export type ProjectPillar = 'Data Foundation' | 'Knowledge Generation' | 'Human Empowerment';
 export type ProjectCategory = 'Data Layer' | 'Lead Generation' | 'SDR Tools' | 'Partner Growth' | 'Installer Tools' | 'Reporting & Intelligence' | 'Marketing & Campaigns' | 'Operations' | 'Platform Infrastructure';
 
 export interface ProjectProposal {
@@ -1206,7 +1206,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'campaign-os',
       title: 'Campaign OS (Lead Generation)',
       description: 'Generates NEW LEADS through optimized paid media campaigns. Multi-channel dashboard, spend-to-CRM mapping, and AI-powered creative suggestions. The more leads we generate, the more data we have, the smarter our systems become.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 1,
       whyItMatters: 'Leads are the lifeblood of the business. This tool helps generate MORE leads, not just manage existing ones. Every new lead feeds the entire system.',
       humanRole: {
@@ -1246,7 +1246,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'partner-expansion-tool',
       title: 'Partner Expansion Engine',
       description: 'Generates NEW PARTNERS (installers) through automated outreach, scoring, and onboarding. More partners = more capacity = more sales. Each new partner expands our ability to serve customers.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 2,
       whyItMatters: 'Growth is limited by installer capacity. This tool systematically expands our partner network, directly enabling more sales.',
       humanRole: {
@@ -1286,7 +1286,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'funnel-automation-os',
       title: 'Funnel Automation OS',
       description: 'Generates NEW QUALIFICATIONS & CALLS through automated WhatsApp and telephony flows. More conversations = more qualified leads = more sales. Scales SDR capacity without hiring.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 3,
       whyItMatters: 'SDR capacity is the bottleneck. This tool multiplies what each SDR can accomplish, generating more qualifying conversations per day.',
       humanRole: {
@@ -1655,7 +1655,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'lead-recycling-workflow',
       title: 'Lead Recycling Workflow',
       description: 'Automatic flagging and reassignment of recyclable leads based on installer feedback. Track recycling outcomes and optimize re-engagement timing. Part of Funnel Automation.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 10,
       whyItMatters: 'Lost leads can be recovered. Systematic recycling increases total conversions.',
       humanRole: {
@@ -1933,7 +1933,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'programmatic-seo-pages',
       title: 'Programmatic Municipality SEO Pages',
       description: 'Generate 8,000+ SEO-optimized pages for Spanish municipalities. Target long-tail keywords like "placas solares [municipio]" with zero competition.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 20,
       whyItMatters: 'Spain has 8,131 municipalities. 90%+ have ZERO solar installer SEO pages. Massive organic traffic opportunity.',
       humanRole: {
@@ -1972,7 +1972,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'pvpc-savings-widget',
       title: 'Live PVPC Savings Widget',
       description: 'Real-time widget showing current electricity prices and potential solar savings. Viral sharing mechanism.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 21,
       whyItMatters: 'Spaniards check electricity prices obsessively. High bill anxiety = engagement opportunity.',
       humanRole: {
@@ -2011,7 +2011,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'irpf-calculator',
       title: 'IRPF 60% Tax Deduction Calculator',
       description: 'Interactive calculator showing exact tax savings from solar investment. Urgency: expires Dec 31, 2025.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 22,
       whyItMatters: 'Most Spaniards DON\'T KNOW about the 60% IRPF deduction. Huge urgency trigger.',
       humanRole: {
@@ -2050,7 +2050,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'gmb-automation',
       title: 'Google Business Multi-Location Automation',
       description: 'Automate 50+ Google Business profiles for service areas. Dominate local pack results.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 23,
       whyItMatters: 'Local pack visibility = highest intent clicks at zero cost.',
       humanRole: {
@@ -2089,7 +2089,7 @@ export function getExistingProducts(): ProjectProposal[] {
       id: 'review-generation-system',
       title: 'Review Generation & Auto-Reply',
       description: 'Automated review requests after installation + AI-powered review responses.',
-      pillar: 'Data Generation',
+      pillar: 'Knowledge Generation',
       pillarOrder: 24,
       whyItMatters: 'Spanish trust factor: Reviews > Ads. Systematic review generation builds moat.',
       humanRole: {
@@ -2528,7 +2528,7 @@ export function generateProjectProposals(data: DashboardData): ProjectProposal[]
 
   // Sort by pillar (Data Foundation = 1, Data Generation = 2, Human Empowerment = 3)
   // Then by pillarOrder within each pillar
-  const pillarRank = { 'Data Foundation': 1, 'Data Generation': 2, 'Human Empowerment': 3 };
+  const pillarRank = { 'Data Foundation': 1, 'Knowledge Generation': 2, 'Human Empowerment': 3 };
 
   return enrichedProjects.sort((a, b) => {
     const pillarA = pillarRank[a.pillar as keyof typeof pillarRank] || 99;

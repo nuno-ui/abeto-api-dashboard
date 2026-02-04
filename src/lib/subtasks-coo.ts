@@ -48,9 +48,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
       criticalPath: ['udl-1', 'udl-2', 'udl-3', 'udl-6', 'udl-9', 'udl-11', 'udl-12'],
       subTasks: [
         // DISCOVERY PHASE
-        createTask('udl-1', 'Data Audit & Gap Analysis', 'Discovery', 'Tech Lead', {
+        createTask('udl-1', 'Data Audit & Gap Analysis', 'Discovery', 'Technology', {
           description: 'Audit all existing data sources (Zoho, Woztell, Aircall, Holded). Document current data flows, identify gaps, inconsistencies, and missing fields. Create data dictionary.',
-          stakeholders: ['CEO', 'Sales Lead', 'Operations', 'Finance'],
+          stakeholders: ['CEO', 'Sales', 'Operations', 'Finance'],
           estimatedHours: '16-24h',
           difficulty: 'Medium',
           toolsNeeded: ['Notion', 'Spreadsheets', 'Existing system access'],
@@ -66,7 +66,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           successMetrics: ['100% of data sources documented', 'All critical gaps identified'],
           risks: ['Access delays to production systems', 'Undocumented legacy data'],
         }),
-        createTask('udl-2', 'Stakeholder Requirements Workshop', 'Discovery', 'COO', {
+        createTask('udl-2', 'Stakeholder Requirements Workshop', 'Discovery', 'Operations', {
           description: 'Conduct workshops with Sales, Ops, Finance, and Leadership to understand data needs. Document use cases, reporting requirements, and pain points.',
           stakeholders: ['CEO', 'Sales Team', 'Operations', 'Finance', 'Installers'],
           estimatedHours: '8-12h',
@@ -86,7 +86,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // PLANNING PHASE
-        createTask('udl-3', 'API Architecture Design', 'Planning', 'Tech Lead', {
+        createTask('udl-3', 'API Architecture Design', 'Planning', 'Technology', {
           description: 'Design API architecture including endpoints, authentication, rate limiting, caching strategy. Define data models and relationships. Create technical specification document.',
           stakeholders: ['Tech Team', 'Security'],
           estimatedHours: '20-30h',
@@ -127,7 +127,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // DEVELOPMENT PHASE
-        createTask('udl-5', 'Core API Infrastructure Setup', 'Development', 'Developer', {
+        createTask('udl-5', 'Core API Infrastructure Setup', 'Development', 'Technology', {
           description: 'Set up API server, database, authentication system, logging, and monitoring. Deploy to staging environment.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -146,7 +146,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           isFoundational: true,
         }),
-        createTask('udl-6', 'Deals & Opportunities Endpoints', 'Development', 'Developer', {
+        createTask('udl-6', 'Deals & Opportunities Endpoints', 'Development', 'Technology', {
           description: 'Build endpoints for Deals and Opportunities including CRUD operations, filtering, pagination, and Zoho sync.',
           stakeholders: ['Sales Team', 'Operations'],
           estimatedHours: '20-28h',
@@ -166,7 +166,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['reporting-hub', 'sdr-portal'],
         }),
-        createTask('udl-7', 'Calls & Qualifications Endpoints', 'Development', 'Developer', {
+        createTask('udl-7', 'Calls & Qualifications Endpoints', 'Development', 'Technology', {
           description: 'Build endpoints for Calls and Qualifications data. Integrate with Aircall for call data. Support transcription storage.',
           stakeholders: ['SDR Team', 'Operations'],
           estimatedHours: '16-24h',
@@ -185,7 +185,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['ai-cortex', 'contact-prioritization-engine'],
         }),
-        createTask('udl-8', 'WhatsApp Conversation History', 'Development', 'Developer', {
+        createTask('udl-8', 'WhatsApp Conversation History', 'Development', 'Technology', {
           description: 'Build endpoints for WhatsApp conversation history. Integrate with Woztell API to pull full message history per deal.',
           stakeholders: ['SDR Team', 'Operations'],
           estimatedHours: '20-30h',
@@ -206,7 +206,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['whatsapp-conversation-summary', 'ai-cortex', 'funnel-automation-os', 'sdr-portal'],
         }),
-        createTask('udl-9', 'Installers & Regions Endpoints', 'Development', 'Developer', {
+        createTask('udl-9', 'Installers & Regions Endpoints', 'Development', 'Technology', {
           description: 'Build endpoints for Installers and Regions data. Include performance metrics, capacity, and geographic coverage.',
           stakeholders: ['Partner Ops', 'Operations'],
           estimatedHours: '12-18h',
@@ -248,7 +248,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // TRAINING & DOCUMENTATION PHASE
-        createTask('udl-11', 'API Documentation & Developer Guide', 'Training', 'Tech Lead', {
+        createTask('udl-11', 'API Documentation & Developer Guide', 'Training', 'Technology', {
           description: 'Create comprehensive API documentation with examples. Build interactive API explorer. Write developer onboarding guide.',
           stakeholders: ['Tech Team', 'External Developers'],
           estimatedHours: '12-16h',
@@ -269,7 +269,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // ROLLOUT PHASE
-        createTask('udl-12', 'Production Deployment & Monitoring', 'Rollout', 'Tech Lead', {
+        createTask('udl-12', 'Production Deployment & Monitoring', 'Rollout', 'Technology', {
           description: 'Deploy API to production. Set up monitoring, alerting, and dashboards. Configure backup and disaster recovery.',
           stakeholders: ['Tech Team', 'Operations'],
           estimatedHours: '8-12h',
@@ -291,7 +291,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // MONITORING PHASE
-        createTask('udl-13', 'Ongoing Maintenance & Iteration', 'Monitoring', 'Tech Lead', {
+        createTask('udl-13', 'Ongoing Maintenance & Iteration', 'Monitoring', 'Technology', {
           description: 'Establish ongoing maintenance process. Weekly review of API health, performance optimization, bug fixes, and feature requests.',
           stakeholders: ['All Teams'],
           estimatedHours: 'Ongoing (4h/week)',
@@ -321,9 +321,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
       criticalPath: ['rh-1', 'rh-2', 'rh-4', 'rh-6', 'rh-8', 'rh-10'],
       subTasks: [
         // DISCOVERY PHASE
-        createTask('rh-1', 'KPI Discovery & Stakeholder Alignment', 'Discovery', 'COO', {
+        createTask('rh-1', 'KPI Discovery & Stakeholder Alignment', 'Discovery', 'Operations', {
           description: 'Meet with all department heads to understand reporting needs. Define KPIs, formulas, and success thresholds. Get sign-off on metrics definitions.',
-          stakeholders: ['CEO', 'Sales Lead', 'Operations', 'Finance', 'Marketing'],
+          stakeholders: ['CEO', 'Sales', 'Operations', 'Finance', 'Marketing'],
           estimatedHours: '12-16h',
           difficulty: 'Medium',
           toolsNeeded: ['Meeting tools', 'Notion', 'Spreadsheets'],
@@ -375,7 +375,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Design approved by key stakeholders',
           ],
         }),
-        createTask('rh-4', 'Data Pipeline Architecture', 'Planning', 'Tech Lead', {
+        createTask('rh-4', 'Data Pipeline Architecture', 'Planning', 'Technology', {
           description: 'Design data pipeline for KPI calculations. Define aggregation schedules, caching strategy, and historical data retention.',
           stakeholders: ['Tech Team'],
           estimatedHours: '8-12h',
@@ -397,7 +397,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // DEVELOPMENT PHASE
-        createTask('rh-5', 'KPI Calculation Engine', 'Development', 'Developer', {
+        createTask('rh-5', 'KPI Calculation Engine', 'Development', 'Technology', {
           description: 'Build backend service for computing KPIs. Implement aggregations, calculations, and caching. Create API endpoints for dashboard.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -416,7 +416,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['investor-portal'],
         }),
-        createTask('rh-6', 'Dashboard Frontend Development', 'Development', 'Developer', {
+        createTask('rh-6', 'Dashboard Frontend Development', 'Development', 'Technology', {
           description: 'Build React dashboard with charts, tables, and filters. Implement responsive design and real-time updates.',
           stakeholders: ['All Teams'],
           estimatedHours: '32-40h',
@@ -437,7 +437,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['investor-portal', 'installer-portal-product', 'sdr-portal'],
         }),
-        createTask('rh-7', 'Export & Scheduling Features', 'Development', 'Developer', {
+        createTask('rh-7', 'Export & Scheduling Features', 'Development', 'Technology', {
           description: 'Add PDF/Excel export functionality. Implement scheduled email reports with customizable frequency.',
           stakeholders: ['Leadership', 'Operations'],
           estimatedHours: '12-16h',
@@ -458,7 +458,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // TESTING PHASE
         createTask('rh-8', 'Data Validation & UAT', 'Testing', 'Operations/QA', {
           description: 'Validate KPI calculations against manual calculations. Conduct user acceptance testing with stakeholders. Fix discrepancies.',
-          stakeholders: ['Finance', 'Sales Lead', 'Operations'],
+          stakeholders: ['Finance', 'Sales', 'Operations'],
           estimatedHours: '16-24h',
           difficulty: 'Medium',
           toolsNeeded: ['Spreadsheets', 'Testing tools'],
@@ -497,7 +497,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // ROLLOUT PHASE
-        createTask('rh-10', 'Production Launch & Adoption', 'Rollout', 'COO', {
+        createTask('rh-10', 'Production Launch & Adoption', 'Rollout', 'Operations', {
           description: 'Deploy to production. Announce to company. Monitor adoption and gather feedback. Iterate based on user input.',
           stakeholders: ['All Teams'],
           estimatedHours: '8-12h',
@@ -530,7 +530,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // DISCOVERY PHASE
         createTask('sdr-1', 'SDR Workflow Analysis & Pain Points', 'Discovery', 'Operations', {
           description: 'Shadow SDR team for a full week. Document current workflow, tools used, time spent on each activity. Identify pain points and inefficiencies.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: '16-20h',
           difficulty: 'Easy',
           toolsNeeded: ['Observation', 'Documentation'],
@@ -548,7 +548,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
         createTask('sdr-2', 'Competitive Tool Analysis', 'Discovery', 'Product', {
           description: 'Research competitor SDR tools (Salesloft, Outreach, etc.). Identify best practices and features to incorporate.',
-          stakeholders: ['Sales Lead', 'Tech Lead'],
+          stakeholders: ['Sales', 'Technology'],
           estimatedHours: '8-12h',
           difficulty: 'Easy',
           toolsNeeded: ['Research', 'Demo accounts'],
@@ -563,7 +563,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
         createTask('sdr-3', 'AI Use Cases Definition', 'Discovery', 'Product/COO', {
           description: 'Define specific AI use cases: conversation summaries, prioritization, scripts, objection handling. Get SDR team input on most valuable.',
-          stakeholders: ['SDR Team', 'Tech Lead', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Technology', 'Sales'],
           estimatedHours: '8-12h',
           difficulty: 'Medium',
           toolsNeeded: ['Workshops', 'Documentation'],
@@ -582,7 +582,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // PLANNING PHASE
         createTask('sdr-4', 'Portal UX Design & Prototyping', 'Planning', 'UX/Product', {
           description: 'Design portal layout, information architecture, and key screens. Create clickable prototype. User test with SDRs.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: '16-24h',
           difficulty: 'Medium',
           toolsNeeded: ['Figma', 'Prototyping tools'],
@@ -598,7 +598,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Final design approved',
           ],
         }),
-        createTask('sdr-5', 'Technical Architecture', 'Planning', 'Tech Lead', {
+        createTask('sdr-5', 'Technical Architecture', 'Planning', 'Technology', {
           description: 'Design technical architecture including frontend, API integrations, real-time features, and AI components.',
           stakeholders: ['Tech Team'],
           estimatedHours: '12-16h',
@@ -619,7 +619,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // DEVELOPMENT PHASE
-        createTask('sdr-6', 'Core Portal Framework', 'Development', 'Developer', {
+        createTask('sdr-6', 'Core Portal Framework', 'Development', 'Technology', {
           description: 'Build core portal: authentication, navigation, responsive layout. Set up API connections to unified data layer.',
           stakeholders: ['Tech Team'],
           estimatedHours: '20-28h',
@@ -637,7 +637,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Core pages rendering',
           ],
         }),
-        createTask('sdr-7', 'Contact List & Queue Management', 'Development', 'Developer', {
+        createTask('sdr-7', 'Contact List & Queue Management', 'Development', 'Technology', {
           description: 'Build contact list with filtering, sorting, and queue management. Implement click-to-call and status updates.',
           stakeholders: ['SDR Team'],
           estimatedHours: '16-24h',
@@ -655,9 +655,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Status updates in real-time',
           ],
         }),
-        createTask('sdr-8', 'WhatsApp Conversation Summary (AI)', 'Development', 'Developer', {
+        createTask('sdr-8', 'WhatsApp Conversation Summary (AI)', 'Development', 'Technology', {
           description: 'Integrate LLM to generate conversation summaries before calls. Show key points, sentiment, last topics discussed.',
-          stakeholders: ['SDR Team', 'Tech Lead'],
+          stakeholders: ['SDR Team', 'Technology'],
           estimatedHours: '24-32h',
           difficulty: 'Hard',
           toolsNeeded: ['Claude/OpenAI API', 'React'],
@@ -676,9 +676,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['whatsapp-conversation-summary', 'ai-cortex'],
         }),
-        createTask('sdr-9', 'AI Prioritization Engine', 'Development', 'Developer', {
+        createTask('sdr-9', 'AI Prioritization Engine', 'Development', 'Technology', {
           description: 'Build contact prioritization using AI scoring. Consider engagement, timing, lead quality, and conversion probability.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: '20-28h',
           difficulty: 'Hard',
           toolsNeeded: ['Node.js', 'LLM APIs', 'PostgreSQL'],
@@ -695,7 +695,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['contact-prioritization-engine'],
         }),
-        createTask('sdr-10', 'Real-time AI Copilot', 'Development', 'Developer', {
+        createTask('sdr-10', 'Real-time AI Copilot', 'Development', 'Technology', {
           description: 'Build AI copilot panel that provides real-time suggestions, objection handling tips, and next best actions during calls.',
           stakeholders: ['SDR Team'],
           estimatedHours: '24-32h',
@@ -715,9 +715,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['ai-cortex'],
         }),
-        createTask('sdr-11', 'Performance Dashboard', 'Development', 'Developer', {
+        createTask('sdr-11', 'Performance Dashboard', 'Development', 'Technology', {
           description: 'Build SDR performance dashboard: calls made, conversions, response times, comparison to goals.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: '12-16h',
           difficulty: 'Medium',
           toolsNeeded: ['React', 'Charts'],
@@ -759,7 +759,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // TRAINING PHASE
         createTask('sdr-13', 'SDR Training Program', 'Training', 'Operations', {
           description: 'Create training materials. Conduct hands-on training sessions. Document best practices for using AI features.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: '12-16h',
           difficulty: 'Easy',
           toolsNeeded: ['Training materials', 'Video recording'],
@@ -779,7 +779,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // ROLLOUT PHASE
         createTask('sdr-14', 'Full Team Rollout', 'Rollout', 'Operations', {
           description: 'Roll out to full SDR team. Monitor adoption and performance. Provide support. Iterate based on feedback.',
-          stakeholders: ['SDR Team', 'Sales Lead', 'COO'],
+          stakeholders: ['SDR Team', 'Sales', 'Operations'],
           estimatedHours: '12-20h',
           difficulty: 'Medium',
           toolsNeeded: ['Support tools', 'Analytics'],
@@ -805,7 +805,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // MONITORING PHASE
         createTask('sdr-15', 'Continuous Improvement', 'Monitoring', 'Product', {
           description: 'Establish continuous improvement process. Track KPIs, collect feedback, prioritize enhancements.',
-          stakeholders: ['SDR Team', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Sales'],
           estimatedHours: 'Ongoing (4h/week)',
           difficulty: 'Easy',
           toolsNeeded: ['Analytics', 'Feedback tools'],
@@ -872,7 +872,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // PLANNING PHASE
         createTask('ip-3', 'Portal Feature Specification', 'Planning', 'Product', {
           description: 'Define portal features in detail: lead management, performance metrics, feedback, quotes, notifications. Prioritize MVP vs. future.',
-          stakeholders: ['Installers', 'Partner Ops', 'Tech Lead'],
+          stakeholders: ['Installers', 'Partner Ops', 'Technology'],
           estimatedHours: '12-16h',
           difficulty: 'Medium',
           toolsNeeded: ['Documentation', 'Prioritization frameworks'],
@@ -906,7 +906,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Design system documented',
           ],
         }),
-        createTask('ip-5', 'Authentication & Security Architecture', 'Planning', 'Tech Lead', {
+        createTask('ip-5', 'Authentication & Security Architecture', 'Planning', 'Technology', {
           description: 'Design secure authentication for installers. Define role-based access, session management, and security measures.',
           stakeholders: ['Tech Team', 'Security', 'Legal'],
           estimatedHours: '12-16h',
@@ -928,7 +928,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // DEVELOPMENT PHASE
-        createTask('ip-6', 'Authentication System Implementation', 'Development', 'Developer', {
+        createTask('ip-6', 'Authentication System Implementation', 'Development', 'Technology', {
           description: 'Implement installer authentication with secure login, password reset, and session management.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -947,7 +947,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           isFoundational: true,
         }),
-        createTask('ip-7', 'Lead Management Dashboard', 'Development', 'Developer', {
+        createTask('ip-7', 'Lead Management Dashboard', 'Development', 'Technology', {
           description: 'Build lead management view: assigned leads, status updates, filtering, contact details, conversion tracking.',
           stakeholders: ['Installers', 'Partner Ops'],
           estimatedHours: '24-32h',
@@ -966,7 +966,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Mobile optimized',
           ],
         }),
-        createTask('ip-8', 'Performance Metrics View', 'Development', 'Developer', {
+        createTask('ip-8', 'Performance Metrics View', 'Development', 'Technology', {
           description: 'Build performance dashboard: conversion rate, response time SLA, comparison to peers, trends.',
           stakeholders: ['Installers', 'Partner Ops'],
           estimatedHours: '16-24h',
@@ -986,7 +986,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['installer-performance-tracking'],
         }),
-        createTask('ip-9', 'Feedback & Quote Submission', 'Development', 'Developer', {
+        createTask('ip-9', 'Feedback & Quote Submission', 'Development', 'Technology', {
           description: 'Build feedback forms and quote submission. Allow installers to report lead quality issues and submit offer amounts.',
           stakeholders: ['Installers', 'Partner Ops', 'Operations'],
           estimatedHours: '16-20h',
@@ -1005,7 +1005,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['installer-feedback-system', 'installer-quote-sync'],
         }),
-        createTask('ip-10', 'Notification System', 'Development', 'Developer', {
+        createTask('ip-10', 'Notification System', 'Development', 'Technology', {
           description: 'Implement push notifications, email, and SMS for new leads and important updates.',
           stakeholders: ['Installers'],
           estimatedHours: '12-16h',
@@ -1138,7 +1138,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           risks: ['Over-ambition', 'Data availability gaps'],
         }),
-        createTask('ac-2', 'Data Readiness Assessment', 'Discovery', 'Tech Lead', {
+        createTask('ac-2', 'Data Readiness Assessment', 'Discovery', 'Technology', {
           description: 'Assess data quality and availability for top AI use cases. Identify gaps, cleaning needs, and labeling requirements.',
           stakeholders: ['Tech Team', 'Operations'],
           estimatedHours: '12-16h',
@@ -1158,7 +1158,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // PLANNING PHASE
-        createTask('ac-3', 'AI Architecture Design', 'Planning', 'Tech Lead', {
+        createTask('ac-3', 'AI Architecture Design', 'Planning', 'Technology', {
           description: 'Design Cortex architecture: LLM integration layer, context aggregation, prompt management, agent framework, feedback loop.',
           stakeholders: ['Tech Team'],
           estimatedHours: '20-28h',
@@ -1180,7 +1180,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['sdr-portal', 'whatsapp-conversation-summary', 'campaign-os'],
         }),
-        createTask('ac-4', 'LLM Provider Evaluation', 'Planning', 'Tech Lead', {
+        createTask('ac-4', 'LLM Provider Evaluation', 'Planning', 'Technology', {
           description: 'Evaluate LLM providers (Claude, OpenAI, etc.) for cost, performance, and capabilities. Select primary and fallback providers.',
           stakeholders: ['Tech Team', 'Finance'],
           estimatedHours: '8-12h',
@@ -1200,7 +1200,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
 
         // DEVELOPMENT PHASE
-        createTask('ac-5', 'LLM Integration Layer', 'Development', 'Developer', {
+        createTask('ac-5', 'LLM Integration Layer', 'Development', 'Technology', {
           description: 'Build unified LLM integration layer with API abstraction, caching, rate limiting, error handling, and cost tracking.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -1221,7 +1221,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['sdr-portal', 'whatsapp-conversation-summary', 'campaign-os', 'competitor-intel-agent'],
         }),
-        createTask('ac-6', 'Context Aggregation Service', 'Development', 'Developer', {
+        createTask('ac-6', 'Context Aggregation Service', 'Development', 'Technology', {
           description: 'Build service to aggregate relevant context for AI queries: deal history, conversations, calls, lead attributes.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -1241,7 +1241,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           isFoundational: true,
         }),
-        createTask('ac-7', 'Prompt Template System', 'Development', 'Developer', {
+        createTask('ac-7', 'Prompt Template System', 'Development', 'Technology', {
           description: 'Build prompt management system with versioning, A/B testing, variables, and performance tracking.',
           stakeholders: ['Tech Team', 'Product'],
           estimatedHours: '16-20h',
@@ -1259,7 +1259,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Rollback capability',
           ],
         }),
-        createTask('ac-8', 'MVP Use Case Implementation', 'Development', 'Developer', {
+        createTask('ac-8', 'MVP Use Case Implementation', 'Development', 'Technology', {
           description: 'Implement top 5 MVP AI use cases: conversation summaries, prioritization, script assistance, pattern detection, recommendations.',
           stakeholders: ['SDR Team', 'Operations'],
           estimatedHours: '40-56h',
@@ -1300,7 +1300,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
         createTask('ac-10', 'User Acceptance Testing', 'Testing', 'Operations', {
           description: 'UAT with SDR team and stakeholders. Validate AI outputs are useful and accurate in real workflows.',
-          stakeholders: ['SDR Team', 'Operations', 'Sales Lead'],
+          stakeholders: ['SDR Team', 'Operations', 'Sales'],
           estimatedHours: '16-24h',
           difficulty: 'Medium',
           toolsNeeded: ['UAT process', 'Feedback tools'],
@@ -1339,7 +1339,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         // ROLLOUT PHASE
         createTask('ac-12', 'Gradual Cortex Rollout', 'Rollout', 'Product', {
           description: 'Roll out Cortex features gradually. Start with low-risk use cases, expand based on performance and feedback.',
-          stakeholders: ['All Teams', 'COO'],
+          stakeholders: ['All Teams', 'Operations'],
           estimatedHours: '16-24h',
           difficulty: 'Medium',
           toolsNeeded: ['Feature flags', 'Analytics'],
@@ -1391,9 +1391,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
       totalEstimatedHours: '160-220h',
       criticalPath: ['cos-1', 'cos-3', 'cos-5', 'cos-8', 'cos-10', 'cos-12'],
       subTasks: [
-        createTask('cos-1', 'Marketing Workflow Analysis', 'Discovery', 'Marketing Lead', {
+        createTask('cos-1', 'Marketing Workflow Analysis', 'Discovery', 'Marketing', {
           description: 'Document current paid media workflow: platforms used, reporting process, optimization methods, pain points.',
-          stakeholders: ['Marketing', 'Finance', 'COO'],
+          stakeholders: ['Marketing', 'Finance', 'Operations'],
           estimatedHours: '8-12h',
           difficulty: 'Easy',
           toolsNeeded: ['Interviews', 'Documentation'],
@@ -1427,7 +1427,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
         }),
         createTask('cos-3', 'Attribution Model Definition', 'Planning', 'Marketing/Product', {
           description: 'Define attribution model: first-touch, last-touch, multi-touch. Map UTM parameters to CRM. Specify data requirements.',
-          stakeholders: ['Marketing', 'Finance', 'Tech Lead'],
+          stakeholders: ['Marketing', 'Finance', 'Technology'],
           estimatedHours: '12-16h',
           difficulty: 'Hard',
           toolsNeeded: ['Analytics', 'Documentation'],
@@ -1445,7 +1445,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['reporting-hub'],
         }),
-        createTask('cos-4', 'Technical Architecture', 'Planning', 'Tech Lead', {
+        createTask('cos-4', 'Technical Architecture', 'Planning', 'Technology', {
           description: 'Design Campaign OS architecture: API integrations, data warehouse, dashboard, AI components.',
           stakeholders: ['Tech Team'],
           estimatedHours: '12-16h',
@@ -1462,7 +1462,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Performance requirements',
           ],
         }),
-        createTask('cos-5', 'Ad Platform Integrations', 'Development', 'Developer', {
+        createTask('cos-5', 'Ad Platform Integrations', 'Development', 'Technology', {
           description: 'Build integrations with Meta and Google Ads APIs. Pull campaign data, spend, and performance metrics.',
           stakeholders: ['Marketing', 'Tech Team'],
           estimatedHours: '32-44h',
@@ -1480,7 +1480,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Error handling robust',
           ],
         }),
-        createTask('cos-6', 'Attribution Pipeline', 'Development', 'Developer', {
+        createTask('cos-6', 'Attribution Pipeline', 'Development', 'Technology', {
           description: 'Build attribution pipeline: UTM capture, CRM linking, conversion tracking, multi-touch attribution calculations.',
           stakeholders: ['Marketing', 'Sales'],
           estimatedHours: '20-28h',
@@ -1499,7 +1499,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           ],
           sharedWithProjects: ['reporting-hub'],
         }),
-        createTask('cos-7', 'Campaign Dashboard', 'Development', 'Developer', {
+        createTask('cos-7', 'Campaign Dashboard', 'Development', 'Technology', {
           description: 'Build dashboard: spend by channel, ROI by campaign, conversion funnel, creative performance.',
           stakeholders: ['Marketing', 'Leadership'],
           estimatedHours: '24-32h',
@@ -1517,7 +1517,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Date range filters',
           ],
         }),
-        createTask('cos-8', 'AI Creative Analysis', 'Development', 'Developer', {
+        createTask('cos-8', 'AI Creative Analysis', 'Development', 'Technology', {
           description: 'Build AI feature to analyze winning ads and suggest variations. Identify patterns in high-performing creatives.',
           stakeholders: ['Marketing'],
           estimatedHours: '16-24h',
@@ -1552,7 +1552,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Discrepancies documented and explained',
           ],
         }),
-        createTask('cos-10', 'Marketing Team Training', 'Training', 'Marketing Lead', {
+        createTask('cos-10', 'Marketing Team Training', 'Training', 'Marketing', {
           description: 'Train marketing team on Campaign OS. Document workflows and best practices.',
           stakeholders: ['Marketing'],
           estimatedHours: '8-12h',
@@ -1568,7 +1568,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'Best practices defined',
           ],
         }),
-        createTask('cos-11', 'Production Launch', 'Rollout', 'Marketing Lead', {
+        createTask('cos-11', 'Production Launch', 'Rollout', 'Marketing', {
           description: 'Launch Campaign OS. Migrate from old reporting process. Monitor accuracy and adoption.',
           stakeholders: ['Marketing', 'Leadership'],
           estimatedHours: '8-12h',
@@ -1589,7 +1589,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
             'ROI visibility within 24h of spend',
           ],
         }),
-        createTask('cos-12', 'Ongoing Optimization', 'Monitoring', 'Marketing Lead', {
+        createTask('cos-12', 'Ongoing Optimization', 'Monitoring', 'Marketing', {
           description: 'Continuous improvement: data quality monitoring, new features, AI enhancement.',
           stakeholders: ['Marketing', 'Tech Team'],
           estimatedHours: 'Ongoing (4h/week)',
@@ -1643,7 +1643,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['dqm-1'],
           acceptanceCriteria: ['Channels created', 'Escalation defined'],
         }),
-        createTask('dqm-3', 'Quality Scoring Engine', 'Development', 'Developer', {
+        createTask('dqm-3', 'Quality Scoring Engine', 'Development', 'Technology', {
           description: 'Build engine to calculate quality scores for each data source. Store historical scores.',
           stakeholders: ['Tech Team'],
           estimatedHours: '16-24h',
@@ -1655,7 +1655,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['dqm-1'],
           acceptanceCriteria: ['Scoring working', 'Historical tracking', 'API endpoint'],
         }),
-        createTask('dqm-4', 'Alerting System', 'Development', 'Developer', {
+        createTask('dqm-4', 'Alerting System', 'Development', 'Technology', {
           description: 'Implement alerts for quality degradation. Send to Slack and email based on severity.',
           stakeholders: ['Operations'],
           estimatedHours: '12-16h',
@@ -1669,9 +1669,9 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['answer-rate-monitoring', 'installer-performance-tracking'],
         }),
-        createTask('dqm-5', 'Monitoring Dashboard', 'Development', 'Developer', {
+        createTask('dqm-5', 'Monitoring Dashboard', 'Development', 'Technology', {
           description: 'Build dashboard showing quality scores, trends, and active alerts.',
-          stakeholders: ['Operations', 'Tech Lead'],
+          stakeholders: ['Operations', 'Technology'],
           estimatedHours: '12-16h',
           difficulty: 'Medium',
           toolsNeeded: ['React', 'Charts'],
@@ -1681,7 +1681,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['dqm-3'],
           acceptanceCriteria: ['Dashboard live', 'Quality scores visible', 'Trends shown'],
         }),
-        createTask('dqm-6', 'Auto-Remediation Scripts', 'Development', 'Developer', {
+        createTask('dqm-6', 'Auto-Remediation Scripts', 'Development', 'Technology', {
           description: 'Build auto-remediation for common issues: re-sync stale data, fill missing fields from sources.',
           stakeholders: ['Tech Team'],
           estimatedHours: '8-12h',
@@ -1717,7 +1717,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['dqm-7'],
           acceptanceCriteria: ['Training complete', 'Runbooks published'],
         }),
-        createTask('dqm-9', 'Production Deployment', 'Rollout', 'Tech Lead', {
+        createTask('dqm-9', 'Production Deployment', 'Rollout', 'Technology', {
           description: 'Deploy to production. Enable monitoring for all data sources.',
           stakeholders: ['Tech Team', 'Operations'],
           estimatedHours: '4-6h',
@@ -1761,7 +1761,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['fao-1'],
           acceptanceCriteria: ['Flows documented', 'Handoff rules defined', 'SDR approval'],
         }),
-        createTask('fao-3', 'WhatsApp API Integration', 'Development', 'Developer', {
+        createTask('fao-3', 'WhatsApp API Integration', 'Development', 'Technology', {
           description: 'Integrate with WhatsApp Business API via Woztell for programmatic messaging.',
           stakeholders: ['Tech Team'],
           estimatedHours: '24-32h',
@@ -1776,7 +1776,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['whatsapp-conversation-summary'],
         }),
-        createTask('fao-4', 'Flow Builder UI', 'Development', 'Developer', {
+        createTask('fao-4', 'Flow Builder UI', 'Development', 'Technology', {
           description: 'Build visual flow builder for creating and editing conversation flows.',
           stakeholders: ['Operations', 'Product'],
           estimatedHours: '32-44h',
@@ -1788,7 +1788,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           dependsOnTasks: ['fao-3'],
           acceptanceCriteria: ['Drag-drop flow building', 'Conditions and branches', 'Preview functionality'],
         }),
-        createTask('fao-5', 'Routing Engine', 'Development', 'Developer', {
+        createTask('fao-5', 'Routing Engine', 'Development', 'Technology', {
           description: 'Build lead routing engine: rules-based assignment, availability check, performance-based distribution.',
           stakeholders: ['Operations', 'SDR Team'],
           estimatedHours: '20-28h',
@@ -1802,7 +1802,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           isFoundational: true,
           sharedWithProjects: ['dynamic-allocation-engine'],
         }),
-        createTask('fao-6', 'A/B Testing Framework', 'Development', 'Developer', {
+        createTask('fao-6', 'A/B Testing Framework', 'Development', 'Technology', {
           description: 'Build A/B testing for flows: split traffic, track conversions, statistical significance.',
           stakeholders: ['Product', 'Marketing'],
           estimatedHours: '16-20h',
@@ -1815,7 +1815,7 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           acceptanceCriteria: ['Traffic splitting working', 'Conversion tracking', 'Significance calculations'],
           sharedWithProjects: ['campaign-os'],
         }),
-        createTask('fao-7', 'Analytics Dashboard', 'Development', 'Developer', {
+        createTask('fao-7', 'Analytics Dashboard', 'Development', 'Technology', {
           description: 'Build funnel analytics: flow performance, conversion rates, drop-off analysis.',
           stakeholders: ['Operations', 'Leadership'],
           estimatedHours: '16-20h',
@@ -1887,6 +1887,1880 @@ export function getProjectSubTasksCOO(): ProjectSubTasks[] {
           aiAssistDescription: 'Can analyze flow performance and suggest improvements',
           dependsOnTasks: ['fao-11'],
           acceptanceCriteria: ['Weekly optimization reviews', 'Continuous A/B testing', 'Flow performance improving'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🎯 PARTNER EXPANSION TOOL
+    // =========================================================================
+    {
+      projectId: 'partner-expansion-tool',
+      totalEstimatedHours: '120-160h',
+      criticalPath: ['pet-1', 'pet-3', 'pet-5', 'pet-7', 'pet-9'],
+      subTasks: [
+        createTask('pet-1', 'Installer Market Research', 'Discovery', 'Operations', {
+          description: 'Research target installer segments, regions with coverage gaps, and ideal partner profiles.',
+          stakeholders: ['Sales', 'Operations', 'Finance'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Market research tools', 'CRM data'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Target segments defined', 'Coverage gap map created', 'Ideal partner profile documented'],
+          successMetrics: ['50+ potential partners identified', 'Coverage gaps quantified'],
+        }),
+        createTask('pet-2', 'Outreach Strategy Design', 'Planning', 'Sales', {
+          description: 'Design multi-channel outreach approach including email sequences, LinkedIn, and direct calls.',
+          stakeholders: ['Sales', 'Marketing'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Email tools', 'LinkedIn Sales Navigator'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Email sequences designed', 'LinkedIn playbook created', 'Call scripts prepared'],
+        }),
+        createTask('pet-3', 'Prospect Database Setup', 'Development', 'Technology', {
+          description: 'Build database to track prospects, engagement scores, and pipeline stages.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '20-30h',
+          difficulty: 'Medium',
+          toolsNeeded: ['PostgreSQL', 'Node.js'],
+          knowledgeAreas: ['Database/SQL', 'API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Database schema deployed', 'CRUD APIs working', 'Integration with CRM'],
+        }),
+        createTask('pet-4', 'Email Sequence Builder', 'Development', 'Technology', {
+          description: 'Create automated email sequences with personalization and tracking.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['SendGrid', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Sequences automated', 'Open/click tracking working', 'Personalization functional'],
+        }),
+        createTask('pet-5', 'Engagement Scoring Model', 'Development', 'Technology', {
+          description: 'Build scoring algorithm based on email engagement, website visits, and responses.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'Analytics'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Scoring algorithm deployed', 'Scores updating in real-time', 'Thresholds calibrated'],
+        }),
+        createTask('pet-6', 'Pipeline Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to track prospects through recruitment funnel.',
+          stakeholders: ['Sales', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Pipeline stages visible', 'Conversion metrics shown'],
+        }),
+        createTask('pet-7', 'Pilot with 10 Prospects', 'Testing', 'Sales', {
+          description: 'Run pilot campaign with 10 high-potential prospects to validate approach.',
+          stakeholders: ['Sales', 'Operations'],
+          estimatedHours: '20-30h',
+          difficulty: 'Medium',
+          toolsNeeded: ['CRM', 'Email tools'],
+          knowledgeAreas: ['Business Logic', 'Stakeholder Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['10 prospects contacted', 'Response rate measured', 'Feedback collected'],
+          successMetrics: ['30%+ response rate', '2+ partners signed from pilot'],
+        }),
+        createTask('pet-8', 'Sales Team Training', 'Training', 'Sales', {
+          description: 'Train sales team on using the partner expansion tools and processes.',
+          stakeholders: ['Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Training & Documentation'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All sales team trained', 'Documentation complete', 'Q&A session done'],
+        }),
+        createTask('pet-9', 'Full Launch', 'Rollout', 'Sales', {
+          description: 'Launch partner expansion program at scale across all target regions.',
+          stakeholders: ['Sales', 'Operations', 'Finance'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['CRM', 'Dashboards'],
+          knowledgeAreas: ['Change Management', 'Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Program live in all regions', 'Weekly targets set', 'Reporting active'],
+          successMetrics: ['10+ new partners/month', '20% reduction in acquisition cost'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 💰 INVESTOR PORTAL
+    // =========================================================================
+    {
+      projectId: 'investor-portal',
+      totalEstimatedHours: '100-140h',
+      criticalPath: ['inv-1', 'inv-3', 'inv-5', 'inv-7', 'inv-9'],
+      subTasks: [
+        createTask('inv-1', 'Investor Requirements Discovery', 'Discovery', 'Finance', {
+          description: 'Interview investors to understand their reporting needs, frequency, and preferred metrics.',
+          stakeholders: ['Finance', 'Operations', 'Investors'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Meeting tools', 'Documentation'],
+          knowledgeAreas: ['Stakeholder Management', 'Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All investors interviewed', 'Requirements documented', 'Priority metrics identified'],
+        }),
+        createTask('inv-2', 'KPI Framework Design', 'Planning', 'Finance', {
+          description: 'Design KPI framework covering financial, operational, and growth metrics.',
+          stakeholders: ['Finance', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Spreadsheets', 'Documentation'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['KPI definitions finalized', 'Calculation methods documented', 'Data sources mapped'],
+        }),
+        createTask('inv-3', 'Secure Authentication System', 'Development', 'Technology', {
+          description: 'Build secure login with MFA for investor access.',
+          stakeholders: ['Technology', 'Security'],
+          estimatedHours: '20-30h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Auth0', 'Node.js'],
+          knowledgeAreas: ['Security/Auth', 'API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['MFA working', 'Role-based access implemented', 'Security audit passed'],
+          risks: ['Security vulnerabilities', 'Compliance requirements'],
+        }),
+        createTask('inv-4', 'KPI Dashboard Development', 'Development', 'Technology', {
+          description: 'Build dashboard with real-time KPIs, trends, and drill-down capabilities.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '24-32h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js', 'APIs'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['All KPIs displayed', 'Historical trends working', 'Drill-downs functional'],
+        }),
+        createTask('inv-5', 'Document Room', 'Development', 'Technology', {
+          description: 'Build secure document repository for board materials, financials, and reports.',
+          stakeholders: ['Technology', 'Finance', 'Legal'],
+          estimatedHours: '16-20h',
+          difficulty: 'Medium',
+          toolsNeeded: ['S3', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'Security/Auth'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Upload/download working', 'Version control implemented', 'Access logging active'],
+        }),
+        createTask('inv-6', 'AI Q&A Integration', 'Development', 'Technology', {
+          description: 'Add AI assistant to answer investor questions about metrics and performance.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '16-24h',
+          difficulty: 'Hard',
+          toolsNeeded: ['LLM API', 'Node.js'],
+          knowledgeAreas: ['LLM/Prompt Engineering', 'API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Q&A functional', 'Responses accurate', 'Sources cited'],
+          sharedWithProjects: ['ai-cortex'],
+        }),
+        createTask('inv-7', 'Security Testing', 'Testing', 'Technology', {
+          description: 'Conduct security penetration testing and vulnerability assessment.',
+          stakeholders: ['Technology', 'Security'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Security tools'],
+          knowledgeAreas: ['Security/Auth', 'Compliance/Legal'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Pen test completed', 'Vulnerabilities fixed', 'Compliance verified'],
+          risks: ['Security findings delaying launch'],
+        }),
+        createTask('inv-8', 'Investor Onboarding', 'Training', 'Finance', {
+          description: 'Onboard investors to the portal with guided walkthroughs.',
+          stakeholders: ['Finance', 'Investors'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials', 'Meeting tools'],
+          knowledgeAreas: ['Training & Documentation', 'Stakeholder Management'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All investors onboarded', 'Documentation provided', 'Support channel established'],
+        }),
+        createTask('inv-9', 'Launch & Monitor', 'Rollout', 'Finance', {
+          description: 'Launch portal and establish ongoing reporting cadence.',
+          stakeholders: ['Finance', 'Operations', 'Investors'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards', 'Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Portal live', 'Monthly reporting scheduled', 'Feedback mechanism active'],
+          successMetrics: ['100% investor adoption', '50% reduction in ad-hoc reporting requests'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 📊 INSTALLER PERFORMANCE TRACKING
+    // =========================================================================
+    {
+      projectId: 'installer-performance-tracking',
+      totalEstimatedHours: '90-120h',
+      criticalPath: ['ipt-1', 'ipt-3', 'ipt-5', 'ipt-7', 'ipt-9'],
+      subTasks: [
+        createTask('ipt-1', 'SLA & Metrics Definition', 'Discovery', 'Operations', {
+          description: 'Define SLAs and performance metrics with installer network input.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation', 'Spreadsheets'],
+          knowledgeAreas: ['Business Logic', 'Stakeholder Management'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['SLAs defined', 'Metrics agreed upon', 'Thresholds set'],
+        }),
+        createTask('ipt-2', 'Data Pipeline Design', 'Planning', 'Technology', {
+          description: 'Design data pipeline to aggregate installer performance from all touchpoints.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Architecture tools'],
+          knowledgeAreas: ['Database/SQL', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Pipeline architecture documented', 'Data sources identified', 'Refresh rates defined'],
+        }),
+        createTask('ipt-3', 'Metrics Calculation Engine', 'Development', 'Technology', {
+          description: 'Build backend to calculate conversion rates, response times, and quality scores.',
+          stakeholders: ['Technology'],
+          estimatedHours: '20-28h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Database/SQL', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['All metrics calculating correctly', 'Historical data processed', 'Real-time updates working'],
+        }),
+        createTask('ipt-4', 'Performance Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard showing installer rankings, trends, and SLA status.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Rankings displayed', 'Trend charts working', 'SLA indicators visible'],
+        }),
+        createTask('ipt-5', 'Alerting System', 'Development', 'Technology', {
+          description: 'Build alerts for SLA breaches and performance degradation.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Slack API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Slack alerts working', 'Thresholds configurable', 'Escalation rules active'],
+          sharedWithProjects: ['data-quality-monitor'],
+        }),
+        createTask('ipt-6', 'Installer Leaderboard', 'Development', 'Technology', {
+          description: 'Create public leaderboard to motivate installer performance.',
+          stakeholders: ['Technology', 'Operations', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Leaderboard deployed', 'Rankings updating', 'Privacy settings respected'],
+        }),
+        createTask('ipt-7', 'Validation & Calibration', 'Testing', 'Operations', {
+          description: 'Validate metrics with historical data and calibrate thresholds.',
+          stakeholders: ['Operations', 'Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Analytics tools'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Metrics validated against manual calculations', 'Thresholds adjusted', 'Edge cases handled'],
+        }),
+        createTask('ipt-8', 'Installer Communication', 'Training', 'Operations', {
+          description: 'Communicate new tracking system to installers and address concerns.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management', 'Stakeholder Management'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All installers informed', 'FAQ document created', 'Feedback collected'],
+        }),
+        createTask('ipt-9', 'Launch & Optimize', 'Rollout', 'Operations', {
+          description: 'Launch tracking system and establish review cadence.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Weekly reviews scheduled', 'Improvement actions tracked'],
+          successMetrics: ['15% improvement in average conversion rate', '20% reduction in SLA breaches'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // ⚖️ DYNAMIC ALLOCATION ENGINE
+    // =========================================================================
+    {
+      projectId: 'dynamic-allocation-engine',
+      totalEstimatedHours: '140-180h',
+      criticalPath: ['dae-1', 'dae-3', 'dae-5', 'dae-8', 'dae-10'],
+      subTasks: [
+        createTask('dae-1', 'Allocation Rules Discovery', 'Discovery', 'Operations', {
+          description: 'Document current allocation rules, pain points, and desired improvements.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation', 'Analytics'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Current rules documented', 'Pain points identified', 'Success criteria defined'],
+        }),
+        createTask('dae-2', 'Scoring Model Design', 'Planning', 'Technology', {
+          description: 'Design lead-installer matching algorithm considering capacity, performance, location.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-24h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Documentation', 'Analytics'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Algorithm specification complete', 'Weighting factors defined', 'Edge cases documented'],
+        }),
+        createTask('dae-3', 'Real-time Capacity Tracking', 'Development', 'Technology', {
+          description: 'Build system to track installer capacity in real-time.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '20-28h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL', 'Redis'],
+          knowledgeAreas: ['Database/SQL', 'API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Capacity updating in real-time', 'Installer self-service working', 'Historical tracking active'],
+        }),
+        createTask('dae-4', 'Scoring Engine Implementation', 'Development', 'Technology', {
+          description: 'Implement the lead-installer matching algorithm.',
+          stakeholders: ['Technology'],
+          estimatedHours: '24-32h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Business Logic', 'Database/SQL'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Algorithm deployed', 'Scores calculating correctly', 'Performance optimized'],
+        }),
+        createTask('dae-5', 'Allocation Router', 'Development', 'Technology', {
+          description: 'Build router that allocates leads based on scores and capacity.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-24h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Zoho API'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Automatic allocation working', 'Fallback rules implemented', 'Manual override available'],
+        }),
+        createTask('dae-6', 'Admin Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard for ops to monitor and adjust allocation rules.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Rules editable', 'Allocation history visible'],
+        }),
+        createTask('dae-7', 'Deviation Alerts', 'Development', 'Technology', {
+          description: 'Build alerts when allocation deviates from expected patterns.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Slack API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Alerts configured', 'Thresholds set', 'Escalation working'],
+        }),
+        createTask('dae-8', 'A/B Testing Framework', 'Testing', 'Technology', {
+          description: 'Build framework to test allocation algorithm variations.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Analytics'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['A/B framework deployed', 'Traffic splitting working', 'Results tracking active'],
+        }),
+        createTask('dae-9', 'Installer Training', 'Training', 'Operations', {
+          description: 'Train installers on new allocation system and capacity management.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Training & Documentation', 'Change Management'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All installers trained', 'Documentation complete', 'FAQ published'],
+        }),
+        createTask('dae-10', 'Phased Rollout', 'Rollout', 'Operations', {
+          description: 'Roll out new allocation engine starting with pilot regions.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Dashboards', 'Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Pilot successful', 'Full rollout complete', 'Old system deprecated'],
+          successMetrics: ['10% improvement in conversion rate', '15% better installer utilization'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 💬 WHATSAPP CONVERSATION SUMMARY
+    // =========================================================================
+    {
+      projectId: 'whatsapp-conversation-summary',
+      totalEstimatedHours: '60-80h',
+      criticalPath: ['wcs-1', 'wcs-3', 'wcs-5', 'wcs-7'],
+      subTasks: [
+        createTask('wcs-1', 'SDR Workflow Analysis', 'Discovery', 'Operations', {
+          description: 'Observe SDR call prep workflow. Identify time spent reading WhatsApp history.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Screen recording', 'Documentation'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Current workflow documented', 'Time spent measured', 'Pain points identified'],
+        }),
+        createTask('wcs-2', 'Summary Format Design', 'Planning', 'Product', {
+          description: 'Design summary format - what info to include, length, structure.',
+          stakeholders: ['Product', 'Sales'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['UX Design', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Summary template approved', 'Key fields identified', 'Length guidelines set'],
+        }),
+        createTask('wcs-3', 'WhatsApp API Integration', 'Development', 'Technology', {
+          description: 'Build integration to fetch conversation history from Woztell.',
+          stakeholders: ['Technology'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Woztell API', 'Node.js'],
+          knowledgeAreas: ['API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['History fetching working', 'Pagination handled', 'Error handling robust'],
+          sharedWithProjects: ['funnel-automation-os', 'sdr-portal'],
+          isFoundational: true,
+        }),
+        createTask('wcs-4', 'LLM Summary Generator', 'Development', 'Technology', {
+          description: 'Build LLM-based summarizer using Claude/GPT.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['LLM API', 'Node.js'],
+          knowledgeAreas: ['LLM/Prompt Engineering'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Summaries generating', 'Quality validated', 'Latency acceptable'],
+          sharedWithProjects: ['ai-cortex'],
+        }),
+        createTask('wcs-5', 'SDR Portal Integration', 'Development', 'Technology', {
+          description: 'Embed summary view in SDR portal before call screens.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Summary visible in portal', 'Loading states handled', 'Refresh working'],
+        }),
+        createTask('wcs-6', 'Pilot with SDR Team', 'Testing', 'Sales', {
+          description: 'Pilot with 2-3 SDRs and collect feedback on summary quality.',
+          stakeholders: ['Sales', 'Product'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Feedback forms'],
+          knowledgeAreas: ['Stakeholder Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Pilot completed', 'Feedback collected', 'Improvements identified'],
+        }),
+        createTask('wcs-7', 'Launch to All SDRs', 'Rollout', 'Operations', {
+          description: 'Roll out to full SDR team with training.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All SDRs using feature', 'Documentation complete'],
+          successMetrics: ['2+ min saved per call prep', '90% SDR adoption'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🎯 CONTACT PRIORITIZATION ENGINE
+    // =========================================================================
+    {
+      projectId: 'contact-prioritization-engine',
+      totalEstimatedHours: '80-110h',
+      criticalPath: ['cpe-1', 'cpe-3', 'cpe-5', 'cpe-7', 'cpe-9'],
+      subTasks: [
+        createTask('cpe-1', 'Conversion Factor Analysis', 'Discovery', 'Operations', {
+          description: 'Analyze historical data to identify factors that predict conversion.',
+          stakeholders: ['Operations', 'Sales', 'Technology'],
+          estimatedHours: '16-24h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Analytics tools', 'SQL'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Key factors identified', 'Correlation analysis complete', 'Insights documented'],
+        }),
+        createTask('cpe-2', 'Scoring Model Design', 'Planning', 'Technology', {
+          description: 'Design scoring algorithm incorporating identified conversion factors.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Documentation', 'Analytics'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Algorithm specification complete', 'Weighting defined', 'Edge cases documented'],
+        }),
+        createTask('cpe-3', 'Scoring Engine Development', 'Development', 'Technology', {
+          description: 'Build real-time scoring engine for contact prioritization.',
+          stakeholders: ['Technology'],
+          estimatedHours: '20-28h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL', 'Redis'],
+          knowledgeAreas: ['Database/SQL', 'API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Scores calculating correctly', 'Real-time updates working', 'API endpoints ready'],
+        }),
+        createTask('cpe-4', 'Best Time-to-Call Analysis', 'Development', 'Technology', {
+          description: 'Analyze call patterns to determine optimal contact times per lead.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Analytics', 'Aircall data'],
+          knowledgeAreas: ['Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Optimal times identified', 'Model trained', 'Recommendations generating'],
+        }),
+        createTask('cpe-5', 'Prioritized Queue UI', 'Development', 'Technology', {
+          description: 'Build UI showing contacts ranked by score with call time recommendations.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React', 'UX Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Queue displayed', 'Scores visible', 'Best time shown'],
+        }),
+        createTask('cpe-6', 'Integration with SDR Portal', 'Development', 'Technology', {
+          description: 'Embed prioritization in SDR daily workflow.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Integrated in portal', 'Workflow updated', 'SDRs can access'],
+        }),
+        createTask('cpe-7', 'A/B Test vs Random', 'Testing', 'Operations', {
+          description: 'Run A/B test comparing prioritized vs random contact order.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Analytics'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Test designed', 'Results statistically significant', 'Winner determined'],
+        }),
+        createTask('cpe-8', 'SDR Training', 'Training', 'Sales', {
+          description: 'Train SDRs on using prioritization effectively.',
+          stakeholders: ['Sales'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Training & Documentation'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All SDRs trained', 'Documentation complete'],
+        }),
+        createTask('cpe-9', 'Launch & Monitor', 'Rollout', 'Operations', {
+          description: 'Launch prioritization engine and monitor impact.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Metrics tracked', 'Weekly reviews established'],
+          successMetrics: ['15% improvement in conversion rate', '20% more contacts per day'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // ♻️ LEAD RECYCLING WORKFLOW
+    // =========================================================================
+    {
+      projectId: 'lead-recycling-workflow',
+      totalEstimatedHours: '70-90h',
+      criticalPath: ['lrw-1', 'lrw-3', 'lrw-5', 'lrw-7'],
+      subTasks: [
+        createTask('lrw-1', 'Lost Lead Analysis', 'Discovery', 'Operations', {
+          description: 'Analyze reasons for lead loss and identify recyclable segments.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Analytics', 'CRM data'],
+          knowledgeAreas: ['Data Analytics', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Loss reasons categorized', 'Recyclable segments identified', 'Volume quantified'],
+        }),
+        createTask('lrw-2', 'Recycling Rules Design', 'Planning', 'Operations', {
+          description: 'Design rules for when and how to recycle leads.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Rules documented', 'Cooldown periods defined', 'Re-engagement triggers set'],
+        }),
+        createTask('lrw-3', 'Recycling Queue Builder', 'Development', 'Technology', {
+          description: 'Build automated queue that surfaces recyclable leads.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Database/SQL', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Queue populating correctly', 'Rules engine working', 'Priority sorting active'],
+        }),
+        createTask('lrw-4', 'Re-engagement Sequences', 'Development', 'Marketing', {
+          description: 'Create email/WhatsApp sequences for different recycling segments.',
+          stakeholders: ['Marketing', 'Sales'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Email tools', 'WhatsApp'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Sequences created per segment', 'Personalization working', 'Tracking active'],
+        }),
+        createTask('lrw-5', 'SDR Portal Integration', 'Development', 'Technology', {
+          description: 'Add recycling queue to SDR daily workflow.',
+          stakeholders: ['Technology', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Queue visible in portal', 'Easy to work leads', 'Stats tracked'],
+        }),
+        createTask('lrw-6', 'Pilot Campaign', 'Testing', 'Sales', {
+          description: 'Run pilot recycling campaign with subset of lost leads.',
+          stakeholders: ['Sales', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Medium',
+          toolsNeeded: ['CRM', 'Analytics'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Pilot completed', 'Conversion measured', 'Feedback collected'],
+        }),
+        createTask('lrw-7', 'Launch & Scale', 'Rollout', 'Operations', {
+          description: 'Launch recycling workflow at scale.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'All segments active', 'Metrics tracked'],
+          successMetrics: ['5% of recycled leads convert', '10% increase in total conversions'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 📝 INSTALLER FEEDBACK SYSTEM
+    // =========================================================================
+    {
+      projectId: 'installer-feedback-system',
+      totalEstimatedHours: '50-70h',
+      criticalPath: ['ifs-1', 'ifs-3', 'ifs-5', 'ifs-7'],
+      subTasks: [
+        createTask('ifs-1', 'Feedback Requirements', 'Discovery', 'Operations', {
+          description: 'Define what feedback to collect and when in the lead lifecycle.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'Stakeholder Management'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Feedback fields defined', 'Timing rules set', 'Installer input gathered'],
+        }),
+        createTask('ifs-2', 'Feedback Form Design', 'Planning', 'Product', {
+          description: 'Design simple feedback form optimized for mobile.',
+          stakeholders: ['Product', 'Installers'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Design tools'],
+          knowledgeAreas: ['UX Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Form designed', 'Mobile-friendly', 'Quick to complete'],
+        }),
+        createTask('ifs-3', 'Feedback API & Storage', 'Development', 'Technology', {
+          description: 'Build API to receive and store installer feedback.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['API Integration', 'Database/SQL'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['API working', 'Data storing correctly', 'Validation in place'],
+        }),
+        createTask('ifs-4', 'Feedback UI in Installer Portal', 'Development', 'Technology', {
+          description: 'Add feedback submission to installer portal.',
+          stakeholders: ['Technology', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Form in portal', 'Submission working', 'Confirmation shown'],
+        }),
+        createTask('ifs-5', 'Feedback Analytics Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to analyze feedback patterns.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Trends visible', 'Filtering working'],
+        }),
+        createTask('ifs-6', 'Installer Training', 'Training', 'Operations', {
+          description: 'Train installers on providing quality feedback.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Training & Documentation'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All installers trained', 'Guidelines documented'],
+        }),
+        createTask('ifs-7', 'Launch & Monitor', 'Rollout', 'Operations', {
+          description: 'Launch feedback system and establish review process.',
+          stakeholders: ['Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Feedback flowing', 'Weekly reviews scheduled'],
+          successMetrics: ['80% feedback submission rate', 'Actionable insights weekly'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 💵 INSTALLER QUOTE SYNC
+    // =========================================================================
+    {
+      projectId: 'installer-quote-sync',
+      totalEstimatedHours: '45-60h',
+      criticalPath: ['iqs-1', 'iqs-3', 'iqs-5', 'iqs-6'],
+      subTasks: [
+        createTask('iqs-1', 'Quote Process Mapping', 'Discovery', 'Operations', {
+          description: 'Map current quote submission process and identify gaps.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Process Design', 'Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Current process documented', 'Gaps identified', 'Requirements defined'],
+        }),
+        createTask('iqs-2', 'Quote Data Model', 'Planning', 'Technology', {
+          description: 'Design data model for quote information.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Database/SQL'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Data model defined', 'Fields agreed upon', 'Validation rules set'],
+        }),
+        createTask('iqs-3', 'Quote Submission API', 'Development', 'Technology', {
+          description: 'Build API for installers to submit quotes.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL', 'Zoho API'],
+          knowledgeAreas: ['API Integration', 'Database/SQL'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['API working', 'Zoho sync active', 'Validation in place'],
+        }),
+        createTask('iqs-4', 'Quote Form in Portal', 'Development', 'Technology', {
+          description: 'Add quote submission form to installer portal.',
+          stakeholders: ['Technology', 'Installers'],
+          estimatedHours: '8-10h',
+          difficulty: 'Easy',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Form working', 'Validation messages shown', 'Confirmation displayed'],
+        }),
+        createTask('iqs-5', 'Testing & Validation', 'Testing', 'Operations', {
+          description: 'Test quote flow end-to-end with real installers.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Test cases'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All flows tested', 'Edge cases covered', 'Data syncing correctly'],
+        }),
+        createTask('iqs-6', 'Launch', 'Rollout', 'Operations', {
+          description: 'Launch quote sync to all installers.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All installers using new flow', 'Manual process deprecated'],
+          successMetrics: ['100% quote capture rate', '50% faster quote turnaround'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 📞 ANSWER RATE MONITORING
+    // =========================================================================
+    {
+      projectId: 'answer-rate-monitoring',
+      totalEstimatedHours: '40-55h',
+      criticalPath: ['arm-1', 'arm-3', 'arm-5', 'arm-6'],
+      subTasks: [
+        createTask('arm-1', 'Metrics Definition', 'Discovery', 'Operations', {
+          description: 'Define answer rate metrics, thresholds, and segments to track.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation', 'Analytics'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Metrics defined', 'Thresholds set', 'Segments identified'],
+        }),
+        createTask('arm-2', 'Data Pipeline Setup', 'Planning', 'Technology', {
+          description: 'Design pipeline to aggregate call data from Aircall.',
+          stakeholders: ['Technology'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Aircall API', 'Documentation'],
+          knowledgeAreas: ['API Integration', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Pipeline architecture defined', 'Refresh rates set'],
+        }),
+        createTask('arm-3', 'Metrics Calculation Engine', 'Development', 'Technology', {
+          description: 'Build backend to calculate answer rates by various dimensions.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL', 'Aircall API'],
+          knowledgeAreas: ['Database/SQL', 'API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Metrics calculating correctly', 'Historical data processed'],
+        }),
+        createTask('arm-4', 'Monitoring Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard showing answer rates and trends.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'All metrics visible', 'Drill-downs working'],
+        }),
+        createTask('arm-5', 'Alerting Setup', 'Development', 'Technology', {
+          description: 'Configure alerts for answer rate drops.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Slack API'],
+          knowledgeAreas: ['API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Alerts configured', 'Thresholds set', 'Escalation working'],
+        }),
+        createTask('arm-6', 'Launch & Monitor', 'Rollout', 'Operations', {
+          description: 'Launch monitoring and establish review cadence.',
+          stakeholders: ['Operations', 'Sales'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Monitoring live', 'Weekly reviews scheduled'],
+          successMetrics: ['Issues identified within 1 hour', '5% improvement in answer rates'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🔒 GDPR COMPLIANCE TRACKER
+    // =========================================================================
+    {
+      projectId: 'gdpr-compliance-tracker',
+      totalEstimatedHours: '60-80h',
+      criticalPath: ['gct-1', 'gct-3', 'gct-5', 'gct-7'],
+      subTasks: [
+        createTask('gct-1', 'Compliance Requirements Audit', 'Discovery', 'Legal', {
+          description: 'Audit current GDPR compliance status and identify gaps.',
+          stakeholders: ['Legal', 'Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Documentation', 'GDPR guidelines'],
+          knowledgeAreas: ['Compliance/Legal', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Compliance gaps identified', 'Risk areas documented', 'Remediation plan created'],
+          risks: ['Legal exposure from non-compliance'],
+        }),
+        createTask('gct-2', 'Consent Management Design', 'Planning', 'Technology', {
+          description: 'Design consent tracking system across all touchpoints.',
+          stakeholders: ['Technology', 'Legal'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Compliance/Legal', 'Database/SQL'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Consent flows documented', 'Data model defined', 'Audit trail designed'],
+        }),
+        createTask('gct-3', 'Consent Tracking Implementation', 'Development', 'Technology', {
+          description: 'Build consent tracking database and APIs.',
+          stakeholders: ['Technology'],
+          estimatedHours: '16-24h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Database/SQL', 'API Integration', 'Compliance/Legal'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Consent database live', 'APIs working', 'Audit trail active'],
+        }),
+        createTask('gct-4', 'Data Subject Rights Portal', 'Development', 'Technology', {
+          description: 'Build portal for data access, deletion, and portability requests.',
+          stakeholders: ['Technology', 'Legal'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Node.js'],
+          knowledgeAreas: ['Frontend/React', 'Compliance/Legal'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Portal deployed', 'Request workflows working', 'Response times tracked'],
+        }),
+        createTask('gct-5', 'Compliance Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard showing compliance status and pending requests.',
+          stakeholders: ['Technology', 'Legal', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Compliance/Legal'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Metrics visible', 'Alerts configured'],
+        }),
+        createTask('gct-6', 'Team Training', 'Training', 'Legal', {
+          description: 'Train relevant teams on GDPR compliance procedures.',
+          stakeholders: ['Legal', 'Operations', 'Sales'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Training materials'],
+          knowledgeAreas: ['Training & Documentation', 'Compliance/Legal'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All teams trained', 'Procedures documented', 'Certification complete'],
+        }),
+        createTask('gct-7', 'Launch & Audit', 'Rollout', 'Legal', {
+          description: 'Launch compliance system and schedule regular audits.',
+          stakeholders: ['Legal', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Compliance/Legal', 'Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Quarterly audits scheduled', 'Incident response tested'],
+          successMetrics: ['100% consent tracking', 'All requests handled within SLA'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 💳 AUTOMATED INVOICING
+    // =========================================================================
+    {
+      projectId: 'automated-invoicing',
+      totalEstimatedHours: '70-90h',
+      criticalPath: ['ai-1', 'ai-3', 'ai-5', 'ai-7', 'ai-8'],
+      subTasks: [
+        createTask('ai-1', 'Invoicing Rules Discovery', 'Discovery', 'Finance', {
+          description: 'Document all invoicing rules, edge cases, and current manual process.',
+          stakeholders: ['Finance', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation', 'Spreadsheets'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All rules documented', 'Edge cases identified', 'Current process mapped'],
+        }),
+        createTask('ai-2', 'Invoice Template Design', 'Planning', 'Finance', {
+          description: 'Design invoice templates meeting legal and brand requirements.',
+          stakeholders: ['Finance', 'Legal', 'Marketing'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Design tools'],
+          knowledgeAreas: ['Business Logic', 'Compliance/Legal'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Templates approved', 'Legal requirements met', 'Brand consistent'],
+        }),
+        createTask('ai-3', 'Invoicing Rules Engine', 'Development', 'Technology', {
+          description: 'Build rules engine to calculate invoice amounts based on lead outcomes.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '20-28h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Business Logic', 'Database/SQL'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Rules engine working', 'All scenarios covered', 'Audit trail active'],
+          risks: ['Incorrect calculations causing financial issues'],
+        }),
+        createTask('ai-4', 'PDF Generation System', 'Development', 'Technology', {
+          description: 'Build system to generate PDF invoices from templates.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PDF libraries'],
+          knowledgeAreas: ['API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['PDFs generating correctly', 'Templates rendering', 'Numbering working'],
+        }),
+        createTask('ai-5', 'Holded Integration', 'Development', 'Technology', {
+          description: 'Integrate with Holded accounting system for invoice sync.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Holded API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Invoices syncing to Holded', 'Reconciliation working', 'Error handling robust'],
+        }),
+        createTask('ai-6', 'Reconciliation Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to track invoicing status and discrepancies.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Discrepancies highlighted', 'Drill-downs working'],
+        }),
+        createTask('ai-7', 'Parallel Testing', 'Testing', 'Finance', {
+          description: 'Run automated system in parallel with manual for validation.',
+          stakeholders: ['Finance', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Spreadsheets', 'Analytics'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['One month parallel run', 'Discrepancies under 1%', 'Edge cases validated'],
+        }),
+        createTask('ai-8', 'Go Live', 'Rollout', 'Finance', {
+          description: 'Switch to automated invoicing and deprecate manual process.',
+          stakeholders: ['Finance', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Automated system live', 'Manual process deprecated', 'Monitoring active'],
+          successMetrics: ['99.5% invoice accuracy', '80% reduction in invoicing time'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🔌 API SELF-SERVICE PORTAL
+    // =========================================================================
+    {
+      projectId: 'api-self-service-portal',
+      totalEstimatedHours: '80-100h',
+      criticalPath: ['asp-1', 'asp-3', 'asp-5', 'asp-7', 'asp-9'],
+      subTasks: [
+        createTask('asp-1', 'Provider Requirements Discovery', 'Discovery', 'Operations', {
+          description: 'Interview lead providers to understand API integration needs.',
+          stakeholders: ['Operations', 'Technology', 'Partners'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Meeting tools', 'Documentation'],
+          knowledgeAreas: ['Stakeholder Management', 'API Integration'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Provider needs documented', 'Common patterns identified', 'Requirements prioritized'],
+        }),
+        createTask('asp-2', 'API Documentation Design', 'Planning', 'Technology', {
+          description: 'Design comprehensive API documentation and onboarding flow.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation tools', 'OpenAPI'],
+          knowledgeAreas: ['API Integration', 'UX Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Documentation structure approved', 'Examples defined', 'Sandbox spec complete'],
+        }),
+        createTask('asp-3', 'Developer Portal Build', 'Development', 'Technology', {
+          description: 'Build self-service portal with documentation and API keys.',
+          stakeholders: ['Technology'],
+          estimatedHours: '24-32h',
+          difficulty: 'Hard',
+          toolsNeeded: ['React', 'Node.js'],
+          knowledgeAreas: ['Frontend/React', 'API Integration', 'Security/Auth'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Portal deployed', 'Documentation live', 'API key generation working'],
+        }),
+        createTask('asp-4', 'Sandbox Environment', 'Development', 'Technology', {
+          description: 'Build sandbox environment for providers to test integrations.',
+          stakeholders: ['Technology'],
+          estimatedHours: '16-20h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Docker'],
+          knowledgeAreas: ['DevOps', 'API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Sandbox deployed', 'Test data available', 'Isolated from production'],
+        }),
+        createTask('asp-5', 'Usage Analytics & Billing', 'Development', 'Technology', {
+          description: 'Build usage tracking and automated billing for API access.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Database/SQL', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Usage tracking active', 'Billing calculations correct', 'Invoices automated'],
+        }),
+        createTask('asp-6', 'Rate Limiting & Security', 'Development', 'Technology', {
+          description: 'Implement rate limiting, quotas, and security measures.',
+          stakeholders: ['Technology', 'Security'],
+          estimatedHours: '10-14h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Redis', 'Node.js'],
+          knowledgeAreas: ['Security/Auth', 'API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Rate limits enforced', 'Quotas working', 'Security audit passed'],
+        }),
+        createTask('asp-7', 'Beta Testing with Providers', 'Testing', 'Operations', {
+          description: 'Beta test portal with 2-3 existing providers.',
+          stakeholders: ['Operations', 'Technology', 'Partners'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Support tools'],
+          knowledgeAreas: ['Stakeholder Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Beta completed', 'Feedback collected', 'Issues resolved'],
+        }),
+        createTask('asp-8', 'Support Process Setup', 'Training', 'Operations', {
+          description: 'Set up support process for provider API questions.',
+          stakeholders: ['Operations', 'Technology'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Support tools', 'Documentation'],
+          knowledgeAreas: ['Process Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Support channels defined', 'SLAs set', 'FAQ created'],
+        }),
+        createTask('asp-9', 'Launch', 'Rollout', 'Operations', {
+          description: 'Launch self-service portal to all providers.',
+          stakeholders: ['Operations', 'Technology', 'Partners'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Portal live', 'Providers notified', 'Support active'],
+          successMetrics: ['50% reduction in integration support', '2 week avg onboarding time'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🌐 PROGRAMMATIC SEO PAGES
+    // =========================================================================
+    {
+      projectId: 'programmatic-seo-pages',
+      totalEstimatedHours: '100-130h',
+      criticalPath: ['psp-1', 'psp-3', 'psp-5', 'psp-8', 'psp-10'],
+      subTasks: [
+        createTask('psp-1', 'Keyword & Market Research', 'Discovery', 'Marketing', {
+          description: 'Research high-intent keywords and identify page opportunities.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '16-24h',
+          difficulty: 'Medium',
+          toolsNeeded: ['SEO tools', 'Keyword research'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Keywords identified', 'Search volume analyzed', 'Page templates defined'],
+        }),
+        createTask('psp-2', 'Content Template Design', 'Planning', 'Marketing', {
+          description: 'Design page templates for different content types.',
+          stakeholders: ['Marketing', 'Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Design tools', 'Documentation'],
+          knowledgeAreas: ['UX Design', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Templates designed', 'SEO elements defined', 'Content structure set'],
+        }),
+        createTask('psp-3', 'PVGIS Integration', 'Development', 'Technology', {
+          description: 'Integrate PVGIS API for location-specific solar yield data.',
+          stakeholders: ['Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['PVGIS API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'External APIs'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['API integrated', 'Data caching working', 'Error handling robust'],
+          sharedWithProjects: ['pvpc-savings-widget'],
+          isFoundational: true,
+        }),
+        createTask('psp-4', 'Municipal Data Scraper', 'Development', 'Technology', {
+          description: 'Build scraper for municipal incentives and regulations.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Puppeteer'],
+          knowledgeAreas: ['External APIs', 'Database/SQL'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Scraper working', 'Data updating regularly', 'Coverage tracking active'],
+        }),
+        createTask('psp-5', 'Page Generation Engine', 'Development', 'Technology', {
+          description: 'Build engine to generate pages from templates and data.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '20-28h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Next.js', 'Node.js'],
+          knowledgeAreas: ['Frontend/React', 'Database/SQL'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Pages generating correctly', 'SEO elements rendering', 'Performance optimized'],
+        }),
+        createTask('psp-6', 'AI Content Enhancement', 'Development', 'Technology', {
+          description: 'Use AI to enhance page content with local context.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['LLM API'],
+          knowledgeAreas: ['LLM/Prompt Engineering'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Content enhancing correctly', 'Quality validated', 'Not detected as AI'],
+          sharedWithProjects: ['ai-cortex'],
+        }),
+        createTask('psp-7', 'Internal Linking System', 'Development', 'Technology', {
+          description: 'Build intelligent internal linking between pages.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Linking working', 'Relevance optimized', 'Orphan pages avoided'],
+        }),
+        createTask('psp-8', 'SEO Validation', 'Testing', 'Marketing', {
+          description: 'Validate pages for SEO best practices and performance.',
+          stakeholders: ['Marketing', 'Technology'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['SEO tools', 'Lighthouse'],
+          knowledgeAreas: ['Business Logic', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['All pages passing Lighthouse', 'Schema markup valid', 'Core Web Vitals green'],
+        }),
+        createTask('psp-9', 'Indexing & Sitemap', 'Development', 'Technology', {
+          description: 'Set up sitemap generation and Google Search Console.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Google Search Console'],
+          knowledgeAreas: ['External APIs'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Sitemap generating', 'GSC configured', 'Indexing tracking active'],
+        }),
+        createTask('psp-10', 'Launch & Monitor', 'Rollout', 'Marketing', {
+          description: 'Launch pages and monitor rankings.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['SEO tools', 'Analytics'],
+          knowledgeAreas: ['Data Analytics'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Pages live', 'Tracking active', 'Weekly rank monitoring'],
+          successMetrics: ['1000+ pages indexed', '20% organic traffic increase'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // ⚡ PVPC SAVINGS WIDGET
+    // =========================================================================
+    {
+      projectId: 'pvpc-savings-widget',
+      totalEstimatedHours: '35-50h',
+      criticalPath: ['psw-1', 'psw-3', 'psw-5', 'psw-6'],
+      subTasks: [
+        createTask('psw-1', 'Widget Requirements', 'Discovery', 'Marketing', {
+          description: 'Define widget features, embed requirements, and target pages.',
+          stakeholders: ['Marketing', 'Technology'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'UX Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Features defined', 'Embed specs documented', 'Target pages identified'],
+        }),
+        createTask('psw-2', 'ESIOS API Integration', 'Development', 'Technology', {
+          description: 'Integrate ESIOS API for real-time electricity prices.',
+          stakeholders: ['Technology'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['ESIOS API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'External APIs'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['API integrated', 'Data caching working', 'Error handling robust'],
+          sharedWithProjects: ['programmatic-seo-pages'],
+          isFoundational: true,
+        }),
+        createTask('psw-3', 'Widget Component Build', 'Development', 'Technology', {
+          description: 'Build embeddable React widget with savings calculator.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Widget functional', 'Calculations accurate', 'Design approved'],
+        }),
+        createTask('psw-4', 'Embed Script Creation', 'Development', 'Technology', {
+          description: 'Create lightweight embed script for third-party sites.',
+          stakeholders: ['Technology'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['JavaScript'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Script working', 'Load time minimal', 'Cross-browser compatible'],
+        }),
+        createTask('psw-5', 'Testing & Validation', 'Testing', 'Marketing', {
+          description: 'Test widget across browsers and validate calculations.',
+          stakeholders: ['Marketing', 'Technology'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Testing tools'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Cross-browser tested', 'Calculations validated', 'Performance optimized'],
+        }),
+        createTask('psw-6', 'Launch & Embed', 'Rollout', 'Marketing', {
+          description: 'Launch widget and embed on target pages.',
+          stakeholders: ['Marketing'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['CMS access'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Widget live', 'Embedded on all target pages', 'Tracking active'],
+          successMetrics: ['10% conversion on widget users', '5000+ monthly interactions'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 📊 IRPF CALCULATOR
+    // =========================================================================
+    {
+      projectId: 'irpf-calculator',
+      totalEstimatedHours: '25-35h',
+      criticalPath: ['irc-1', 'irc-3', 'irc-5'],
+      subTasks: [
+        createTask('irc-1', 'Tax Rules Research', 'Discovery', 'Finance', {
+          description: 'Research current IRPF deduction rules for solar installations.',
+          stakeholders: ['Finance', 'Legal'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Tax documentation'],
+          knowledgeAreas: ['Compliance/Legal', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Rules documented', 'Edge cases identified', 'Calculation formulas defined'],
+          risks: ['Tax law changes'],
+        }),
+        createTask('irc-2', 'Calculator UI Design', 'Planning', 'Product', {
+          description: 'Design simple, user-friendly calculator interface.',
+          stakeholders: ['Product', 'Marketing'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Design tools'],
+          knowledgeAreas: ['UX Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Design approved', 'Mobile-friendly', 'Clear input/output'],
+        }),
+        createTask('irc-3', 'Calculator Implementation', 'Development', 'Technology', {
+          description: 'Build IRPF calculator with all deduction scenarios.',
+          stakeholders: ['Technology', 'Finance'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Node.js'],
+          knowledgeAreas: ['Frontend/React', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Calculator working', 'All scenarios covered', 'Calculations accurate'],
+        }),
+        createTask('irc-4', 'Validation with Examples', 'Testing', 'Finance', {
+          description: 'Validate calculator against known tax examples.',
+          stakeholders: ['Finance'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Test cases'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All test cases passing', 'Edge cases validated'],
+        }),
+        createTask('irc-5', 'Launch', 'Rollout', 'Marketing', {
+          description: 'Launch calculator and promote.',
+          stakeholders: ['Marketing'],
+          estimatedHours: '3-4h',
+          difficulty: 'Easy',
+          toolsNeeded: ['CMS'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Calculator live', 'Tracking active'],
+          successMetrics: ['1000+ monthly calculations', '5% lead conversion'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 📍 GMB AUTOMATION
+    // =========================================================================
+    {
+      projectId: 'gmb-automation',
+      totalEstimatedHours: '55-75h',
+      criticalPath: ['gmb-1', 'gmb-3', 'gmb-5', 'gmb-7'],
+      subTasks: [
+        createTask('gmb-1', 'GMB Profile Audit', 'Discovery', 'Marketing', {
+          description: 'Audit existing GMB profiles and identify optimization opportunities.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['GMB access', 'Documentation'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All profiles audited', 'Issues documented', 'Priorities set'],
+        }),
+        createTask('gmb-2', 'Automation Strategy', 'Planning', 'Marketing', {
+          description: 'Design automation strategy for posts, responses, and updates.',
+          stakeholders: ['Marketing', 'Technology'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Strategy approved', 'Content calendar created', 'Response templates defined'],
+        }),
+        createTask('gmb-3', 'GMB API Integration', 'Development', 'Technology', {
+          description: 'Integrate Google Business Profile API for automated management.',
+          stakeholders: ['Technology'],
+          estimatedHours: '16-20h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Google Business API', 'Node.js'],
+          knowledgeAreas: ['API Integration', 'External APIs'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['API connected', 'Read/write working', 'Rate limits handled'],
+          risks: ['API access approval delays'],
+        }),
+        createTask('gmb-4', 'Post Scheduler', 'Development', 'Technology', {
+          description: 'Build automated post scheduling system.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'Cron'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Scheduler working', 'Posts publishing correctly', 'Calendar integration active'],
+        }),
+        createTask('gmb-5', 'AI Response Generator', 'Development', 'Technology', {
+          description: 'Build AI-powered response generator for reviews and questions.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['LLM API', 'Node.js'],
+          knowledgeAreas: ['LLM/Prompt Engineering'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Responses generating', 'Quality validated', 'Human review workflow working'],
+          sharedWithProjects: ['ai-cortex', 'review-generation-system'],
+        }),
+        createTask('gmb-6', 'Management Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to manage all GMB profiles centrally.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'All profiles visible', 'Actions working'],
+        }),
+        createTask('gmb-7', 'Launch & Monitor', 'Rollout', 'Marketing', {
+          description: 'Launch automation and monitor performance.',
+          stakeholders: ['Marketing'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Analytics'],
+          knowledgeAreas: ['Data Analytics'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['Automation live', 'Metrics tracked', 'Weekly reviews scheduled'],
+          successMetrics: ['50% faster response time', '20% more profile engagement'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // ⭐ REVIEW GENERATION SYSTEM
+    // =========================================================================
+    {
+      projectId: 'review-generation-system',
+      totalEstimatedHours: '45-60h',
+      criticalPath: ['rgs-1', 'rgs-3', 'rgs-5', 'rgs-7'],
+      subTasks: [
+        createTask('rgs-1', 'Review Strategy Design', 'Discovery', 'Marketing', {
+          description: 'Design review generation strategy including timing and channels.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'Process Design'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Strategy documented', 'Timing rules defined', 'Channel priorities set'],
+        }),
+        createTask('rgs-2', 'Trigger System Design', 'Planning', 'Technology', {
+          description: 'Design triggers for review request automation.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Triggers defined', 'Rules documented', 'Edge cases covered'],
+        }),
+        createTask('rgs-3', 'Automated Request System', 'Development', 'Technology', {
+          description: 'Build automated review request via email/SMS/WhatsApp.',
+          stakeholders: ['Technology'],
+          estimatedHours: '14-18h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'SendGrid', 'WhatsApp API'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Requests sending correctly', 'Timing accurate', 'Opt-out working'],
+        }),
+        createTask('rgs-4', 'Landing Page Builder', 'Development', 'Technology', {
+          description: 'Build personalized landing pages for easy review submission.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React', 'UX Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Pages generating', 'Platform links working', 'Mobile-optimized'],
+        }),
+        createTask('rgs-5', 'AI Response Suggestions', 'Development', 'Technology', {
+          description: 'Build AI to suggest responses to reviews.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['LLM API'],
+          knowledgeAreas: ['LLM/Prompt Engineering'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Suggestions generating', 'Quality validated', 'Approval workflow working'],
+          sharedWithProjects: ['gmb-automation'],
+        }),
+        createTask('rgs-6', 'Review Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to track review metrics and sentiment.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '8-10h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Metrics visible', 'Sentiment tracked'],
+        }),
+        createTask('rgs-7', 'Launch & Optimize', 'Rollout', 'Marketing', {
+          description: 'Launch review system and optimize based on results.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Analytics'],
+          knowledgeAreas: ['Data Analytics'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Metrics improving', 'A/B testing active'],
+          successMetrics: ['30% response rate', '4.5+ average rating maintained'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🕵️ COMPETITOR INTEL AGENT
+    // =========================================================================
+    {
+      projectId: 'competitor-intel-agent',
+      totalEstimatedHours: '50-70h',
+      criticalPath: ['cia-1', 'cia-3', 'cia-5', 'cia-7'],
+      subTasks: [
+        createTask('cia-1', 'Competitor Mapping', 'Discovery', 'Marketing', {
+          description: 'Identify key competitors and intel priorities.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '8-12h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Research tools'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Competitors listed', 'Intel priorities ranked', 'Data sources identified'],
+        }),
+        createTask('cia-2', 'Data Collection Strategy', 'Planning', 'Technology', {
+          description: 'Design ethical data collection approach.',
+          stakeholders: ['Technology', 'Legal'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Business Logic', 'Compliance/Legal'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Strategy approved', 'Legal review complete', 'Sources documented'],
+        }),
+        createTask('cia-3', 'Ad Library Scrapers', 'Development', 'Technology', {
+          description: 'Build scrapers for Meta/Google ad libraries.',
+          stakeholders: ['Technology'],
+          estimatedHours: '14-18h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Puppeteer'],
+          knowledgeAreas: ['External APIs', 'Database/SQL'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Scrapers working', 'Data storing correctly', 'Rate limits respected'],
+          risks: ['Platform blocking'],
+        }),
+        createTask('cia-4', 'Pricing Monitor', 'Development', 'Technology', {
+          description: 'Build system to track competitor pricing changes.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'Puppeteer'],
+          knowledgeAreas: ['External APIs', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Prices tracking', 'Change alerts working', 'Historical data stored'],
+        }),
+        createTask('cia-5', 'AI Analysis Engine', 'Development', 'Technology', {
+          description: 'Build AI to analyze competitor data and surface insights.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['LLM API', 'Node.js'],
+          knowledgeAreas: ['LLM/Prompt Engineering', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Analysis generating', 'Insights actionable', 'Weekly reports automated'],
+          sharedWithProjects: ['ai-cortex'],
+        }),
+        createTask('cia-6', 'Intel Dashboard', 'Development', 'Technology', {
+          description: 'Build dashboard to view competitor intelligence.',
+          stakeholders: ['Technology', 'Marketing'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'All intel visible', 'Filtering working'],
+        }),
+        createTask('cia-7', 'Launch & Monitor', 'Rollout', 'Marketing', {
+          description: 'Launch intel system and establish review process.',
+          stakeholders: ['Marketing', 'Operations'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Dashboards'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Weekly intel reviews', 'Action tracking active'],
+          successMetrics: ['Weekly actionable insights', 'Competitive response time under 1 week'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🚫 ROBINSON SUPPRESSOR
+    // =========================================================================
+    {
+      projectId: 'robinson-suppressor',
+      totalEstimatedHours: '35-50h',
+      criticalPath: ['rs-1', 'rs-3', 'rs-5', 'rs-6'],
+      subTasks: [
+        createTask('rs-1', 'Robinson List Research', 'Discovery', 'Legal', {
+          description: 'Research Robinson List requirements and integration options.',
+          stakeholders: ['Legal', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Compliance/Legal', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Requirements documented', 'API/data options identified', 'Compliance rules clear'],
+        }),
+        createTask('rs-2', 'Suppression Process Design', 'Planning', 'Operations', {
+          description: 'Design suppression workflow for all contact channels.',
+          stakeholders: ['Operations', 'Technology'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Documentation'],
+          knowledgeAreas: ['Process Design', 'Compliance/Legal'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Process documented', 'All channels covered', 'Audit trail designed'],
+        }),
+        createTask('rs-3', 'Robinson List Integration', 'Development', 'Technology', {
+          description: 'Build integration with Robinson List data source.',
+          stakeholders: ['Technology'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['API Integration', 'Database/SQL'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Integration working', 'Data syncing', 'Refresh schedule set'],
+        }),
+        createTask('rs-4', 'Suppression Engine', 'Development', 'Technology', {
+          description: 'Build real-time suppression engine for all outbound.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Redis'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Suppression working', 'Real-time check active', 'Audit logging complete'],
+        }),
+        createTask('rs-5', 'Compliance Verification', 'Testing', 'Legal', {
+          description: 'Verify suppression system meets all legal requirements.',
+          stakeholders: ['Legal', 'Operations'],
+          estimatedHours: '6-8h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Test cases'],
+          knowledgeAreas: ['Compliance/Legal'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All scenarios tested', 'Legal sign-off obtained', 'Documentation complete'],
+        }),
+        createTask('rs-6', 'Launch', 'Rollout', 'Operations', {
+          description: 'Launch suppression system and deprecate manual checks.',
+          stakeholders: ['Operations'],
+          estimatedHours: '4-6h',
+          difficulty: 'Easy',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['System live', 'Manual checks deprecated', 'Monitoring active'],
+          successMetrics: ['100% suppression compliance', 'Zero legal incidents'],
+        }),
+      ],
+    },
+
+    // =========================================================================
+    // 🔗 UNIFIED QUOTE API
+    // =========================================================================
+    {
+      projectId: 'unified-quote-api',
+      totalEstimatedHours: '80-100h',
+      criticalPath: ['uqa-1', 'uqa-3', 'uqa-5', 'uqa-7', 'uqa-9'],
+      subTasks: [
+        createTask('uqa-1', 'Quote Flow Analysis', 'Discovery', 'Operations', {
+          description: 'Map all quote flows and identify standardization opportunities.',
+          stakeholders: ['Operations', 'Sales', 'Installers'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Documentation', 'Process mapping'],
+          knowledgeAreas: ['Process Design', 'Business Logic'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All flows mapped', 'Variations documented', 'Standardization plan created'],
+        }),
+        createTask('uqa-2', 'API Specification', 'Planning', 'Technology', {
+          description: 'Design unified quote API specification.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Hard',
+          toolsNeeded: ['OpenAPI', 'Documentation'],
+          knowledgeAreas: ['API Integration', 'Business Logic'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['OpenAPI spec complete', 'All scenarios covered', 'Validation rules defined'],
+        }),
+        createTask('uqa-3', 'Core Quote Engine', 'Development', 'Technology', {
+          description: 'Build unified quote calculation and storage engine.',
+          stakeholders: ['Technology'],
+          estimatedHours: '24-32h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'PostgreSQL'],
+          knowledgeAreas: ['Database/SQL', 'Business Logic', 'API Integration'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Engine deployed', 'Calculations correct', 'All scenarios supported'],
+        }),
+        createTask('uqa-4', 'Multi-source Integration', 'Development', 'Technology', {
+          description: 'Integrate quotes from all sources (portal, API, manual).',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '16-20h',
+          difficulty: 'Hard',
+          toolsNeeded: ['Node.js', 'Various APIs'],
+          knowledgeAreas: ['API Integration'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['All sources integrated', 'Data normalizing correctly', 'Sync working'],
+        }),
+        createTask('uqa-5', 'Quote Comparison Tools', 'Development', 'Technology', {
+          description: 'Build tools for customers to compare quotes.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React'],
+          knowledgeAreas: ['Frontend/React', 'UX Design'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Comparison working', 'Clear presentation', 'Selection easy'],
+        }),
+        createTask('uqa-6', 'Analytics & Reporting', 'Development', 'Technology', {
+          description: 'Build quote analytics and conversion reporting.',
+          stakeholders: ['Technology', 'Operations'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['React', 'Chart.js'],
+          knowledgeAreas: ['Frontend/React', 'Data Analytics'],
+          aiPotential: 'High',
+          acceptanceCriteria: ['Dashboard deployed', 'Conversion funnel visible', 'Comparison metrics active'],
+        }),
+        createTask('uqa-7', 'End-to-End Testing', 'Testing', 'Operations', {
+          description: 'Test unified quote flow with all installer types.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '12-16h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Test cases'],
+          knowledgeAreas: ['Business Logic'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['All flows tested', 'Edge cases covered', 'Performance validated'],
+        }),
+        createTask('uqa-8', 'Migration & Training', 'Training', 'Operations', {
+          description: 'Migrate existing quotes and train users.',
+          stakeholders: ['Operations', 'Installers'],
+          estimatedHours: '10-14h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Migration scripts', 'Training materials'],
+          knowledgeAreas: ['Change Management', 'Training & Documentation'],
+          aiPotential: 'Medium',
+          acceptanceCriteria: ['Data migrated', 'Users trained', 'Support active'],
+        }),
+        createTask('uqa-9', 'Launch', 'Rollout', 'Operations', {
+          description: 'Launch unified quote API and deprecate legacy systems.',
+          stakeholders: ['Operations', 'Technology'],
+          estimatedHours: '8-12h',
+          difficulty: 'Medium',
+          toolsNeeded: ['Communication tools'],
+          knowledgeAreas: ['Change Management'],
+          aiPotential: 'Low',
+          acceptanceCriteria: ['API live', 'Legacy deprecated', 'Monitoring active'],
+          successMetrics: ['100% quote capture', '30% faster quote turnaround'],
         }),
       ],
     },

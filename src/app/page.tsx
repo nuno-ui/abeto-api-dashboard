@@ -1486,6 +1486,7 @@ export default function Dashboard() {
                     <th>Product / Project</th>
                     <th>Stage</th>
                     <th>Priority</th>
+                    <th>Sub-Tasks</th>
                     <th>Category</th>
                     <th>Difficulty</th>
                     <th>Data Status</th>
@@ -1516,6 +1517,17 @@ export default function Dashboard() {
                       </td>
                       <td><span className={`stage-badge stage-${project.stage?.toLowerCase().replace(' ', '-')}`}>{project.stage}</span></td>
                       <td><span className={`priority-badge priority-${project.priority?.toLowerCase()}`}>{project.priority}</span></td>
+                      <td>
+                        {(() => {
+                          const subTaskData = projectSubTasks.find(p => p.projectId === project.id);
+                          const taskCount = subTaskData?.subTasks?.length || 0;
+                          return taskCount > 0 ? (
+                            <span className="subtask-count-badge">{taskCount} tasks</span>
+                          ) : (
+                            <span className="subtask-count-badge none">-</span>
+                          );
+                        })()}
+                      </td>
                       <td>{project.category}</td>
                       <td><span className={`difficulty-badge difficulty-${project.difficulty?.toLowerCase()}`}>{project.difficulty}</span></td>
                       <td><span className={`data-status data-${project.dataStatus?.toLowerCase()}`}>{project.dataStatus}</span></td>

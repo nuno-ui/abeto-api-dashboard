@@ -21,8 +21,34 @@ export interface SupabaseProject {
   estimated_hours_min: number | null;
   estimated_hours_max: number | null;
   progress: number;
+  progress_percentage: number;
   created_at: string;
   updated_at: string;
+  // Rich fields (COO Dashboard)
+  human_role_before: string | null;
+  human_role_after: string | null;
+  who_is_empowered: string[] | null;
+  new_capabilities: string[] | null;
+  data_required: string[] | null;
+  data_generates: string[] | null;
+  data_improves: string[] | null;
+  ops_process: string | null;
+  current_loa: string | null;
+  potential_loa: string | null;
+  resources_used: string[] | null;
+  api_endpoints: string[] | null;
+  prerequisites: string[] | null;
+  benefits: string[] | null;
+  missing_api_data: string[] | null;
+  integrations_needed: string[] | null;
+  depends_on: string[] | null;
+  enables: string[] | null;
+  related_to: string[] | null;
+  primary_users: string[] | null;
+  data_status: string | null;
+  next_milestone: string | null;
+  prototype_url: string | null;
+  notion_url: string | null;
   // Joined data
   pillar?: { name: string; color: string } | null;
   owner_team?: { name: string; color: string } | null;
@@ -251,37 +277,43 @@ export function convertToLegacyFormat(project: SupabaseProject): any {
     pillarOrder: pillarOrderMap[pillarName] || 1,
     whyItMatters: project.why_it_matters || '',
     humanRole: {
-      before: '',
-      after: '',
-      whoIsEmpowered: [project.owner_team?.name || 'TBD'],
-      newCapabilities: [],
+      before: project.human_role_before || '',
+      after: project.human_role_after || '',
+      whoIsEmpowered: project.who_is_empowered?.length ? project.who_is_empowered : [project.owner_team?.name || 'TBD'],
+      newCapabilities: project.new_capabilities || [],
     },
     difficulty: (project.difficulty.charAt(0).toUpperCase() + project.difficulty.slice(1)) as 'Easy' | 'Medium' | 'Hard',
     estimatedHours,
-    resourcesUsed: [],
-    apiEndpoints: [],
-    dependsOn: [],
-    enables: [],
-    relatedTo: [],
+    resourcesUsed: project.resources_used || [],
+    apiEndpoints: project.api_endpoints || [],
+    dependsOn: project.depends_on || [],
+    enables: project.enables || [],
+    relatedTo: project.related_to || [],
     dataRequirements: {
-      required: [],
-      generates: [],
-      improves: [],
+      required: project.data_required || [],
+      generates: project.data_generates || [],
+      improves: project.data_improves || [],
     },
     priority: (project.priority.charAt(0).toUpperCase() + project.priority.slice(1)) as 'Critical' | 'High' | 'Medium' | 'Low',
     stage: statusToStage[project.status] || 'Idea',
-    benefits: [],
-    prerequisites: [],
+    benefits: project.benefits || [],
+    prerequisites: project.prerequisites || [],
     category: project.category || 'General',
-    opsProcess: '',
-    currentLOA: '',
-    potentialLOA: '',
-    missingApiData: [],
+    opsProcess: project.ops_process || '',
+    currentLOA: project.current_loa || '',
+    potentialLOA: project.potential_loa || '',
+    missingApiData: project.missing_api_data || [],
+    integrationsNeeded: project.integrations_needed || [],
+    primaryUsers: project.primary_users || [],
+    dataStatus: project.data_status || 'None',
+    nextMilestone: project.next_milestone || '',
+    prototypeUrl: project.prototype_url || '',
+    notionUrl: project.notion_url || '',
     // New fields from Supabase
     owner: project.owner_team?.name || 'TBD',
     subTaskCount: taskCount,
     completedSubTasks: completedTasks,
-    progress: project.progress,
+    progress: project.progress_percentage || project.progress || 0,
     tasks: project.tasks?.map(t => {
       // Convert Supabase task to SubTask format expected by API Dashboard
       const phaseMap: Record<string, string> = {
